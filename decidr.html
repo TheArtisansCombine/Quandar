@@ -1,0 +1,3326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decido - Let Fate Decide!</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <style>
+        /* Base styles, overridden by theme classes */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+        }
+
+        /* --- Theme: Natural & Calm (Default) --- */
+        body.theme-natural {
+            background-color: #f8fbf8; /* Light sage/off-white background */
+            color: #343a40; /* Darker text for contrast */
+            --card-back-color-theme: #fca5a5; /* Red-300 as a consistent card back */
+        }
+        .theme-natural .decision-selection-card {
+            background: linear-gradient(to bottom right, #ecfccb, #a7f3d0); /* from-lime-50 to-emerald-100 */
+            color: #1e402e; /* Dark green text */
+        }
+        .theme-natural .coin-btn-main { background-color: #fcd34d; color: #78350f; } /* amber-300 */
+        .theme-natural .coin-btn-main:hover { background-color: #fbbf24; } /* amber-400 */
+        .theme-natural .die-btn-main { background-color: #6ee7b7; color: #065f46; } /* emerald-300 */
+        .theme-natural .die-btn-main:hover { background-color: #34d399; } /* emerald-400 */
+        .theme-natural .spinner-btn-main { background-color: #93c5fd; color: #1e3a8a; } /* blue-300 */
+        .theme-natural .spinner-btn-main:hover { background-color: #60a5fa; } /* blue-400 */
+        .theme-natural .card-game-btn-main { background-color: #fca5a5; color: #7f1d1d; } /* red-300 */
+        .theme-natural .card-game-btn-main:hover { background-color: #f87171; } /* red-400 */
+        .theme-natural .options-btn-main { background-color: #d1d5db; color: #374151; } /* gray-300 */
+        .theme-natural .options-btn-main:hover { background-color: #9ca3af; } /* gray-400 */
+
+        .theme-natural .coin-card { background-color: #fffbeb; border-color: #fcd34d; color: #78350f; } /* yellow-50, amber-300 */
+        .theme-natural .die-card { background-color: #ecfdf5; border-color: #6ee7b7; color: #065f46; } /* emerald-50, emerald-300 */
+        .theme-natural .spinner-card { background-color: #eff6ff; border-color: #93c5fd; color: #1e3a8a; } /* blue-50, blue-300 */
+        .theme-natural .card-game-card { background-color: #fee2e2; border-color: #fca5a5; color: #7f1d1d; } /* red-50, red-300 */
+
+        .theme-natural .primary-action-btn { background-color: #84cc16; color: white; } /* lime-500 */
+        .theme-natural .primary-action-btn:hover { background-color: #65a30d; } /* lime-600 */
+        .theme-natural .secondary-action-btn { background-color: #a7f3d0; color: #065f46; } /* emerald-300 */
+        .theme-natural .secondary-action-btn:hover { background-color: #6ee7b7; } /* emerald-400 */
+        .theme-natural .neutral-action-btn { background-color: #d1d5db; color: #374151; } /* gray-300 */
+        .theme-natural .neutral-action-btn:hover { background-color: #9ca3af; } /* gray-400 */
+        .theme-natural .danger-action-btn { background-color: #ef4444; color: white; } /* red-500 */
+        .theme-natural .danger-action-btn:hover { background-color: #dc2626; } /* red-600 */
+
+        /* Modals and inputs */
+        .theme-natural .modal-content { background-color: #ffffff; color: #343a40; }
+        .theme-natural .modal-content label { color: #495057; }
+        .theme-natural .modal-content input[type="text"], .theme-natural .modal-content select { background-color: #f0fdf4; border-color: #d1fae5; color: #1e402e; }
+        .theme-natural .modal-content input[type="text"]:focus, .theme-natural .modal-content select:focus { border-color: #84cc16; box-shadow: 0 0 0 2px rgba(132, 204, 22, 0.5); }
+        .theme-natural .modal-arrow-button { background-color: #dcfce7; color: #1e402e; }
+        .theme-natural .modal-arrow-button:hover:not(:disabled) { background-color: #a7f3d0; }
+
+        /* Saved slots in modals */
+        .theme-natural .bg-amber-100 { background-color: #fffbeb; }
+        .theme-natural .text-amber-800 { color: #78350f; }
+        .theme-natural .saved-coin-slot-btn { background-color: #fcd34d; color: #78350f; border-color: #fcd34d; }
+        .theme-natural .saved-coin-slot-btn:hover { background-color: #fbbf24; }
+
+        .theme-natural .bg-emerald-100 { background-color: #ecfdf5; }
+        .theme-natural .text-emerald-800 { color: #065f46; }
+        .theme-natural .saved-die-slot-btn { background-color: #6ee7b7; color: #065f46; border-color: #6ee7b7; }
+        .theme-natural .saved-die-slot-btn:hover { background-color: #34d399; }
+
+        .theme-natural .bg-blue-100 { background-color: #eff6ff; }
+        .theme-natural .text-blue-800 { color: #1e3a8a; }
+        .theme-natural .saved-spinner-slot-btn { background-color: #93c5fd; color: #1e3a8a; border-color: #93c5fd; }
+        .theme-natural .saved-spinner-slot-btn:hover { background-color: #60a5fa; }
+
+        .theme-natural .bg-red-100 { background-color: #fee2e2; }
+        .theme-natural .text-red-800 { color: #7f1d1d; }
+        .theme-natural .saved-card-game-slot-btn { background-color: #fca5a5; color: #7f1d1d; border-color: #fca5a5; }
+        .theme-natural .saved-card-game-slot-btn:hover { background-color: #f87171; }
+
+        .theme-natural .delete-saved-option-btn { background-color: #ef4444; }
+        .theme-natural .delete-saved-option-btn:hover { background-color: #dc2626; }
+        .theme-natural .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; }
+
+        /* Spinner slice colors for Natural & Calm */
+        .theme-natural .spinner-slice-color-0 { fill: #81c784; } /* Light Green */
+        .theme-natural .spinner-slice-color-1 { fill: #a5d6a7; } /* Muted Green */
+        .theme-natural .spinner-slice-color-2 { fill: #fcd34d; } /* Amber */
+        .theme-natural .spinner-slice-color-3 { fill: #ffe082; } /* Light Amber */
+        .theme-natural .spinner-slice-color-4 { fill: #a2d2ff; } /* Light Blue */
+        .theme-natural .spinner-slice-color-5 { fill: #bde0fe; } /* Muted Blue */
+        .theme-natural .spinner-slice-color-6 { fill: #c1e1c1; } /* Pale Green */
+        .theme-natural .spinner-slice-color-7 { fill: #f0f4c3; } /* Very Light Yellow-Green */
+        .theme-natural .spinner-result-text { color: #495057; }
+
+
+        /* --- Theme: Bold & Energetic --- */
+        body.theme-bold {
+            background-color: #1a202c; /* Deep blue-gray background */
+            color: #e2e8f0; /* Light text for contrast */
+            --card-back-color-theme: #ef4444; /* Red-500 as a consistent card back */
+        }
+        .theme-bold .decision-selection-card {
+            background: linear-gradient(to bottom right, #6b21a8, #4338ca); /* from-purple-700 to-indigo-800 */
+            color: white;
+        }
+        .theme-bold .coin-btn-main { background-color: #fbbf24; color: #5b21b6; } /* yellow-400, purple-900 */
+        .theme-bold .coin-btn-main:hover { background-color: #facc15; } /* yellow-300 */
+        .theme-bold .die-btn-main { background-color: #60a5fa; color: #3730a3; } /* blue-400, indigo-900 */
+        .theme-bold .die-btn-main:hover { background-color: #3b82f6; } /* blue-300 */
+        .theme-bold .spinner-btn-main { background-color: #e879f9; color: #86198f; } /* fuchsia-400, fuchsia-900 */
+        .theme-bold .spinner-btn-main:hover { background-color: #d946eef; } /* fuchsia-300 */
+        .theme-bold .card-game-btn-main { background-color: #f87171; color: #7f1d1d; } /* red-400, red-900 */
+        .theme-bold .card-game-btn-main:hover { background-color: #ef4444; } /* red-500 */
+        .theme-bold .options-btn-main { background-color: #4a5568; color: #e2e8f0; } /* gray-700 */
+        .theme-bold .options-btn-main:hover { background-color: #2d3748; } /* gray-800 */
+
+        .theme-bold .coin-card { background-color: #451a03; border-color: #d69e2e; color: #fcd34d; } /* yellow-950, yellow-700, yellow-200 */
+        .theme-bold .die-card { background-color: #0c152e; border-color: #3b82f6; color: #93c5fd; } /* blue-950, blue-700, blue-200 */
+        .theme-bold .spinner-card { background-color: #4a0429; border-color: #ec4899; color: #f0abfc; } /* fuchsia-950, fuchsia-700, fuchsia-200 */
+        .theme-bold .card-game-card { background-color: #7f1d1d; border-color: #ef4444; color: #fca5a5; } /* red-950, red-700, red-200 */
+
+        .theme-bold .primary-action-btn { background-color: #6366f1; color: white; } /* indigo-500 */
+        .theme-bold .primary-action-btn:hover { background-color: #4f46e5; } /* indigo-600 */
+        .theme-bold .secondary-action-btn { background-color: #a78bfa; color: white; } /* violet-400 */
+        .theme-bold .secondary-action-btn:hover { background-color: #8b5cf6; } /* violet-500 */
+        .theme-bold .neutral-action-btn { background-color: #4a5568; color: #e2e8f0; } /* gray-700 */
+        .theme-bold .neutral-action-btn:hover { background-color: #2d3748; } /* gray-800 */
+        .theme-bold .danger-action-btn { background-color: #ef4444; color: white; } /* red-500 */
+        .theme-bold .danger-action-btn:hover { background-color: #dc2626; } /* red-600 */
+
+        /* Modals and inputs */
+        .theme-bold .modal-content { background-color: #2d3748; color: #e2e8f0; }
+        .theme-bold .modal-content label { color: #cbd5e0; }
+        .theme-bold .modal-content input[type="text"], .theme-bold .modal-content select { background-color: #4a5568; border-color: #4a5568; color: #e2e8f0; }
+        .theme-bold .modal-content input[type="text"]:focus, .theme-bold .modal-content select:focus { border-color: #667eea; box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5); }
+        .theme-bold .modal-arrow-button { background-color: #4a5568; color: #e2e8f0; }
+        .theme-bold .modal-arrow-button:hover:not(:disabled) { background-color: #6a7f8e; }
+
+        /* Saved slots in modals */
+        .theme-bold .bg-amber-100 { background-color: #451a03; }
+        .theme-bold .text-amber-800 { color: #fcd34d; }
+        .theme-bold .saved-coin-slot-btn { background-color: #d69e2e; color: white; border-color: #d69e2e; }
+        .theme-bold .saved-coin-slot-btn:hover { background-color: #e6a73c; }
+
+        .theme-bold .bg-emerald-100 { background-color: #065f46; }
+        .theme-bold .text-emerald-800 { color: #6ee7b7; }
+        .theme-bold .saved-die-slot-btn { background-color: #3b82f6; color: white; border-color: #3b82f6; }
+        .theme-bold .saved-die-slot-btn:hover { background-color: #60a5fa; }
+
+        .theme-bold .bg-blue-100 { background-color: #1e3a8a; }
+        .theme-bold .text-blue-800 { color: #93c5fd; }
+        .theme-bold .saved-spinner-slot-btn { background-color: #ec4899; color: white; border-color: #ec4899; }
+        .theme-bold .saved-spinner-slot-btn:hover { background-color: #f472b6; }
+
+        .theme-bold .bg-red-100 { background-color: #7f1d1d; }
+        .theme-bold .text-red-800 { color: #fca5a5; }
+        .theme-bold .saved-card-game-slot-btn { background-color: #ef4444; color: white; border-color: #ef4444; }
+        .theme-bold .saved-card-game-slot-btn:hover { background-color: #dc2626; }
+
+        .theme-bold .delete-saved-option-btn { background-color: #ef4444; }
+        .theme-bold .delete-saved-option-btn:hover { background-color: #dc2626; }
+        .theme-bold .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; }
+
+        /* Spinner slice colors for Bold & Energetic */
+        .theme-bold .spinner-slice-color-0 { fill: #FF3366; }
+        .theme-bold .spinner-slice-color-1 { fill: #33CCFF; }
+        .theme-bold .spinner-slice-color-2 { fill: #CCFF33; }
+        .theme-bold .spinner-slice-color-3 { fill: #FFCC33; }
+        .theme-bold .spinner-slice-color-4 { fill: #6633FF; }
+        .theme-bold .spinner-slice-color-5 { fill: #33FFCC; }
+        .theme-bold .spinner-slice-color-6 { fill: #FF6633; }
+        .theme-bold .spinner-slice-color-7 { fill: #CC33FF; }
+        .theme-bold .spinner-result-text { color: white; }
+
+
+        /* --- Theme: Modern & Calm --- */
+        body.theme-modern {
+            background-color: #f0f4f8; /* Light blue-gray background */
+            color: #2d3748; /* Darker text */
+            --card-back-color-theme: #fed7d7; /* Red-200 as a consistent card back */
+        }
+        .theme-modern .decision-selection-card {
+            background: linear-gradient(to bottom right, #4299e1, #667eea); /* from-blue-500 to-indigo-600 */
+            color: white;
+        }
+        .theme-modern .coin-btn-main { background-color: white; color: #2b6cb0; } /* white, blue-700 */
+        .theme-modern .coin-btn-main:hover { background-color: #ebf8ff; } /* blue-100 */
+        .theme-modern .die-btn-main { background-color: white; color: #4c51bf; } /* white, indigo-700 */
+        .theme-modern .die-btn-main:hover { background-color: #e0e7ff; } /* indigo-100 */
+        .theme-modern .spinner-btn-main { background-color: white; color: #805ad5; } /* white, fuchsia-700 */
+        .theme-modern .spinner-btn-main:hover { background-color: #f0e4ff; } /* fuchsia-100 */
+        .theme-modern .card-game-btn-main { background-color: white; color: #e53e3e; } /* white, red-600 */
+        .theme-modern .card-game-btn-main:hover { background-color: #fff5f5; } /* red-50 */
+        .theme-modern .options-btn-main { background-color: #e2e8f0; color: #2d3748; } /* gray-200 */
+        .theme-modern .options-btn-main:hover { background-color: #cbd5e0; } /* gray-300 */
+
+        .theme-modern .coin-card { background-color: #ebf8ff; border-color: #90cdf4; color: #2b6cb0; } /* blue-50, blue-200, blue-800 */
+        .theme-modern .die-card { background-color: #e0e7ff; border-color: #a3bffa; color: #4c51bf; } /* indigo-50, indigo-200, indigo-800 */
+        .theme-modern .spinner-card { background-color: #f0e4ff; border-color: #d6bcfa; color: #805ad5; } /* fuchsia-50, fuchsia-200, fuchsia-800 */
+        .theme-modern .card-game-card { background-color: #fff5f5; border-color: #fed7d7; color: #e53e3e; } /* red-50, red-200, red-600 */
+
+        .theme-modern .primary-action-btn { background-color: #4299e1; color: white; } /* blue-500 */
+        .theme-modern .primary-action-btn:hover { background-color: #3182ce; } /* blue-600 */
+        .theme-modern .secondary-action-btn { background-color: #90cdf4; color: #2b6cb0; } /* blue-300 */
+        .theme-modern .secondary-action-btn:hover { background-color: #63b3ed; } /* blue-400 */
+        .theme-modern .neutral-action-btn { background-color: #cbd5e0; color: #2d3748; } /* gray-300 */
+        .theme-modern .neutral-action-btn:hover { background-color: #a0aec0; } /* gray-400 */
+        .theme-modern .danger-action-btn { background-color: #ef4444; color: white; } /* red-500 */
+        .theme-modern .danger-action-btn:hover { background-color: #dc2626; } /* red-600 */
+
+        /* Modals and inputs */
+        .theme-modern .modal-content { background-color: #ffffff; color: #2d3748; }
+        .theme-modern .modal-content label { color: #4a5568; }
+        .theme-modern .modal-content input[type="text"], .theme-modern .modal-content select { background-color: #e2e8f0; border-color: #cbd5e0; color: #2d3748; }
+        .theme-modern .modal-content input[type="text"]:focus, .theme-modern .modal-content select:focus { border-color: #4299e1; box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5); }
+        .theme-modern .modal-arrow-button { background-color: #e2e8f0; color: #2d3748; }
+        .theme-modern .modal-arrow-button:hover:not(:disabled) { background-color: #cbd5e0; }
+
+        /* Saved slots in modals */
+        .theme-modern .bg-amber-100 { background-color: #ebf8ff; }
+        .theme-modern .text-amber-800 { color: #2b6cb0; }
+        .theme-modern .saved-coin-slot-btn { background-color: #90cdf4; color: #2b6cb0; border-color: #90cdf4; }
+        .theme-modern .saved-coin-slot-btn:hover { background-color: #63b3ed; }
+
+        .theme-modern .bg-emerald-100 { background-color: #e0e7ff; }
+        .theme-modern .text-emerald-800 { color: #4c51bf; }
+        .theme-modern .saved-die-slot-btn { background-color: #a3bffa; color: #4c51bf; border-color: #a3bffa; }
+        .theme-modern .saved-die-slot-btn:hover { background-color: #7f9cf7; }
+
+        .theme-modern .bg-blue-100 { background-color: #f0e4ff; }
+        .theme-modern .text-blue-800 { color: #805ad5; }
+        .theme-modern .saved-spinner-slot-btn { background-color: #d6bcfa; color: #805ad5; border-color: #d6bcfa; }
+        .theme-modern .saved-spinner-slot-btn:hover { background-color: #b794f4; }
+
+        .theme-modern .bg-red-100 { background-color: #fff5f5; }
+        .theme-modern .text-red-800 { color: #e53e3e; }
+        .theme-modern .saved-card-game-slot-btn { background-color: #fed7d7; color: #e53e3e; border-color: #fed7d7; }
+        .theme-modern .saved-card-game-slot-btn:hover { background-color: #fc8181; }
+
+        .theme-modern .delete-saved-option-btn { background-color: #ef4444; }
+        .theme-modern .delete-saved-option-btn:hover { background-color: #dc2626; }
+        .theme-modern .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; }
+
+        /* Spinner slice colors for Modern & Calm */
+        .theme-modern .spinner-slice-color-0 { fill: #A2D2FF; }
+        .theme-modern .spinner-slice-color-1 { fill: #BDE0FE; }
+        .theme-modern .spinner-slice-color-2 { fill: #FFC8DD; }
+        .theme-modern .spinner-slice-color-3 { fill: #FFADAD; }
+        .theme-modern .spinner-slice-color-4 { fill: #CDB4DB; }
+        .theme-modern .spinner-slice-color-5 { fill: #A0C4FF; }
+        .theme-modern .spinner-slice-color-6 { fill: #98F5E1; }
+        .theme-modern .spinner-slice-color-7 { fill: #FFD166; }
+        .theme-modern .spinner-result-text { color: white; }
+
+
+        /* Custom message box styling (instead of alert()) - theme agnostic */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-weight: 600;
+        }
+        .message-box.show {
+            opacity: 1;
+        }
+        .message-box[data-type="success"] { background-color: #10b981; color: white; }
+        .message-box[data-type="error"] { background-color: #ef4444; color: white; }
+        .message-box[data-type="info"] { background-color: #3b82f6; color: white; }
+
+        /* Basic animation for coin flip and die roll - theme agnostic */
+        .decision-display {
+            min-height: 12rem; /* Ensure space for animation */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem; /* Space between multiple coins/dice/spinners */
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        /* Coin specific styles - theme agnostic */
+        .coin {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            position: relative;
+            transform-style: preserve-3d;
+            animation: none; /* Controlled by JS */
+            cursor: pointer; /* Indicate it's clickable */
+            border: 2px solid transparent; /* Subtle border for hover */
+            transition: border-color 0.2s ease-in-out;
+        }
+        .coin.flipping { animation: flip 1s ease-out forwards; }
+        @keyframes flip {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(1800deg); } /* Multiple spins */
+            100% { transform: rotateX(3600deg); }
+        }
+
+        /* Die specific styles - theme agnostic */
+        .die {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            animation: none; /* Controlled by JS */
+            cursor: pointer; /* Indicate it's clickable */
+            border: 2px solid transparent; /* Subtle border for hover */
+            transition: border-color 0.2s ease-in-out;
+        }
+        .die.rolling { animation: roll 0.5s infinite linear; }
+        @keyframes roll {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Spinner specific styles - theme agnostic */
+        .spinner-container {
+            position: relative;
+            width: 250px; /* Larger size for the wheel */
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: transparent; /* Background for visibility */
+        }
+        .spinner-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .central-spinner-pointer {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid #ef4444; /* Tailwind red-500 pointer, pointing down */
+            top: 50%; /* Position in the middle vertically */
+            left: 50%; /* Position in the middle horizontally */
+            transform: translate(-50%, -100%); /* Adjust to point from center-top */
+            transform-origin: 50% 100%; /* Rotate around its base */
+            transition: transform 3s ease-out; /* Smooth spin transition */
+            z-index: 10; /* Ensure pointer is on top */
+        }
+        .spinner-result-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 1.2rem; /* Adjusted for larger wheel */
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 6px 12px;
+            border-radius: 8px;
+            z-index: 11; /* Ensure text is above pointer */
+            word-break: break-word; /* Allow text to wrap */
+            max-width: 80%; /* Limit width of text overlay */
+            text-align: center;
+        }
+
+        /* Card Game specific styles */
+        .card-deck-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            min-height: 10rem;
+            align-items: flex-start; /* Align decks to the top */
+        }
+        .card-base-style {
+            width: 100px;
+            height: 140px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            border: 1px solid rgba(0,0,0,0.1); /* Subtle border for definition */
+            background-color: var(--card-back-color-theme); /* Use theme variable */
+        }
+        .card-base-style:hover {
+            transform: translateY(-5px);
+        }
+        .card-base-style.empty {
+            background-color: #e2e8f0; /* Light gray for empty pile */
+            color: #a0aec0;
+            cursor: not-allowed;
+        }
+        .drawn-card {
+            width: 100px;
+            height: 140px;
+            background-color: white;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+            text-align: center;
+            padding: 0.5rem;
+            word-break: break-word;
+        }
+        .card-pile-label {
+            position: absolute;
+            top: -1.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        /* Styles for the stacked cards in the main deck display */
+        #cardDeckDisplay {
+            position: relative;
+            min-height: 160px; /* Enough space for stacked cards */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem; /* Space below the main deck */
+        }
+        #cardDeckDisplay .card-in-deck { /* Apply base style and then stacking overrides */
+            @apply card-base-style; /* Use apply to include base styles */
+            position: absolute;
+            transform-origin: center center;
+            /* Removed overflow: hidden to allow text wrapping */
+        }
+        #cardDeckDisplay .card-in-deck:hover {
+            transform: translateY(-8px) scale(1.05); /* Lift and slightly enlarge on hover */
+            z-index: 10; /* Bring to front on hover */
+        }
+        /* Style for the text content within each stacked card */
+        #cardDeckDisplay .card-in-deck .card-text {
+            /* This will be the content for each card in the stack */
+            display: flex; /* Centering content */
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            word-break: break-word;
+            color: white; /* Text color, should contrast with card back */
+            background-color: var(--card-back-color-theme); /* Ensure background for text for consistency */
+            border-radius: 8px; /* Match card border radius */
+            /* Start hidden, transition to visible */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Show text for the top card in the stack */
+        #cardDeckDisplay .card-in-deck:last-child .card-text {
+            opacity: 1;
+        }
+
+        /* Show text for any card on hover */
+        #cardDeckDisplay .card-in-deck:hover .card-text {
+            opacity: 1;
+        }
+
+        #cardDeckDisplay.empty-deck { /* When empty, it's just the container */
+            background-color: #e2e8f0; /* Light gray for empty deck area */
+            border-radius: 8px;
+            border: 1px dashed #a0aec0;
+            color: #a0aec0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #cardDeckDisplay.empty-deck::before {
+            content: "Deck is Empty";
+        }
+
+        /* Split deck piles */
+        .card-pile-wrapper { /* Wrapper for each pile, including label */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 120px; /* Ensure space */
+        }
+        .card-pile-container { /* Container for the stacked cards in a pile */
+            position: relative;
+            width: 100px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card-pile-container .card-in-pile { /* Individual cards within a split pile stack */
+            @apply card-base-style;
+            position: absolute;
+            transform-origin: center center;
+            /* Removed overflow: hidden for consistency */
+        }
+        .card-pile-container .card-in-pile:hover {
+            transform: translateY(-5px) scale(1.05); /* Lift and slightly enlarge on hover */
+            z-index: 10;
+        }
+        /* Style for the text content within each split pile card */
+        .card-pile-container .card-in-pile .card-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.8rem; /* Slightly smaller for split piles */
+            font-weight: 600;
+            text-align: center;
+            word-break: break-word;
+            color: white;
+            background-color: var(--card-back-color-theme);
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        /* Show text for the top card in the split pile */
+        .card-pile-container .card-in-pile:last-child .card-text {
+            opacity: 1;
+        }
+        /* Show text on hover for any card in the split pile */
+        .card-pile-container .card-in-pile:hover .card-text {
+            opacity: 1;
+        }
+
+        .card-pile-container .card-in-pile.empty {
+            @apply card-base-style empty;
+            position: relative; /* Not absolute when empty */
+        }
+
+        /* Transition classes for cards */
+        .card-transition {
+            transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
+            overflow: hidden;
+        }
+        .card-hidden {
+            opacity: 0;
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            visibility: hidden; /* Prevent interaction when hidden */
+        }
+        .card-visible {
+            opacity: 1;
+            max-height: 1000px; /* Large enough to cover content */
+            visibility: visible; /* Make interactable when visible */
+        }
+
+        /* Splash Screen Styles */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly lighter overlay */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+            z-index: 2000; /* Above all other content */
+            padding: 20px;
+            box-sizing: border-box;
+            word-break: break-word;
+        }
+        .splash-screen.show { opacity: 1; visibility: visible; }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Lighter overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content {
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative; /* Needed for absolute positioning of arrows */
+        }
+
+        /* Arrow button styling within modal */
+        .modal-arrow-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            padding: 0.5rem 0.8rem;
+            border-radius: 9999px; /* Full rounded */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            cursor: pointer;
+            font-size: 1.25rem; /* Larger arrow text */
+            line-height: 1; /* Align arrow vertically */
+        }
+        .modal-arrow-button:hover:not(:disabled) { transform: translateY(-50%) scale(1.05); }
+        .modal-arrow-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        #prevCoinModalBtn, #prevDieModalBtn, #prevSpinnerModalBtn { left: 1rem; }
+        #nextCoinModalBtn, #nextDieModalBtn, #nextSpinnerModalBtn { right: 1rem; }
+
+        /* Saved Slot Button Style */
+        .saved-slot-btn {
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            cursor: pointer;
+            width: 100%; /* Make it fill the container */
+            text-align: center;
+            border: none;
+            position: relative; /* For delete button positioning */
+        }
+        .saved-slot-btn:hover { transform: translateY(-1px); }
+
+        .delete-saved-option-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ef4444; /* Tailwind red-500 */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+        .delete-saved-option-btn:hover { background-color: #dc2626; }
+
+        /* Style for saved options when in delete mode */
+        .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; cursor: pointer; }
+
+    </style>
+</head>
+<body class="theme-natural min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
+    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 lg:p-12 space-y-8">
+        <!-- App Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 tracking-tight mb-2">Decido</h1>
+            <p class="text-lg text-gray-600">When you can’t decide, let Decido decide for you.</p>
+        </header>
+
+        <!-- Main Card Container -->
+        <div id="mainCardContainer">
+            <!-- Initial Decision Selection Card -->
+            <section id="decisionSelectionCard" class="card-transition card-visible decision-selection-card p-6 sm:p-8 rounded-xl shadow-lg text-center space-y-6">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">What's your dilemma?</h2>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button id="showCoinCountBtn"
+                            class="coin-btn-main font-bold py-4 px-8 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   text-xl w-full sm:w-auto">
+                        Flip a Coin
+                    </button>
+                    <button id="showDieCountBtn"
+                            class="die-btn-main font-bold py-4 px-8 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   text-xl w-full sm:w-auto">
+                        Roll a Die
+                    </button>
+                    <button id="showSpinnerCountBtn"
+                            class="spinner-btn-main font-bold py-4 px-8 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   text-xl w-full sm:w-auto">
+                        Spin a Spinner
+                    </button>
+                    <button id="showCardGameBtn"
+                            class="card-game-btn-main font-bold py-4 px-8 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   text-xl w-full sm:w-auto">
+                        Draw a Card
+                    </button>
+                </div>
+                <div class="flex justify-center mt-6">
+                    <button id="optionsBtn"
+                            class="options-btn-main font-bold py-3 px-6 rounded-lg shadow-lg
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                        Options
+                    </button>
+                </div>
+            </section>
+
+            <!-- Count Selection Card -->
+            <section id="countSelectionCard" class="card-transition card-hidden" style="display: none;">
+                <div class="bg-gray-100 p-6 sm:p-8 rounded-xl shadow-md border border-gray-200">
+                    <h2 id="countSelectionTitle" class="text-3xl font-bold text-gray-800 mb-6 text-center">How many?</h2>
+                    <div class="flex justify-center gap-4 mb-6">
+                        <!-- Dynamically generated count buttons -->
+                    </div>
+                    <div class="flex justify-center">
+                        <button id="backToMainBtn"
+                                class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg
+                                       transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                       w-full sm:w-auto text-lg">
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Coin Flip Section -->
+            <section id="coinCard" class="card-transition card-hidden" style="display: none;">
+                <div class="coin-card p-6 sm:p-8 rounded-xl shadow-md border">
+                    <h2 id="coinCardTitle" class="text-3xl font-bold mb-6 text-center">Flip a Coin</h2>
+
+                    <!-- Coin Display and Result -->
+                    <div id="coinResultDisplay" class="decision-display mb-8">
+                        <!-- Coins will be dynamically added here -->
+                    </div>
+
+                    <!-- Coin Actions -->
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button id="flipCoinBtn"
+                                class="primary-action-btn bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                                    transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                    w-full sm:w-auto text-lg">
+                            Flip
+                        </button>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+                        <button id="customizeCoinBtn"
+                                class="secondary-action-btn bg-yellow-300 hover:bg-yellow-400 text-yellow-800 font-bold py-3 px-6 rounded-lg shadow-lg
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                            Customize
+                        </button>
+                        <button id="changeCoinCountBtn"
+                                class="primary-action-btn bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                                    transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                    w-full sm:w-auto text-lg">
+                            Change Count
+                        </button>
+                        <button id="returnToMenuFromCoin"
+                                class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                            Return to Menu
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Die Roll Section -->
+            <section id="dieCard" class="card-transition card-hidden" style="display: none;">
+                <div class="die-card p-6 sm:p-8 rounded-xl shadow-md border">
+                    <h2 id="dieCardTitle" class="text-3xl font-bold mb-6 text-center">Roll a Die</h2>
+
+                    <!-- Die Display and Result -->
+                    <div id="dieResultDisplay" class="decision-display mb-8">
+                        <!-- Dice will be dynamically added here -->
+                    </div>
+
+                    <!-- Die Actions -->
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button id="rollDieBtn"
+                                class="primary-action-btn bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                                    transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                    w-full sm:w-auto text-lg">
+                            Roll
+                        </button>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+                        <button id="customizeDieBtn"
+                                class="secondary-action-btn bg-emerald-300 hover:bg-emerald-400 text-emerald-800 font-bold py-3 px-6 rounded-lg shadow-lg
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                            Customize
+                        </button>
+                        <button id="changeDieCountBtn"
+                                class="primary-action-btn bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                                    transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                    w-full sm:w-auto text-lg">
+                            Change Count
+                        </button>
+                        <button id="returnToMenuFromDie"
+                                class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                            Return to Menu
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Spinner Section -->
+            <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
+                <div class="spinner-card p-6 sm:p-8 rounded-xl shadow-md border">
+                    <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
+
+                    <!-- Spinner Display and Result -->
+                    <div id="spinnerResultDisplay" class="decision-display mb-8">
+                        <!-- Single spinner will be dynamically added here -->
+                    </div>
+
+                    <!-- Spinner Actions -->
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button id="spinSpinnerBtn"
+                                class="primary-action-btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                                    transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                    w-full sm:w-auto text-lg">
+                            Spin
+                        </button>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+                        <button id="customizeSpinnerBtn"
+                                class="secondary-action-btn bg-blue-300 hover:bg-blue-400 text-blue-800 font-bold py-3 px-6 rounded-lg shadow-lg
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                            Customize
+                        </button>
+                        <button id="changeSpinnerCountBtn"
+                                class="primary-action-btn bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                                    transition duration-00 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                    w-full sm:w-auto text-lg">
+                            Change Parts
+                        </button>
+                        <button id="returnToMenuFromSpinner"
+                                class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                            Return to Menu
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Card Game Section -->
+            <section id="cardGameCard" class="card-transition card-hidden" style="display: none;">
+                <div class="card-game-card p-6 sm:p-8 rounded-xl shadow-md border">
+                    <h2 id="cardGameCardTitle" class="text-3xl font-bold mb-6 text-center">Random Card Game</h2>
+
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <label for="cardInput" class="block text-gray-700 text-sm font-semibold mb-2">Add a new card:</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="cardInput"
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-gray-100 text-gray-800"
+                                       placeholder="e.g., Ace of Spades, Go to Park">
+                                <button id="addCardBtn"
+                                        class="primary-action-btn bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg shadow-md
+                                               transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">Current Deck (<span id="currentDeckCount">0</span> cards):</h4>
+                            <div id="cardDeckDisplay" class="stacked card-deck-container">
+                                <!-- Cards will be dynamically added here -->
+                                <p class="text-sm text-gray-500">No cards added yet.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button id="drawCardBtn"
+                                class="primary-action-btn bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                                    transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                    w-full sm:w-auto text-lg">
+                            Draw a Card
+                        </button>
+                        <button id="splitDeckBtn"
+                                class="secondary-action-btn bg-red-300 hover:bg-red-400 text-red-800 font-bold py-3 px-6 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                            Split Deck
+                        </button>
+                    </div>
+
+                    <div id="splitDeckContainer" class="mt-8 hidden">
+                        <h4 class="text-xl font-bold text-gray-800 mb-3 text-center">Split Decks:</h4>
+                        <div id="splitDecksDisplay" class="card-deck-container">
+                            <!-- Split decks will be rendered here -->
+                        </div>
+                        <button id="drawFromSplitDecksBtn"
+                                class="primary-action-btn bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                                    transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                    w-full sm:w-auto text-lg mt-4">
+                            Draw One Card from Each Deck
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+                        <button id="clearDeckBtn"
+                                class="danger-action-btn text-sm font-bold py-3 px-6 rounded-lg shadow-md
+                                       transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                       w-full sm:w-auto">
+                            Clear Deck
+                        </button>
+                        <button id="saveCurrentDeckBtn"
+                                class="secondary-action-btn bg-red-300 hover:bg-red-400 text-red-800 font-bold py-3 px-6 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                            Save Deck
+                        </button>
+                        <button id="returnToMenuFromCardGame"
+                                class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg">
+                            Return to Menu
+                        </button>
+                    </div>
+
+                    <!-- Saved Decks Section on Card Game Page -->
+                    <div class="bg-red-100 p-4 rounded-lg shadow-inner mt-8">
+                        <h4 class="text-xl font-bold text-red-800 mb-3 text-center">Your Saved Decks</h4>
+                        <div id="savedDecksListCardGame" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved decks yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Options Card -->
+            <section id="optionsCard" class="card-transition card-hidden" style="display: none;">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md border border-gray-200">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Options</h2>
+
+                    <!-- Theme Selection -->
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Choose Theme</h3>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button id="themeNaturalBtn"
+                                    class="theme-btn bg-lime-200 text-lime-800 hover:bg-lime-300 font-bold py-3 px-6 rounded-lg shadow-md
+                                           transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                           w-full sm:w-auto text-lg">
+                                Natural & Calm
+                            </button>
+                            <button id="themeBoldBtn"
+                                    class="theme-btn bg-purple-200 text-purple-800 hover:bg-purple-300 font-bold py-3 px-6 rounded-lg shadow-md
+                                           transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                           w-full sm:w-auto text-lg">
+                                Bold & Energetic
+                            </button>
+                            <button id="themeModernBtn"
+                                    class="theme-btn bg-blue-200 text-blue-800 hover:bg-blue-300 font-bold py-3 px-6 rounded-lg shadow-md
+                                           transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                           w-full sm:w-auto text-lg">
+                                Modern & Calm
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Saved Options Section -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Your Saved Options</h3>
+                        <!-- Saved Coins Section -->
+                        <div class="bg-amber-100 p-4 rounded-lg shadow-inner">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-xl font-bold text-amber-800">Saved Coins</h4>
+                                <button id="deleteSavedCoinOptionsBtnOptions"
+                                        class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                                               transition duration-200">
+                                    Delete Saved
+                                </button>
+                            </div>
+                            <div id="savedCoinsListOptions" class="space-y-2">
+                                <p class="text-sm text-gray-600">No saved coins yet.</p>
+                            </div>
+                        </div>
+
+                        <!-- Saved Dice Section -->
+                        <div class="bg-emerald-100 p-4 rounded-lg shadow-inner">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-xl font-bold text-emerald-800">Saved Dice</h4>
+                                <button id="deleteSavedDieOptionsBtnOptions"
+                                        class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                                               transition duration-200">
+                                    Delete Saved
+                                </button>
+                            </div>
+                            <div id="savedDiceListOptions" class="space-y-2">
+                                <p class="text-sm text-gray-600">No saved dice yet.</p>
+                            </div>
+                        </div>
+
+                        <!-- Saved Spinners Section -->
+                        <div class="bg-blue-100 p-4 rounded-lg shadow-inner">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-xl font-bold text-blue-800">Saved Spinners</h4>
+                                <button id="deleteSavedSpinnerOptionsBtnOptions"
+                                        class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                                               transition duration-200">
+                                    Delete Saved
+                                </button>
+                            </div>
+                            <div id="savedSpinnersListOptions" class="space-y-2">
+                                <p class="text-sm text-gray-600">No saved spinners yet.</p>
+                            </div>
+                        </div>
+
+                        <!-- Saved Decks Section -->
+                        <div class="bg-red-100 p-4 rounded-lg shadow-inner">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-xl font-bold text-red-800">Saved Decks</h4>
+                                <button id="deleteSavedDeckOptionsBtnOptions"
+                                        class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                                               transition duration-200">
+                                    Delete Saved
+                                </button>
+                            </div>
+                            <div id="savedDeckListOptions" class="space-y-2">
+                                <p class="text-sm text-gray-600">No saved decks yet.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center mt-6">
+                        <button id="backToMainFromOptionsBtn"
+                                class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg
+                                       transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                       w-full sm:w-auto text-lg">
+                            Back to Menu
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Message Box for Alerts -->
+    <div id="messageBox" class="message-box"></div>
+
+    <!-- Splash Screen for Result -->
+    <div id="resultSplashScreen" class="splash-screen"></div>
+
+    <!-- Coin Edit Modal -->
+    <div id="coinEditModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="coinEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Coin Options</h3>
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label for="modalCoinOption1" class="block text-gray-700 text-sm font-semibold mb-2">Option 1 (Heads):</label>
+                    <input type="text" id="modalCoinOption1"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-gray-100 text-gray-800">
+                </div>
+                <div>
+                    <label for="modalCoinOption2" class="block text-gray-700 text-sm font-semibold mb-2">Option 2 (Tails):</label>
+                    <input type="text" id="modalCoinOption2"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-gray-100 text-gray-800">
+                </div>
+            </div>
+            <!-- Saved Coin Options within Modal -->
+            <div class="bg-amber-100 p-4 rounded-lg mt-6 shadow-inner">
+                <h4 class="text-xl font-bold text-amber-800 mb-4 text-center">Saved Coin Options</h4>
+                <button id="saveCurrentCoinOptionsBtn"
+                        class="bg-amber-400 hover:bg-amber-500 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                               transition duration-200 mb-4 mr-2">
+                    Save Current Coin
+                </button>
+                <button id="deleteSavedCoinOptionsBtn"
+                        class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                               transition duration-200 mb-4">
+                    Delete Saved
+                </button>
+                <div id="coinSaveSlotsContainerInModal" class="space-y-3 mt-3">
+                    <!-- Saved slots will be dynamically generated here -->
+                </div>
+            </div>
+            <div class="flex justify-between items-center gap-4 mt-6 relative">
+                <button id="prevCoinModalBtn"
+                        class="modal-arrow-button" style="left: 1rem;">
+                    &larr;
+                </button>
+                <div class="flex justify-center gap-4 flex-grow"> <!-- Added flex-grow to center buttons -->
+                    <button id="saveCoinOptionsBtn"
+                            class="primary-action-btn bg-amber-500 hover:bg-amber-400 text-white font-bold py-2 px-5 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                        Save
+                    </button>
+                    <button id="cancelCoinOptionsBtn"
+                            class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                        Cancel
+                    </button>
+                </div>
+                <button id="nextCoinModalBtn"
+                        class="modal-arrow-button" style="right: 1rem;">
+                    &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Die Edit Modal -->
+    <div id="dieEditModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="dieEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Die Options</h3>
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label for="dieFacesSelect" class="block text-gray-700 text-sm font-semibold mb-2">Number of Faces:</label>
+                    <select id="dieFacesSelect" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-100 text-gray-800">
+                        <option value="4">4-sided (d4)</option>
+                        <option value="6">6-sided (d6)</option>
+                        <option value="8">8-sided (d8)</option>
+                        <option value="10">10-sided (d10)</option>
+                        <option value="12">12-sided (d12)</option>
+                        <option value="20">20-sided (d20)</option>
+                    </select>
+                </div>
+                <div id="modalDieOptionInputs" class="grid grid-cols-2 gap-4">
+                    <!-- Dynamically generated input fields for die faces -->
+                </div>
+            </div>
+            <!-- Saved Die Options within Modal -->
+            <div class="bg-emerald-100 p-4 rounded-lg mt-6 shadow-inner">
+                <h4 class="text-xl font-bold text-emerald-800 mb-4 text-center">Saved Die Options</h4>
+                <button id="saveCurrentDieOptionsBtn"
+                        class="bg-emerald-400 hover:bg-emerald-500 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                               transition duration-200 mb-4 mr-2">
+                    Save Current Die
+                </button>
+                <button id="deleteSavedDieOptionsBtn"
+                        class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                               transition duration-200 mb-4">
+                    Delete Saved
+                </button>
+                <div id="dieSaveSlotsContainerInModal" class="space-y-3 mt-3">
+                    <!-- Saved slots will be dynamically generated here -->
+                </div>
+            </div>
+            <div class="flex justify-between items-center gap-4 mt-6 relative">
+                <button id="prevDieModalBtn"
+                        class="modal-arrow-button" style="left: 1rem;">
+                    &larr;
+                </button>
+                <div class="flex justify-center gap-4 flex-grow"> <!-- Added flex-grow to center buttons -->
+                    <button id="saveDieOptionsBtn"
+                            class="primary-action-btn bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2 px-5 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                        Save
+                    </button>
+                    <button id="cancelDieOptionsBtn"
+                            class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                        Cancel
+                    </button>
+                </div>
+                <button id="nextDieModalBtn"
+                        class="modal-arrow-button" style="right: 1rem;">
+                    &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner Edit Modal -->
+    <div id="spinnerEditModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="spinnerEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Spinner Options</h3>
+            <div id="modalSpinnerOptionInputs" class="space-y-4 mb-6">
+                <!-- Dynamically generated input fields for spinner parts -->
+            </div>
+            <!-- Saved Spinner Options within Modal -->
+            <div class="bg-blue-100 p-4 rounded-lg mt-6 shadow-inner">
+                <h4 class="text-xl font-bold text-blue-800 mb-4 text-center">Saved Spinner Options</h4>
+                <button id="saveCurrentSpinnerOptionsBtn"
+                        class="bg-blue-400 hover:bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                               transition duration-200 mb-4 mr-2">
+                    Save Current Spinner
+                </button>
+                <button id="deleteSavedSpinnerOptionsBtn"
+                        class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md
+                               transition duration-200 mb-4">
+                    Delete Saved
+                </button>
+                <div id="spinnerSaveSlotsContainerInModal" class="space-y-3 mt-3">
+                    <!-- Saved slots will be dynamically generated here -->
+                </div>
+            </div>
+            <div class="flex justify-between items-center gap-4 mt-6 relative">
+                <button id="prevSpinnerModalBtn"
+                        class="modal-arrow-button" style="left: 1rem;">
+                    &larr;
+                </button>
+                <div class="flex justify-center gap-4 flex-grow"> <!-- Added flex-grow to center buttons -->
+                    <button id="saveSpinnerOptionsBtn"
+                            class="primary-action-btn bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-5 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                        Save
+                    </button>
+                    <button id="cancelSpinnerOptionsBtn"
+                            class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                        Cancel
+                    </button>
+                </div>
+                <button id="nextSpinnerModalBtn"
+                        class="modal-arrow-button" style="right: 1rem;">
+                    &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Game Save Modal -->
+    <div id="cardGameSaveModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="cardGameSaveModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Save Current Deck</h3>
+            <p class="text-gray-700 text-sm font-semibold mb-2">Current Deck:</p>
+            <ul id="modalCurrentDeckDisplay" class="bg-gray-50 p-3 rounded-lg border border-gray-200 min-h-[5rem] space-y-2 text-left text-gray-700 mb-4">
+                <!-- Deck items will be dynamically added here -->
+            </ul>
+            <label for="saveDeckNameInput" class="block text-gray-700 text-sm font-semibold mb-2">Name this deck:</label>
+            <input type="text" id="saveDeckNameInput"
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-gray-100 text-gray-800 mb-6">
+            <div class="flex justify-center gap-4">
+                <button id="saveDeckOptionsBtn"
+                        class="primary-action-btn bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-5 rounded-lg shadow-md
+                               transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                    Save
+                </button>
+                <button id="cancelDeckOptionsBtn"
+                        class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md
+                               transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Coin Action Choice Modal -->
+    <div id="coinActionChoiceModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="coinActionChoiceTitle" class="text-2xl font-bold text-gray-800 mb-4">What do you want to do with this coin?</h3>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <button id="flipSavedCoinBtn"
+                        class="primary-action-btn bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                               transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                               w-full sm:w-auto text-lg">
+                    Flip Coin
+                </button>
+                <button id="spinSavedCoinAsSpinnerBtn"
+                        class="primary-action-btn bg-blue-500 hover:bg-blue-400 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                               transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                               w-full sm:w-auto text-lg">
+                    Spin as 2-Part Spinner
+                </button>
+            </div>
+            <button id="cancelCoinActionBtn"
+                    class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md
+                           transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 mt-4">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <!-- Die Action Choice Modal -->
+    <div id="dieActionChoiceModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="dieActionChoiceTitle" class="text-2xl font-bold text-gray-800 mb-4">What do you want to do with this die?</h3>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <button id="rollSavedDieBtn"
+                        class="primary-action-btn bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                               transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                               w-full sm:w-auto text-lg">
+                    Roll Die
+                </button>
+                <button id="spinSavedDieAsSpinnerBtn"
+                        class="primary-action-btn bg-blue-500 hover:bg-blue-400 text-white font-bold py-3 px-6 rounded-lg shadow-lg
+                               transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                               w-full sm:w-auto text-lg">
+                    Spin as X-Part Spinner
+                </button>
+            </div>
+            <button id="cancelDieActionBtn"
+                    class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md
+                           transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 mt-4">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <!-- Generic Confirmation Modal -->
+    <div id="confirmationModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="confirmationModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Confirm Action</h3>
+            <p id="confirmationModalMessage" class="text-gray-600 mb-6">Are you sure you want to proceed with this action?</p>
+            <div class="flex justify-center gap-4">
+                <button id="confirmActionBtn"
+                        class="danger-action-btn font-bold py-2 px-5 rounded-lg shadow-md
+                               transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                    Confirm
+                </button>
+                <button id="cancelActionBtn"
+                        class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md
+                               transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Utility function to show a custom message box instead of alert()
+        function showMessage(message, type = 'success', duration = 3000) {
+            const msgBox = document.getElementById('messageBox');
+            msgBox.textContent = message;
+            msgBox.setAttribute('data-type', type); // Set data-type for styling
+            msgBox.classList.add('show');
+
+            setTimeout(() => {
+                msgBox.classList.remove('show');
+            }, duration);
+        }
+
+        // --- Splash Screen Logic ---
+        const resultSplashScreen = document.getElementById('resultSplashScreen');
+
+        function showResultSplashScreen(result, callback) {
+            resultSplashScreen.textContent = result;
+            resultSplashScreen.classList.add('show');
+
+            setTimeout(() => {
+                resultSplashScreen.classList.remove('show');
+                setTimeout(() => { // Small delay to ensure fade-out completes
+                    if (callback) callback();
+                }, 500); // Match splash screen transition duration
+            }, 1500); // Display result for 1.5 seconds
+        }
+
+        // --- Generic Confirmation Modal Logic ---
+        const confirmationModal = document.getElementById('confirmationModal');
+        const confirmationModalTitle = document.getElementById('confirmationModalTitle');
+        const confirmationModalMessage = document.getElementById('confirmationModalMessage');
+        const confirmActionBtn = document.getElementById('confirmActionBtn');
+        const cancelActionBtn = document.getElementById('cancelActionBtn');
+
+        let onConfirmCallbackGlobal = null; // Stores the callback function for confirmation
+
+        function showConfirmationModal(title, message, onConfirm) {
+            confirmationModalTitle.textContent = title;
+            confirmationModalMessage.textContent = message;
+            onConfirmCallbackGlobal = onConfirm;
+            confirmationModal.classList.add('show');
+        }
+
+        function hideConfirmationModal() {
+            confirmationModal.classList.remove('show');
+            onConfirmCallbackGlobal = null;
+        }
+
+        confirmActionBtn.addEventListener('click', () => {
+            if (onConfirmCallbackGlobal) {
+                onConfirmCallbackGlobal();
+            }
+            hideConfirmationModal();
+        });
+
+        cancelActionBtn.addEventListener('click', () => {
+            hideConfirmationModal();
+        });
+
+        confirmationModal.addEventListener('click', (event) => {
+            if (event.target === confirmationModal) {
+                hideConfirmationModal();
+            }
+        });
+
+
+        // --- Card Visibility Management ---
+        const decisionSelectionCard = document.getElementById('decisionSelectionCard');
+        const countSelectionCard = document.getElementById('countSelectionCard');
+        const coinCard = document.getElementById('coinCard');
+        const dieCard = document.getElementById('dieCard');
+        const spinnerCard = document.getElementById('spinnerCard');
+        const cardGameCard = document.getElementById('cardGameCard'); // New Card Game Card
+        const optionsCard = document.getElementById('optionsCard'); // Options Card
+
+        const showCoinCountBtn = document.getElementById('showCoinCountBtn');
+        const showDieCountBtn = document.getElementById('showDieCountBtn');
+        const showSpinnerCountBtn = document.getElementById('showSpinnerCountBtn');
+        const showCardGameBtn = document.getElementById('showCardGameBtn'); // New Card Game button
+        const optionsBtn = document.getElementById('optionsBtn'); // Options button
+        const backToMainBtn = document.getElementById('backToMainBtn');
+        const backToMainFromOptionsBtn = document.getElementById('backToMainFromOptionsBtn'); // Back button for Options
+        const returnToMenuFromCardGame = document.getElementById('returnToMenuFromCardGame'); // Back button for Card Game
+        const countSelectionTitle = document.getElementById('countSelectionTitle');
+        const countButtonsContainer = countSelectionCard.querySelector('.flex.justify-center.gap-4.mb-6');
+
+        const savedCoinsListOptions = document.getElementById('savedCoinsListOptions'); // For Options Card
+        const savedDiceListOptions = document.getElementById('savedDiceListOptions');   // For Options Card
+        const savedSpinnersListOptions = document.getElementById('savedSpinnersListOptions'); // For Options Card
+        const savedDeckListOptions = document.getElementById('savedDeckListOptions'); // For Options Card
+
+
+        const returnToMenuFromCoin = document.getElementById('returnToMenuFromCoin');
+        const returnToMenuFromDie = document.getElementById('returnToMenuFromDie');
+        const returnToMenuFromSpinner = document.getElementById('returnToMenuFromSpinner');
+
+        const changeCoinCountBtn = document.getElementById('changeCoinCountBtn');
+        const changeDieCountBtn = document.getElementById('changeDieCountBtn');
+        const changeSpinnerCountBtn = document.getElementById('changeSpinnerCountBtn');
+
+        const coinCardTitle = document.getElementById('coinCardTitle');
+        const dieCardTitle = document.getElementById('dieCardTitle');
+        const spinnerCardTitle = document.getElementById('spinnerCardTitle');
+        const cardGameCardTitle = document.getElementById('cardGameCardTitle');
+
+
+        let currentDecisionType = ''; // 'coin', 'die', 'spinner', or 'cardGame'
+        let currentCount = 1; // Default count for coins/dice/spinner parts
+
+        // Global variable to store the selected die faces count
+        let currentDieFacesCount = 6;
+
+
+        function showCard(cardToShow, type = '') {
+            // First, process all cards to be hidden
+            [decisionSelectionCard, countSelectionCard, coinCard, dieCard, spinnerCard, cardGameCard, optionsCard].forEach(card => {
+                if (card !== cardToShow) {
+                    card.classList.remove('card-visible');
+                    card.classList.add('card-hidden');
+                    // After the CSS transition completes, set display to 'none'
+                    setTimeout(() => {
+                        if (card.classList.contains('card-hidden')) { // Only apply if still hidden
+                            card.style.display = 'none';
+                        }
+                    }, 500); // Must match CSS transition duration
+                }
+            });
+
+            // Then, immediately prepare and show the target card
+            cardToShow.style.display = 'block'; // Ensure it's in the flow
+            // Small delay to ensure browser registers 'display: block' before animating max-height
+            setTimeout(() => {
+                cardToShow.classList.remove('card-hidden');
+                cardToShow.classList.add('card-visible');
+            }, 10);
+
+            if (cardToShow === countSelectionCard) {
+                currentDecisionType = type;
+                let countOptionsHtml = '';
+                if (type === 'coin') {
+                    countSelectionTitle.textContent = `How many coins?`;
+                    [1, 2, 3, 4, 5].forEach(c => {
+                        countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`;
+                    });
+                } else if (type === 'die') {
+                    countSelectionTitle.textContent = `How many dice?`;
+                    [1, 2, 3, 4, 5, 6, 7].forEach(c => {
+                        countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`;
+                    });
+                } else if (type === 'spinner') {
+                    countSelectionTitle.textContent = `How many parts of the pie chart?`;
+                    [2, 3, 4, 5, 6, 8].forEach(c => {
+                        countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`;
+                    });
+                }
+                countButtonsContainer.innerHTML = countOptionsHtml;
+                // Re-attach event listeners for newly created buttons
+                countButtonsContainer.querySelectorAll('.count-btn').forEach(button => {
+                    button.addEventListener('click', handleCountButtonClick);
+                });
+            } else if (cardToShow === coinCard) {
+                // Create a new coinOptions array of the correct size
+                const newCoinOptions = Array.from({ length: currentCount }, (_, i) => {
+                    // If an option existed at this index previously, use it. Otherwise, use default.
+                    return coinOptions[i] ? { ...coinOptions[i] } : { heads: "Heads", tails: "Tails" };
+                });
+                coinOptions = newCoinOptions; // Update the global coinOptions
+                updateCoinDisplay();
+                loadSavedCoinSlots();
+            } else if (cardToShow === dieCard) {
+                // Create a new dieOptions array of the correct size
+                const newDieOptions = Array.from({ length: currentCount }, (_, i) => {
+                    // If an option existed at this index previously, use it. Otherwise, use default.
+                    return dieOptions[i] ? { ...dieOptions[i] } : { faces: Array.from({length: currentDieFacesCount}, (_, f) => (f + 1).toString()) };
+                });
+                dieOptions = newDieOptions; // Update the global dieOptions
+                updateDieDisplay();
+                loadSavedDieSlots();
+            } else if (cardToShow === spinnerCard) {
+                // Initialize spinnerOptions for the new count if needed
+                if (spinnerOptions.length !== currentCount) {
+                    spinnerOptions = Array.from({length: currentCount}, (_, i) => ({ name: `Option ${i + 1}`, weight: 1 }));
+                }
+                updateSpinnerDisplay(); // Ensure display and title are updated when spinnerCard is shown
+                loadSavedSpinnerSlots(); // Load saved slots on spinner card display
+            } else if (cardToShow === cardGameCard) {
+                updateCardGameDisplay();
+                loadSavedDeckSlots();
+                renderSavedDeckListCardGame(); // Render saved decks on card game page
+            } else if (cardToShow === optionsCard) {
+                renderSavedCoinsListOptions();
+                renderSavedDiceListOptions();
+                renderSavedSpinnersListOptions();
+                renderSavedDeckListOptions(); // Render saved decks in Options card
+                // Highlight current theme
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    btn.classList.remove('border-2', 'border-current');
+                    if (btn.id === `theme${currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1)}Btn`) {
+                        btn.classList.add('border-2', 'border-current');
+                    }
+                });
+            }
+        }
+
+        // Central handler for count buttons to avoid re-attaching multiple times
+        function handleCountButtonClick(event) {
+            currentCount = parseInt(event.target.dataset.count, 10);
+            if (currentDecisionType === 'coin') {
+                showCard(coinCard);
+            } else if (currentDecisionType === 'die') {
+                showCard(dieCard);
+            } else if (currentDecisionType === 'spinner') {
+                showCard(spinnerCard);
+            }
+        }
+
+
+        // Event listeners for initial decision selection
+        showCoinCountBtn.addEventListener('click', () => showCard(countSelectionCard, 'coin'));
+        showDieCountBtn.addEventListener('click', () => showCard(countSelectionCard, 'die'));
+        showSpinnerCountBtn.addEventListener('click', () => showCard(countSelectionCard, 'spinner'));
+        showCardGameBtn.addEventListener('click', () => showCard(cardGameCard, 'cardGame')); // Event listener for new Card Game button
+        optionsBtn.addEventListener('click', () => showCard(optionsCard)); // Event listener for Options button
+        backToMainBtn.addEventListener('click', () => showCard(decisionSelectionCard));
+        backToMainFromOptionsBtn.addEventListener('click', () => showCard(decisionSelectionCard)); // Back from Options
+        returnToMenuFromCardGame.addEventListener('click', () => showCard(decisionSelectionCard)); // Back from Card Game
+
+
+        // Event listeners for post-decision actions
+        returnToMenuFromCoin.addEventListener('click', () => showCard(decisionSelectionCard));
+        returnToMenuFromDie.addEventListener('click', () => showCard(decisionSelectionCard));
+        returnToMenuFromSpinner.addEventListener('click', () => showCard(decisionSelectionCard));
+
+        changeCoinCountBtn.addEventListener('click', () => showCard(countSelectionCard, 'coin'));
+        changeDieCountBtn.addEventListener('click', () => showCard(countSelectionCard, 'die'));
+        changeSpinnerCountBtn.addEventListener('click', () => showCard(countSelectionCard, 'spinner'));
+
+        // Apply theme on initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme(currentTheme);
+        });
+
+
+        // --- Theme Management ---
+        const themeNaturalBtn = document.getElementById('themeNaturalBtn');
+        const themeBoldBtn = document.getElementById('themeBoldBtn');
+        const themeModernBtn = document.getElementById('themeModernBtn');
+        let currentTheme = localStorage.getItem('decidoTheme') || 'natural'; // Default theme
+
+        function applyTheme(themeName) {
+            document.body.classList.remove('theme-natural', 'theme-bold', 'theme-modern');
+            document.body.classList.add(`theme-${themeName}`);
+            currentTheme = themeName;
+            localStorage.setItem('decidoTheme', themeName);
+            // Re-render spinner to apply new colors
+            if (spinnerCard.classList.contains('card-visible')) {
+                updateSpinnerDisplay();
+            }
+            // Update button highlights in options card if visible
+            if (optionsCard.classList.contains('card-visible')) {
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    btn.classList.remove('border-2', 'border-current');
+                    if (btn.id === `theme${themeName.charAt(0).toUpperCase() + themeName.slice(1)}Btn`) {
+                        btn.classList.add('border-2', 'border-current');
+                    }
+                });
+            }
+            // Re-render saved lists to apply new button styles
+            renderSavedCoinsListOptions();
+            renderSavedDiceListOptions();
+            renderSavedSpinnersListOptions();
+            renderSavedDeckListOptions();
+            renderSavedDeckListCardGame(); // Also update on card game page
+        }
+
+        themeNaturalBtn.addEventListener('click', () => applyTheme('natural'));
+        themeBoldBtn.addEventListener('click', () => applyTheme('bold'));
+        themeModernBtn.addEventListener('click', () => applyTheme('modern'));
+
+        // Apply theme on initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme(currentTheme);
+        });
+
+
+        // --- Coin Flip Logic ---
+        const flipCoinBtn = document.getElementById('flipCoinBtn');
+        const customizeCoinBtn = document.getElementById('customizeCoinBtn');
+        const coinResultDisplay = document.getElementById('coinResultDisplay');
+        
+        let coinOptions = [{heads: "Heads", tails: "Tails"}]; // Default options, now an array of objects
+
+        // Function to update the visual display of coins
+        function updateCoinDisplay(results = []) {
+            coinResultDisplay.innerHTML = ''; // Clear previous coins
+            for (let i = 0; i < currentCount; i++) {
+                const coinDiv = document.createElement('div');
+                coinDiv.classList.add('coin');
+                coinDiv.textContent = results[i] || '?'; // Show result or '?'
+                coinDiv.dataset.index = i; // Store index for animation
+                coinDiv.addEventListener('click', () => openCoinEditModal(i)); // Add click listener
+                coinResultDisplay.appendChild(coinDiv);
+            }
+            // Update the title based on currentCount
+            coinCardTitle.textContent = currentCount > 1 ? 'Flip Coins' : 'Flip a Coin';
+        }
+
+        // Event listener for Flip Coin button
+        flipCoinBtn.addEventListener('click', () => {
+            const coinElements = coinResultDisplay.querySelectorAll('.coin');
+            flipCoinBtn.disabled = true; // Disable button during animation
+            customizeCoinBtn.disabled = true; // Disable customize button during flip
+            changeCoinCountBtn.disabled = true; // Disable change count button
+            returnToMenuFromCoin.disabled = true; // Disable return to menu button
+
+            const results = []; // Store results for splash screen
+            coinElements.forEach((coinEl, index) => {
+                const currentCoinOptions = coinOptions[index]; // Get options for this specific coin
+                const chosenOption = Math.random() < 0.5 ? currentCoinOptions.heads : currentCoinOptions.tails;
+                results.push(chosenOption);
+
+                coinEl.textContent = '?'; // Reset text
+                coinEl.classList.add('flipping');
+
+                setTimeout(() => {
+                    coinEl.classList.remove('flipping');
+                    coinEl.textContent = chosenOption;
+                    if (index === coinElements.length - 1) { // Only re-enable after last coin finishes
+                        flipCoinBtn.disabled = false;
+                        customizeCoinBtn.disabled = false; // Re-enable customize button
+                        changeCoinCountBtn.disabled = false; // Re-enable change count button
+                        returnToMenuFromCoin.disabled = false; // Re-enable return to menu button
+                        // Show splash screen with combined results
+                        showResultSplashScreen(results.join(', '), () => {
+                        });
+                    }
+                }, 1000 + (index * 100)); // Stagger animations slightly
+            });
+        });
+
+
+        // --- Coin Edit Modal Logic ---
+        const coinEditModal = document.getElementById('coinEditModal');
+        const coinEditModalTitle = document.getElementById('coinEditModalTitle');
+        const modalCoinOption1Input = document.getElementById('modalCoinOption1');
+        const modalCoinOption2Input = document.getElementById('modalCoinOption2');
+        const saveCoinOptionsBtn = document.getElementById('saveCoinOptionsBtn');
+        const cancelCoinOptionsBtn = document.getElementById('cancelCoinOptionsBtn');
+        const prevCoinModalBtn = document.getElementById('prevCoinModalBtn');
+        const nextCoinModalBtn = document.getElementById('nextCoinModalBtn');
+        const saveCurrentCoinOptionsBtn = document.getElementById('saveCurrentCoinOptionsBtn'); // New
+        const coinSaveSlotsContainerInModal = document.getElementById('coinSaveSlotsContainerInModal'); // New
+
+        let editingCoinIndex = -1; // To keep track of which coin is being edited
+        let isDeletingSavedCoin = false; // New state for delete mode
+
+        function openCoinEditModal(index) {
+            editingCoinIndex = index;
+            modalCoinOption1Input.value = coinOptions[index].heads;
+            modalCoinOption2Input.value = coinOptions[index].tails;
+            coinEditModalTitle.textContent = `Edit Options for Coin ${index + 1}`; // Update modal title
+            
+            // Manage navigation button visibility within the modal
+            prevCoinModalBtn.style.display = (editingCoinIndex === 0) ? 'none' : 'block';
+            nextCoinModalBtn.style.display = (editingCoinIndex === currentCount - 1) ? 'none' : 'block';
+
+            renderCoinSaveSlotsInModal(); // Render saved slots inside the modal
+            coinEditModal.classList.add('show');
+        }
+
+        function closeCoinEditModal() {
+            coinEditModal.classList.remove('show');
+            editingCoinIndex = -1;
+            isDeletingSavedCoin = false; // Reset delete mode on close
+        }
+
+        saveCoinOptionsBtn.addEventListener('click', () => {
+            if (editingCoinIndex !== -1) {
+                const opt1 = modalCoinOption1Input.value.trim();
+                const opt2 = modalCoinOption2Input.value.trim();
+                if (opt1 && opt2) {
+                    coinOptions[editingCoinIndex].heads = opt1;
+                    coinOptions[editingCoinIndex].tails = opt2;
+                    showMessage(`Coin ${editingCoinIndex + 1} options saved!`, "info");
+                } else {
+                    showMessage("Please provide both options for the coin.", "error");
+                    return; // Don't close modal if validation fails
+                }
+            }
+            closeCoinEditModal();
+            updateCoinDisplay(); // Redraw coins with potentially updated text
+        });
+
+        cancelCoinOptionsBtn.addEventListener('click', closeCoinEditModal);
+
+        // Event listener for the main "Customize" button
+        customizeCoinBtn.addEventListener('click', () => {
+            if (currentCount > 0) {
+                openCoinEditModal(0); // Open modal for the first coin
+            } else {
+                showMessage("Please select a count of coins first.", "info");
+            }
+        });
+
+        // Navigation for coins *within the modal*
+        prevCoinModalBtn.addEventListener('click', () => {
+            if (editingCoinIndex > 0) {
+                // Save current edits before navigating
+                if (modalCoinOption1Input.value.trim() && modalCoinOption2Input.value.trim()) {
+                    coinOptions[editingCoinIndex].heads = modalCoinOption1Input.value.trim();
+                    coinOptions[editingCoinIndex].tails = modalCoinOption2Input.value.trim();
+                } else {
+                    showMessage("Please save or cancel current coin edits before navigating.", "error");
+                    return;
+                }
+                openCoinEditModal(editingCoinIndex - 1);
+            }
+        });
+
+        nextCoinModalBtn.addEventListener('click', () => {
+            if (editingCoinIndex < currentCount - 1) {
+                // Save current edits before navigating
+                if (modalCoinOption1Input.value.trim() && modalCoinOption2Input.value.trim()) {
+                    coinOptions[editingCoinIndex].heads = modalCoinOption1Input.value.trim();
+                    coinOptions[editingCoinIndex].tails = modalCoinOption2Input.value.trim();
+                } else {
+                    showMessage("Please save or cancel current coin edits before navigating.", "error");
+                    return;
+                }
+                openCoinEditModal(editingCoinIndex + 1);
+            }
+        });
+
+        // Close modal on outside click
+        coinEditModal.addEventListener('click', (event) => {
+            if (event.target === coinEditModal) {
+                closeCoinEditModal();
+            }
+        });
+
+
+        // --- Saved Coin Slots Logic ---
+        let savedCoinSlots = []; // Array to store saved options
+
+        // Function to load saved slots from localStorage
+        function loadSavedCoinSlots() {
+            const savedData = localStorage.getItem('decidoCoinSlots');
+            if (savedData) {
+                savedCoinSlots = JSON.parse(savedData);
+            } else {
+                // Initialize with empty slots if no data found
+                savedCoinSlots = []; // Start empty
+            }
+        }
+
+        // Function to save slots to localStorage
+        function saveCoinSlotsToLocalStorage() {
+            localStorage.setItem('decidoCoinSlots', JSON.stringify(savedCoinSlots));
+        }
+
+        // Function to render the save/recall buttons and their content INSIDE THE MODAL
+        function renderCoinSaveSlotsInModal() {
+            coinSaveSlotsContainerInModal.innerHTML = ''; // Clear existing
+            if (savedCoinSlots.length === 0) {
+                coinSaveSlotsContainerInModal.innerHTML = '<p class="text-sm text-gray-600">No saved options yet.</p>';
+                document.getElementById('deleteSavedCoinOptionsBtn').disabled = true; // Disable delete button if no slots
+            } else {
+                document.getElementById('deleteSavedCoinOptionsBtn').disabled = false;
+            }
+
+            savedCoinSlots.forEach((slot, index) => {
+                const savedCoinButton = document.createElement('button');
+                savedCoinButton.classList.add('saved-slot-btn', 'saved-coin-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full', 'mb-2');
+                savedCoinButton.textContent = `${slot.name}: ${slot.options.heads} / ${slot.options.tails}`;
+                savedCoinButton.dataset.slotIndex = index;
+
+                if (isDeletingSavedCoin) {
+                    savedCoinButton.classList.add('delete-mode');
+                    savedCoinButton.addEventListener('click', (event) => {
+                        const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                        showConfirmationModal(
+                            "Delete Saved Coin",
+                            `Are you sure you want to delete "${savedCoinSlots[idxToDelete].name}"?`,
+                            () => {
+                                savedCoinSlots.splice(idxToDelete, 1);
+                                saveCoinSlotsToLocalStorage();
+                                renderCoinSaveSlotsInModal(); // Re-render the list
+                                showMessage("Saved coin option deleted!", "info");
+                            }
+                        );
+                    });
+                } else {
+                    savedCoinButton.addEventListener('click', (event) => {
+                        const slotIndex = parseInt(event.target.dataset.slotIndex, 10);
+                        if (editingCoinIndex !== -1 && savedCoinSlots[slotIndex].options.heads && savedCoinSlots[slotIndex].options.tails) {
+                            // Apply recalled options to the currently edited coin
+                            coinOptions[editingCoinIndex] = { ...savedCoinSlots[slotIndex].options }; // Load a copy of options
+                            // Update modal inputs with recalled options
+                            modalCoinOption1Input.value = coinOptions[editingCoinIndex].heads;
+                            modalCoinOption2Input.value = coinOptions[editingCoinIndex].tails;
+                            showMessage(`Options from "${savedCoinSlots[slotIndex].name}" recalled for Coin ${editingCoinIndex + 1}!`, "info");
+                        } else {
+                            showMessage("No options saved in this slot to recall.", "error");
+                        }
+                    });
+                }
+                coinSaveSlotsContainerInModal.appendChild(savedCoinButton);
+            });
+            // Update the text of the delete button
+            document.getElementById('deleteSavedCoinOptionsBtn').textContent = isDeletingSavedCoin ? 'Cancel Delete' : 'Delete Saved';
+        }
+
+        // Function to render the saved coins list in the Options Card
+        let isDeletingSavedCoinOptions = false; // State for delete mode in Options card
+        const deleteSavedCoinOptionsBtnOptions = document.getElementById('deleteSavedCoinOptionsBtnOptions');
+
+        deleteSavedCoinOptionsBtnOptions.addEventListener('click', () => {
+            isDeletingSavedCoinOptions = !isDeletingSavedCoinOptions; // Toggle delete mode
+            renderSavedCoinsListOptions(); // Re-render to show/hide highlights
+        });
+
+        function renderSavedCoinsListOptions() {
+            savedCoinsListOptions.innerHTML = '';
+            if (savedCoinSlots.length === 0) {
+                savedCoinsListOptions.innerHTML = '<p class="text-sm text-gray-600">No saved coins yet.</p>';
+                deleteSavedCoinOptionsBtnOptions.disabled = true;
+            } else {
+                deleteSavedCoinOptionsBtnOptions.disabled = false;
+            }
+
+            savedCoinSlots.forEach((slot, index) => {
+                const slotWrapper = document.createElement('div');
+                slotWrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
+
+                const savedCoinButton = document.createElement('button');
+                savedCoinButton.classList.add('saved-slot-btn', 'saved-coin-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'flex-grow');
+                savedCoinButton.textContent = `${slot.name}: ${slot.options.heads} / ${slot.options.tails}`;
+                savedCoinButton.dataset.slotIndex = index;
+
+                if (isDeletingSavedCoinOptions) {
+                    savedCoinButton.classList.add('delete-mode');
+                    savedCoinButton.addEventListener('click', (event) => {
+                        const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                        showConfirmationModal(
+                            "Delete Saved Coin",
+                            `Are you sure you want to delete "${savedCoinSlots[idxToDelete].name}"?`,
+                            () => {
+                                savedCoinSlots.splice(idxToDelete, 1);
+                                saveCoinSlotsToLocalStorage();
+                                renderSavedCoinsListOptions(); // Re-render the list in Options card
+                                showMessage("Saved coin option deleted!", "info");
+                            }
+                        );
+                    });
+                } else {
+                    savedCoinButton.addEventListener('click', (event) => {
+                        // Store saved options temporarily for action choice modal
+                        tempSavedCoinOptions = { ...slot.options };
+                        showCard(decisionSelectionCard); // Return to main menu
+                        setTimeout(() => {
+                            showCard(coinCard); // Go to coin card
+                            currentCount = 1; // Set count to 1 for saved coin
+                            coinOptions = [{ ...tempSavedCoinOptions }]; // Load saved options into the first coin
+                            updateCoinDisplay();
+                            // Trigger flip after a short delay to ensure card is rendered
+                            setTimeout(() => flipCoinBtn.click(), 100);
+                        }, 500); // Small delay to allow card transition
+                    });
+                }
+                slotWrapper.appendChild(savedCoinButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-saved-option-btn');
+                deleteButton.textContent = 'x';
+                deleteButton.dataset.slotIndex = index;
+                deleteButton.addEventListener('click', (event) => {
+                    const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                    showConfirmationModal(
+                        "Delete Saved Coin",
+                        `Are you sure you want to delete "${savedCoinSlots[idxToDelete].name}"?`,
+                        () => {
+                            savedCoinSlots.splice(idxToDelete, 1);
+                            saveCoinSlotsToLocalStorage();
+                            renderSavedCoinsListOptions(); // Re-render the list in Options card
+                            showMessage("Saved coin option deleted!", "info");
+                        }
+                    );
+                });
+                slotWrapper.appendChild(deleteButton);
+                savedCoinsListOptions.appendChild(slotWrapper);
+            });
+            deleteSavedCoinOptionsBtnOptions.textContent = isDeletingSavedCoinOptions ? 'Cancel Delete' : 'Delete Saved';
+        }
+
+
+        // --- Die Roll Logic ---
+        const rollDieBtn = document.getElementById('rollDieBtn');
+        const customizeDieBtn = document.getElementById('customizeDieBtn'); // New
+        const dieResultDisplay = document.getElementById('dieResultDisplay');
+        const dieFacesSelect = document.getElementById('dieFacesSelect');
+        
+        let dieOptions = [{faces: ["1", "2", "3", "4", "5", "6"]}]; // Default options, now an array of objects
+
+        // Function to update the visual display of dice
+        function updateDieDisplay(results = []) {
+            dieResultDisplay.innerHTML = ''; // Clear previous dice
+            for (let i = 0; i < currentCount; i++) {
+                const dieDiv = document.createElement('div');
+                dieDiv.classList.add('die');
+                dieDiv.textContent = results[i] || '?'; // Show result or '?'
+                dieDiv.dataset.index = i; // Store index for animation
+                dieDiv.addEventListener('click', () => openDieEditModal(i)); // Add click listener
+                dieResultDisplay.appendChild(dieDiv);
+            }
+            // Update the title based on currentCount
+            dieCardTitle.textContent = currentCount > 1 ? 'Roll Dice' : 'Roll a Die';
+        }
+
+        // Event listener for Roll Die button
+        rollDieBtn.addEventListener('click', () => {
+            const dieElements = dieResultDisplay.querySelectorAll('.die');
+            rollDieBtn.disabled = true; // Disable button during animation
+            customizeDieBtn.disabled = true; // Disable customize button during roll
+            changeDieCountBtn.disabled = true; // Disable change count button
+            returnToMenuFromDie.disabled = true; // Disable return to menu button
+
+            const results = []; // Store results for splash screen
+            dieElements.forEach((dieEl, index) => {
+                const currentDieFaces = dieOptions[index].faces; // Get faces for this specific die
+                const chosenOption = currentDieFaces[Math.floor(Math.random() * currentDieFaces.length)];
+                results.push(chosenOption);
+
+                dieEl.textContent = '?'; // Reset text
+                dieEl.classList.add('rolling');
+
+                setTimeout(() => {
+                    dieEl.classList.remove('rolling');
+                    dieEl.textContent = chosenOption;
+                    if (index === dieElements.length - 1) { // Only re-enable after last die finishes
+                        rollDieBtn.disabled = false;
+                        customizeDieBtn.disabled = false; // Re-enable customize button
+                        changeDieCountBtn.disabled = false; // Re-enable change count button
+                        returnToMenuFromDie.disabled = false; // Re-enable return to menu button
+                        // Show splash screen with combined results
+                        showResultSplashScreen(results.join(', '), () => {
+                        });
+                    }
+                }, 500 + (index * 100)); // Stagger animations slightly
+            });
+        });
+
+        // --- Die Edit Modal Logic ---
+        const dieEditModal = document.getElementById('dieEditModal');
+        const dieEditModalTitle = document.getElementById('dieEditModalTitle');
+        const modalDieOptionInputsContainer = document.getElementById('modalDieOptionInputs'); // Container for face inputs
+        // const modalDieOptionInputs = []; // Array to store references to face input fields - removed, now dynamic
+        const saveDieOptionsBtn = document.getElementById('saveDieOptionsBtn');
+        const cancelDieOptionsBtn = document.getElementById('cancelDieOptionsBtn');
+        const prevDieModalBtn = document.getElementById('prevDieModalBtn');
+        const nextDieModalBtn = document.getElementById('nextDieModalBtn');
+        const saveCurrentDieOptionsBtn = document.getElementById('saveCurrentDieOptionsBtn'); // New
+        const deleteSavedDieOptionsBtn = document.getElementById('deleteSavedDieOptionsBtn'); // New
+        const dieSaveSlotsContainerInModal = document.getElementById('dieSaveSlotsContainerInModal'); // New
+
+        let editingDieIndex = -1; // To keep track of which die is being edited
+        let isDeletingSavedDie = false; // New state for delete mode
+
+        function generateDieFaceInputs(numFaces, currentFaces) {
+            modalDieOptionInputsContainer.innerHTML = '';
+            for (let i = 0; i < numFaces; i++) {
+                const inputDiv = document.createElement('div');
+                inputDiv.innerHTML = `
+                    <label for="modalDieOption${i + 1}" class="block text-gray-700 text-sm font-semibold mb-1">Face ${i + 1}:</label>
+                    <input type="text" id="modalDieOption${i + 1}" value="${currentFaces[i] || (i + 1).toString()}"
+                           class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-100 text-gray-800">
+                `;
+                modalDieOptionInputsContainer.appendChild(inputDiv);
+            }
+        }
+
+        function openDieEditModal(index) {
+            editingDieIndex = index;
+            currentDieFacesCount = dieOptions[index].faces.length; // Set current faces count for the select
+            dieFacesSelect.value = currentDieFacesCount.toString(); // Update select dropdown
+
+            generateDieFaceInputs(currentDieFacesCount, dieOptions[index].faces); // Generate inputs
+
+            dieEditModalTitle.textContent = `Edit Options for Die ${index + 1}`; // Update modal title
+
+            // Manage navigation button visibility within the modal
+            prevDieModalBtn.style.display = (editingDieIndex === 0) ? 'none' : 'block';
+            nextDieModalBtn.style.display = (editingDieIndex === currentCount - 1) ? 'none' : 'block';
+
+            // Highlight the current input field
+            if (document.getElementById(`modalDieOption${editingDieIndex + 1}`)) {
+                document.getElementById(`modalDieOption${editingDieIndex + 1}`).focus();
+            }
+
+            renderDieSaveSlotsInModal(); // Render saved slots inside the modal
+            dieEditModal.classList.add('show');
+        }
+
+        dieFacesSelect.addEventListener('change', (event) => {
+            const newNumFaces = parseInt(event.target.value, 10);
+            currentDieFacesCount = newNumFaces;
+            // Temporarily save current faces before regenerating inputs
+            const currentFaces = Array.from(modalDieOptionInputsContainer.querySelectorAll('input')).map(input => input.value.trim());
+            const updatedFaces = Array.from({length: newNumFaces}, (_, i) => currentFaces[i] || (i + 1).toString());
+            generateDieFaceInputs(newNumFaces, updatedFaces);
+            // Update the dieOptions array for the currently edited die
+            dieOptions[editingDieIndex].faces = updatedFaces;
+        });
+
+
+        function closeDieEditModal() {
+            dieEditModal.classList.remove('show');
+            editingDieIndex = -1;
+            isDeletingSavedDie = false; // Reset delete mode on close
+        }
+
+        saveDieOptionsBtn.addEventListener('click', () => {
+            if (editingDieIndex !== -1) {
+                const newFaces = Array.from(modalDieOptionInputsContainer.querySelectorAll('input')).map(input => input.value.trim());
+                if (newFaces.every(face => face !== '')) { // Ensure all faces have a value
+                    dieOptions[editingDieIndex].faces = newFaces;
+                    showMessage(`Die ${editingDieIndex + 1} options saved!`, "info");
+                } else {
+                    showMessage("Please provide a value for all faces of the die.", "error");
+                    return; // Don't close modal if validation fails
+                }
+            }
+            closeDieEditModal();
+            updateDieDisplay(); // Redraw dice with potentially updated text
+        });
+
+        cancelDieOptionsBtn.addEventListener('click', closeDieEditModal);
+
+        // Event listener for the main "Customize" button
+        customizeDieBtn.addEventListener('click', () => {
+            if (currentCount > 0) {
+                openDieEditModal(0); // Open modal for the first die
+            } else {
+                showMessage("Please select a count of dice first.", "info");
+            }
+        });
+
+        // Navigation for dice *within the modal*
+        prevDieModalBtn.addEventListener('click', () => {
+            if (editingDieIndex > 0) {
+                // Save current edits before navigating
+                const newFaces = Array.from(modalDieOptionInputsContainer.querySelectorAll('input')).map(input => input.value.trim());
+                if (newFaces.every(face => face !== '')) {
+                    dieOptions[editingDieIndex].faces = newFaces;
+                } else {
+                    showMessage("Please save or cancel current die edits before navigating.", "error");
+                    return;
+                }
+                openDieEditModal(editingDieIndex - 1);
+            }
+        });
+
+        nextDieModalBtn.addEventListener('click', () => {
+            if (editingDieIndex < currentCount - 1) {
+                // Save current edits before navigating
+                const newFaces = Array.from(modalDieOptionInputsContainer.querySelectorAll('input')).map(input => input.value.trim());
+                if (newFaces.every(face => face !== '')) {
+                    dieOptions[editingDieIndex].faces = newFaces;
+                } else {
+                    showMessage("Please save or cancel current die edits before navigating.", "error");
+                    return;
+                }
+                openDieEditModal(editingDieIndex + 1);
+            }
+        });
+
+        // Close modal on outside click
+        dieEditModal.addEventListener('click', (event) => {
+            if (event.target === dieEditModal) {
+                closeDieEditModal();
+            }
+        });
+
+
+        // --- Saved Die Slots Logic ---
+        let savedDieSlots = []; // Array to store saved die options
+
+        function loadSavedDieSlots() {
+            const savedData = localStorage.getItem('decidoDieSlots');
+            if (savedData) {
+                savedDieSlots = JSON.parse(savedData);
+            } else {
+                savedDieSlots = [];
+            }
+        }
+
+        function saveDieSlotsToLocalStorage() {
+            localStorage.setItem('decidoDieSlots', JSON.stringify(savedDieSlots));
+        }
+
+        function renderDieSaveSlotsInModal() {
+            dieSaveSlotsContainerInModal.innerHTML = '';
+            if (savedDieSlots.length === 0) {
+                dieSaveSlotsContainerInModal.innerHTML = '<p class="text-sm text-gray-600">No saved options yet.</p>';
+                document.getElementById('deleteSavedDieOptionsBtn').disabled = true; // Disable delete button if no slots
+            } else {
+                document.getElementById('deleteSavedDieOptionsBtn').disabled = false;
+            }
+
+            savedDieSlots.forEach((slot, index) => {
+                const savedDieButton = document.createElement('button');
+                savedDieButton.classList.add('saved-slot-btn', 'saved-die-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full', 'mb-2');
+                savedDieButton.textContent = `${slot.name} (d${slot.options.faces.length}): ${slot.options.faces.join(', ')}`;
+                savedDieButton.dataset.slotIndex = index;
+
+                if (isDeletingSavedDie) {
+                    savedDieButton.classList.add('delete-mode');
+                    savedDieButton.addEventListener('click', (event) => {
+                        const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                        showConfirmationModal(
+                            "Delete Saved Die",
+                            `Are you sure you want to delete "${savedDieSlots[idxToDelete].name}"?`,
+                            () => {
+                                savedDieSlots.splice(idxToDelete, 1);
+                                saveDieSlotsToLocalStorage();
+                                renderDieSaveSlotsInModal(); // Re-render the list
+                                showMessage("Saved die option deleted!", "info");
+                            }
+                        );
+                    });
+                } else {
+                    savedDieButton.addEventListener('click', (event) => {
+                        const slotIndex = parseInt(event.target.dataset.slotIndex, 10);
+                        if (editingDieIndex !== -1 && savedDieSlots[slotIndex].options.faces.every(face => face !== '')) {
+                            dieOptions[editingDieIndex] = { ...savedDieSlots[slotIndex].options };
+                            currentDieFacesCount = dieOptions[editingDieIndex].faces.length;
+                            dieFacesSelect.value = currentDieFacesCount.toString();
+                            generateDieFaceInputs(currentDieFacesCount, dieOptions[editingDieIndex].faces);
+                            showMessage(`Options from "${savedDieSlots[slotIndex].name}" recalled for Die ${editingDieIndex + 1}!`, "info");
+                        } else {
+                            showMessage("No valid options saved in this slot to recall.", "error");
+                        }
+                    });
+                }
+                dieSaveSlotsContainerInModal.appendChild(savedDieButton);
+            });
+            // Update the text of the delete button
+            document.getElementById('deleteSavedDieOptionsBtn').textContent = isDeletingSavedDie ? 'Cancel Delete' : 'Delete Saved';
+        }
+
+        // Function to render the saved dice list in the Options Card
+        let isDeletingSavedDieOptions = false; // State for delete mode in Options card
+        const deleteSavedDieOptionsBtnOptions = document.getElementById('deleteSavedDieOptionsBtnOptions');
+
+        deleteSavedDieOptionsBtnOptions.addEventListener('click', () => {
+            isDeletingSavedDieOptions = !isDeletingSavedDieOptions; // Toggle delete mode
+            renderSavedDiceListOptions(); // Re-render to show/hide highlights
+        });
+
+        function renderSavedDiceListOptions() {
+            savedDiceListOptions.innerHTML = '';
+            if (savedDieSlots.length === 0) {
+                savedDiceListOptions.innerHTML = '<p class="text-sm text-gray-600">No saved dice yet.</p>';
+                deleteSavedDieOptionsBtnOptions.disabled = true;
+            } else {
+                deleteSavedDieOptionsBtnOptions.disabled = false;
+            }
+
+            savedDieSlots.forEach((slot, index) => {
+                const slotWrapper = document.createElement('div');
+                slotWrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
+
+                const savedDieButton = document.createElement('button');
+                savedDieButton.classList.add('saved-slot-btn', 'saved-die-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'flex-grow');
+                savedDieButton.textContent = `${slot.name} (d${slot.options.faces.length}): ${slot.options.faces.join(', ')}`;
+                savedDieButton.dataset.slotIndex = index;
+
+                if (isDeletingSavedDieOptions) {
+                    savedDieButton.classList.add('delete-mode');
+                    savedDieButton.addEventListener('click', (event) => {
+                        const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                        showConfirmationModal(
+                            "Delete Saved Die",
+                            `Are you sure you want to delete "${savedDieSlots[idxToDelete].name}"?`,
+                            () => {
+                                savedDieSlots.splice(idxToDelete, 1);
+                                saveDieSlotsToLocalStorage();
+                                renderSavedDiceListOptions(); // Re-render the list in Options card
+                                showMessage("Saved die option deleted!", "info");
+                            }
+                        );
+                    });
+                } else {
+                    savedDieButton.addEventListener('click', (event) => {
+                        // Store saved options temporarily for action choice modal
+                        tempSavedDieOptions = { ...slot.options };
+                        showCard(decisionSelectionCard); // Return to main menu
+                        setTimeout(() => {
+                            showCard(dieCard); // Go to die card
+                            currentCount = 1; // Set count to 1 for saved die
+                            dieOptions = [{ ...tempSavedDieOptions }]; // Load saved options into the first die
+                            currentDieFacesCount = dieOptions[0].faces.length; // Update global faces count
+                            updateDieDisplay();
+                            // Trigger roll after a short delay to ensure card is rendered
+                            setTimeout(() => rollDieBtn.click(), 100);
+                        }, 500); // Small delay to allow card transition
+                    });
+                }
+                slotWrapper.appendChild(savedDieButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-saved-option-btn');
+                deleteButton.textContent = 'x';
+                deleteButton.dataset.slotIndex = index;
+                deleteButton.addEventListener('click', (event) => {
+                    const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                    showConfirmationModal(
+                        "Delete Saved Die",
+                        `Are you sure you want to delete "${savedDieSlots[idxToDelete].name}"?`,
+                        () => {
+                            savedDieSlots.splice(idxToDelete, 1);
+                            saveDieSlotsToLocalStorage();
+                            renderSavedDiceListOptions(); // Re-render the list in Options card
+                            showMessage("Saved die option deleted!", "info");
+                        }
+                    );
+                });
+                slotWrapper.appendChild(deleteButton);
+                savedDiceListOptions.appendChild(slotWrapper);
+            });
+            deleteSavedDieOptionsBtnOptions.textContent = isDeletingSavedDieOptions ? 'Cancel Delete' : 'Delete Saved';
+        }
+
+
+        // --- Spinner Logic (Roulette Wheel) ---
+        const spinSpinnerBtn = document.getElementById('spinSpinnerBtn');
+        const customizeSpinnerBtn = document.getElementById('customizeSpinnerBtn'); // New
+        const spinnerResultDisplay = document.getElementById('spinnerResultDisplay');
+        
+        let spinnerOptions = []; // Will be populated dynamically based on currentCount
+
+        // Helper function to wrap text on canvas
+        function wrapText(context, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let lines = [];
+
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + ' ';
+                const metrics = context.measureText(testLine);
+                const testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    lines.push(line.trim());
+                    line = words[n] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line.trim());
+
+            // Adjust starting Y for vertical centering
+            let currentY = y - (lines.length - 1) * lineHeight / 2;
+            for (let i = 0; i < lines.length; i++) {
+                context.fillText(lines[i], x, currentY + (i * lineHeight));
+            }
+        }
+
+
+        // Function to update the visual display of spinners (roulette wheel)
+        function updateSpinnerDisplay(results = []) {
+            spinnerResultDisplay.innerHTML = ''; // Clear previous spinners
+
+            // Always render one spinner
+            const spinnerContainer = document.createElement('div');
+            spinnerContainer.classList.add('spinner-container');
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = 250; // Fixed size for drawing
+            canvas.height = 250;
+            canvas.classList.add('spinner-canvas');
+            spinnerContainer.appendChild(canvas);
+
+            // New central spinning pointer element
+            const centralSpinnerPointer = document.createElement('div');
+            centralSpinnerPointer.classList.add('central-spinner-pointer');
+            centralSpinnerPointer.style.transform = `translate(-50%, -100%) rotate(0deg)`; // Initial state
+            spinnerContainer.appendChild(centralSpinnerPointer);
+
+
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = canvas.width / 2;
+
+            // Start drawing from 180 degrees (Math.PI) to visually rotate the wheel
+            let startAngle = Math.PI; 
+            const sliceAngle = (2 * Math.PI) / currentCount; // Use currentCount for number of parts
+
+            // Updated calm and traditional colors for the spinner slices
+            const colors = [
+                '#81c784', '#a5d6a7', '#fcd34d', '#ffe082', '#a2d2ff',
+                '#bde0fe', '#c1e1c1', '#f0f4c3'
+            ]; // 8 distinct, pastel colors
+
+            // Draw slices based on currentCount (number of parts)
+            for (let j = 0; j < currentCount; j++) {
+                const endAngle = startAngle + sliceAngle;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = colors[j % colors.length]; // Cycle through colors
+                ctx.fill();
+                ctx.strokeStyle = '#fff'; // White border for slices
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Draw text: custom option for each slice
+                const optionText = spinnerOptions[j].name || (j + 1).toString(); // Use custom option or default number
+                const textAngle = startAngle + sliceAngle / 2; // Text angle is relative to the slice's position
+
+                ctx.save();
+                ctx.translate(centerX + Math.cos(textAngle) * (radius / 2.2), centerY + Math.sin(textAngle) * (radius / 2.2));
+                ctx.rotate(textAngle + Math.PI / 2); // Keep text upright relative to the slice
+                ctx.fillStyle = '#495057'; /* Darker text for readability */
+                ctx.font = 'bold 14px Inter'; /* Adjusted font for custom text */
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                const maxTextWidth = radius * 0.7;
+                wrapText(ctx, optionText, 0, 0, maxTextWidth, 16); // Wrap custom text
+                ctx.restore();
+
+                startAngle = endAngle;
+            }
+
+            // Display result text if already spun, otherwise show placeholder
+            const resultTextDiv = document.createElement('div');
+            if (results[0]) { // Only one result since there's one spinner
+                resultTextDiv.textContent = results[0];
+                resultTextDiv.classList.add('spinner-result-text');
+            } else {
+                resultTextDiv.textContent = '?';
+                resultTextDiv.classList.add('spinner-result-text');
+                resultTextDiv.style.backgroundColor = 'transparent';
+                resultTextDiv.style.color = '#495057'; /* Lighter text for decision display */
+            }
+            spinnerContainer.appendChild(resultTextDiv);
+            
+            spinnerResultDisplay.appendChild(spinnerContainer);
+
+            // Update the title based on currentCount (number of parts)
+            spinnerCardTitle.textContent = `Spin a Spinner (${currentCount} Parts)`;
+        }
+
+        // Function to update spinner options from input fields (now based on currentCount)
+        function updateSpinnerOptions() {
+            // If spinnerOptions is empty or doesn't match currentCount, initialize with defaults
+            if (spinnerOptions.length !== currentCount) {
+                spinnerOptions = Array.from({length: currentCount}, (_, i) => ({ name: `Option ${i + 1}`, weight: 1 }));
+            }
+            if (spinnerCard.classList.contains('card-visible') || spinnerEditModal.classList.contains('show')) {
+                updateSpinnerDisplay();
+            }
+            return true;
+        }
+
+        // Event listener for Spin Spinner button
+        spinSpinnerBtn.addEventListener('click', () => {
+            updateSpinnerOptions(); // Ensure spinnerOptions array is up-to-date with custom text
+
+            const spinnerContainer = spinnerResultDisplay.querySelector('.spinner-container');
+            const centralSpinnerPointer = spinnerContainer.querySelector('.central-spinner-pointer');
+            const existingResultTextEl = spinnerContainer.querySelector('.spinner-result-text');
+            if (existingResultTextEl) existingResultTextEl.remove(); // Remove any previous result text
+
+            spinSpinnerBtn.disabled = true; // Disable button during animation
+            customizeSpinnerBtn.disabled = true; // Disable customize button
+            changeSpinnerCountBtn.disabled = true; // Disable change parts button
+            returnToMenuFromSpinner.disabled = true; // Disable return to menu button
+
+            // Calculate total weight
+            const totalWeight = spinnerOptions.reduce((sum, option) => sum + option.weight, 0);
+            if (totalWeight === 0) {
+                showMessage("Please set weights for spinner options before spinning.", "error");
+                spinSpinnerBtn.disabled = false;
+                customizeSpinnerBtn.disabled = false;
+                changeSpinnerCountBtn.disabled = false;
+                returnToMenuFromSpinner.disabled = false;
+                return;
+            }
+
+            // Determine chosen option based on weights
+            let randomWeight = Math.random() * totalWeight;
+            let chosenOption = '';
+            let chosenIndex = -1;
+            for (let i = 0; i < spinnerOptions.length; i++) {
+                randomWeight -= spinnerOptions[i].weight;
+                if (randomWeight <= 0) {
+                    chosenOption = spinnerOptions[i].name;
+                    chosenIndex = i;
+                    break;
+                }
+            }
+
+            // Calculate the target rotation for the chosen option
+            const totalRevolutions = 5; // How many full spins
+            const sliceAngle = (2 * Math.PI) / currentCount; // Use currentCount for number of parts
+            
+            // The pointer is at the top (visually 270 degrees or 3*PI/2 radians on a standard canvas)
+            const targetAngleForPointer = 3 * Math.PI / 2;
+            // The center of the result slice (relative to 0 radians at the right, WITH initial 180 deg offset)
+            const centerOfResultSliceAngle = (Math.PI + chosenIndex * sliceAngle) + (sliceAngle / 2); // Adjusted for initial draw offset
+            
+            // Calculate the rotation needed to bring the center of the result slice to the pointer's position
+            let rotationOffset = targetAngleForPointer - centerOfResultSliceAngle;
+            
+            // Normalize rotationOffset to be positive and within 0 to 2*PI
+            rotationOffset = (rotationOffset % (2 * Math.PI) + (2 * Math.PI)) % (2 * Math.PI);
+            
+            // Add full revolutions for visual effect
+            const finalRotation = rotationOffset + (totalRevolutions * 2 * Math.PI);
+
+            // Apply initial reset (no transition)
+            centralSpinnerPointer.style.transition = 'none';
+            centralSpinnerPointer.style.transform = `translate(-50%, -100%) rotate(0deg)`;
+            void centralSpinnerPointer.offsetWidth; // Trigger reflow
+
+            // Apply the spinning animation to the central pointer
+            centralSpinnerPointer.style.transition = `transform 3s ease-out`;
+            centralSpinnerPointer.style.transform = `translate(-50%, -100%) rotate(${finalRotation}rad)`;
+
+            setTimeout(() => {
+                centralSpinnerPointer.style.transition = 'none'; // Remove transition after it's done
+
+                // Display the result text overlay
+                const finalResultTextDiv = document.createElement('div');
+                finalResultTextDiv.textContent = chosenOption;
+                finalResultTextDiv.classList.add('spinner-result-text');
+                spinnerContainer.appendChild(finalResultTextDiv);
+
+                spinSpinnerBtn.disabled = false;
+                customizeSpinnerBtn.disabled = false; // Re-enable customize button
+                changeSpinnerCountBtn.disabled = false; // Re-enable change parts button
+                returnToMenuFromSpinner.disabled = false; // Re-enable return to menu button
+                showResultSplashScreen(chosenOption, () => {
+                });
+            }, 3000); // Match animation duration
+        });
+
+
+        // --- Spinner Edit Modal Logic ---
+        const spinnerEditModal = document.getElementById('spinnerEditModal');
+        const spinnerEditModalTitle = document.getElementById('spinnerEditModalTitle');
+        const modalSpinnerOptionInputsContainer = document.getElementById('modalSpinnerOptionInputs'); // Container for inputs
+        const saveSpinnerOptionsBtn = document.getElementById('saveSpinnerOptionsBtn');
+        const cancelSpinnerOptionsBtn = document.getElementById('cancelSpinnerOptionsBtn');
+        const prevSpinnerModalBtn = document.getElementById('prevSpinnerModalBtn');
+        const nextSpinnerModalBtn = document.getElementById('nextSpinnerModalBtn');
+        const saveCurrentSpinnerOptionsBtn = document.getElementById('saveCurrentSpinnerOptionsBtn'); // New
+        const deleteSavedSpinnerOptionsBtn = document.getElementById('deleteSavedSpinnerOptionsBtn'); // New
+        const spinnerSaveSlotsContainerInModal = document.getElementById('spinnerSaveSlotsContainerInModal'); // New
+
+        let editingSpinnerPartIndex = -1; // To keep track of which part is being edited
+        let isDeletingSavedSpinner = false; // New state for delete mode
+
+        function openSpinnerEditModal(index) {
+            editingSpinnerPartIndex = index;
+            // Dynamically create inputs based on currentCount
+            modalSpinnerOptionInputsContainer.innerHTML = '';
+            spinnerOptions.forEach((option, i) => {
+                const inputDiv = document.createElement('div');
+                inputDiv.classList.add('flex', 'items-center', 'gap-2');
+                inputDiv.innerHTML = `
+                    <label for="modalSpinnerOptionName${i + 1}" class="block text-gray-700 text-sm font-semibold mb-1">Part ${i + 1}:</label>
+                    <input type="text" id="modalSpinnerOptionName${i + 1}" value="${option.name}"
+                           class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100 text-gray-800">
+                    <label for="modalSpinnerOptionWeight${i + 1}" class="block text-gray-700 text-sm font-semibold mb-1">Weight:</label>
+                    <input type="number" id="modalSpinnerOptionWeight${i + 1}" value="${option.weight}" min="0"
+                           class="w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100 text-gray-800">
+                `;
+                modalSpinnerOptionInputsContainer.appendChild(inputDiv);
+            });
+            
+            spinnerEditModalTitle.textContent = `Edit Options for Spinner (Part ${index + 1})`; // Update modal title
+            
+            // Manage navigation button visibility within the modal
+            prevSpinnerModalBtn.style.display = (editingSpinnerPartIndex === 0) ? 'none' : 'block';
+            nextSpinnerModalBtn.style.display = (editingSpinnerPartIndex === currentCount - 1) ? 'none' : 'block';
+
+            // Highlight the current input field
+            document.getElementById(`modalSpinnerOptionName${editingSpinnerPartIndex + 1}`).focus();
+
+            renderSpinnerSaveSlotsInModal(); // Render saved slots inside the modal
+            spinnerEditModal.classList.add('show');
+        }
+
+        function closeSpinnerEditModal() {
+            spinnerEditModal.classList.remove('show');
+            editingSpinnerPartIndex = -1;
+            isDeletingSavedSpinner = false; // Reset delete mode on close
+        }
+
+        saveSpinnerOptionsBtn.addEventListener('click', () => {
+            if (editingSpinnerPartIndex !== -1) {
+                const newOptions = [];
+                let allValid = true;
+                for (let i = 0; i < currentCount; i++) {
+                    const nameInput = document.getElementById(`modalSpinnerOptionName${i + 1}`);
+                    const weightInput = document.getElementById(`modalSpinnerOptionWeight${i + 1}`);
+                    const name = nameInput.value.trim();
+                    const weight = parseInt(weightInput.value, 10);
+
+                    if (!name || isNaN(weight) || weight < 0) {
+                        allValid = false;
+                        break;
+                    }
+                    newOptions.push({ name, weight });
+                }
+
+                if (allValid && newOptions.length === currentCount) {
+                    spinnerOptions = newOptions;
+                    showMessage(`Spinner options saved!`, "info");
+                } else {
+                    showMessage(`Please provide a valid name and a non-negative weight for all ${currentCount} parts of the spinner before saving.`, "error");
+                    return; // Don't close modal if validation fails
+                }
+            }
+            closeSpinnerEditModal();
+            updateSpinnerDisplay(); // Redraw spinner with potentially updated text
+        });
+
+        cancelSpinnerOptionsBtn.addEventListener('click', closeSpinnerEditModal);
+
+        // Event listener for the main "Customize" button
+        customizeSpinnerBtn.addEventListener('click', () => {
+            if (currentCount > 0) {
+                openSpinnerEditModal(0); // Open modal for the first part
+            } else {
+                showMessage("Please select the number of spinner parts first.", "info");
+            }
+        });
+
+        // Navigation for spinner parts *within the modal*
+        prevSpinnerModalBtn.addEventListener('click', () => {
+            if (editingSpinnerPartIndex > 0) {
+                // Save current edits before navigating
+                const newOptions = [];
+                let allValid = true;
+                for (let i = 0; i < currentCount; i++) {
+                    const nameInput = document.getElementById(`modalSpinnerOptionName${i + 1}`);
+                    const weightInput = document.getElementById(`modalSpinnerOptionWeight${i + 1}`);
+                    const name = nameInput.value.trim();
+                    const weight = parseInt(weightInput.value, 10);
+                    if (!name || isNaN(weight) || weight < 0) { allValid = false; break; }
+                    newOptions.push({ name, weight });
+                }
+                if (allValid && newOptions.length === currentCount) {
+                    spinnerOptions = newOptions;
+                } else {
+                    showMessage("Please save or cancel current spinner edits before navigating.", "error");
+                    return;
+                }
+                openSpinnerEditModal(editingSpinnerPartIndex - 1);
+            }
+        });
+
+        nextSpinnerModalBtn.addEventListener('click', () => {
+            if (editingSpinnerPartIndex < currentCount - 1) {
+                // Save current edits before navigating
+                const newOptions = [];
+                let allValid = true;
+                for (let i = 0; i < currentCount; i++) {
+                    const nameInput = document.getElementById(`modalSpinnerOptionName${i + 1}`);
+                    const weightInput = document.getElementById(`modalSpinnerOptionWeight${i + 1}`);
+                    const name = nameInput.value.trim();
+                    const weight = parseInt(weightInput.value, 10);
+                    if (!name || isNaN(weight) || weight < 0) { allValid = false; break; }
+                    newOptions.push({ name, weight });
+                }
+                if (allValid && newOptions.length === currentCount) {
+                    spinnerOptions = newOptions;
+                } else {
+                    showMessage("Please save or cancel current spinner edits before navigating.", "error");
+                    return;
+                }
+                openSpinnerEditModal(editingSpinnerPartIndex + 1);
+            }
+        });
+
+        // Close modal on outside click
+        spinnerEditModal.addEventListener('click', (event) => {
+            if (event.target === spinnerEditModal) {
+                closeSpinnerEditModal();
+            }
+        });
+
+
+        // --- Saved Spinner Slots Logic ---
+        let savedSpinnerSlots = []; // Array to store saved spinner options
+
+        function loadSavedSpinnerSlots() {
+            const savedData = localStorage.getItem('decidoSpinnerSlots');
+            if (savedData) {
+                savedSpinnerSlots = JSON.parse(savedData);
+            } else {
+                savedSpinnerSlots = [];
+            }
+        }
+
+        function saveSpinnerSlotsToLocalStorage() {
+            localStorage.setItem('decidoSpinnerSlots', JSON.stringify(savedSpinnerSlots));
+        }
+
+        function renderSpinnerSaveSlotsInModal() {
+            spinnerSaveSlotsContainerInModal.innerHTML = '';
+            if (savedSpinnerSlots.length === 0) {
+                spinnerSaveSlotsContainerInModal.innerHTML = '<p class="text-sm text-gray-600">No saved options yet.</p>';
+                document.getElementById('deleteSavedSpinnerOptionsBtn').disabled = true; // Disable delete button if no slots
+            } else {
+                document.getElementById('deleteSavedSpinnerOptionsBtn').disabled = false;
+            }
+
+            savedSpinnerSlots.forEach((slot, index) => {
+                const savedSpinnerButton = document.createElement('button');
+                savedSpinnerButton.classList.add('saved-slot-btn', 'saved-spinner-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full', 'mb-2');
+                savedSpinnerButton.textContent = `${slot.name} (${slot.options.length} parts): ${slot.options.map(o => o.name).join(', ')}`;
+                savedSpinnerButton.dataset.slotIndex = index;
+
+                if (isDeletingSavedSpinner) {
+                    savedSpinnerButton.classList.add('delete-mode');
+                    savedSpinnerButton.addEventListener('click', (event) => {
+                        const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                        showConfirmationModal(
+                            "Delete Saved Spinner",
+                            `Are you sure you want to delete "${savedSpinnerSlots[idxToDelete].name}"?`,
+                            () => {
+                                savedSpinnerSlots.splice(idxToDelete, 1);
+                                saveSpinnerSlotsToLocalStorage();
+                                renderSpinnerSaveSlotsInModal(); // Re-render the list
+                                showMessage("Saved spinner option deleted!", "info");
+                            }
+                        );
+                    });
+                } else {
+                    savedSpinnerButton.addEventListener('click', (event) => {
+                        const slotIndex = parseInt(event.target.dataset.slotIndex, 10);
+                        if (editingSpinnerPartIndex !== -1 && savedSpinnerSlots[slotIndex].options.every(option => option.name !== '' && option.weight >= 0)) {
+                            currentCount = savedSpinnerSlots[slotIndex].options.length; // Set currentCount to match saved spinner
+                            spinnerOptions = [ ...savedSpinnerSlots[slotIndex].options ]; // Load a copy of options
+                            // Update modal inputs with recalled options
+                            modalSpinnerOptionInputsContainer.innerHTML = ''; // Clear existing inputs
+                            spinnerOptions.forEach((option, i) => {
+                                const inputDiv = document.createElement('div');
+                                inputDiv.classList.add('flex', 'items-center', 'gap-2');
+                                inputDiv.innerHTML = `
+                                    <label for="modalSpinnerOptionName${i + 1}" class="block text-gray-700 text-sm font-semibold mb-1">Part ${i + 1}:</label>
+                                    <input type="text" id="modalSpinnerOptionName${i + 1}" value="${option.name}"
+                                           class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100 text-gray-800">
+                                    <label for="modalSpinnerOptionWeight${i + 1}" class="block text-gray-700 text-sm font-semibold mb-1">Weight:</label>
+                                    <input type="number" id="modalSpinnerOptionWeight${i + 1}" value="${option.weight}" min="0"
+                                           class="w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100 text-gray-800">
+                                `;
+                                modalSpinnerOptionInputsContainer.appendChild(inputDiv);
+                            });
+                            showMessage(`Options from "${savedSpinnerSlots[slotIndex].name}" recalled for Spinner!`, "info");
+                        } else if (savedSpinnerSlots[slotIndex].options.length !== currentCount) {
+                            showMessage(`Cannot recall. Saved slot has ${savedSpinnerSlots[slotIndex].options.length} options, but current spinner has ${currentCount} parts.`, "error");
+                        }
+                        else {
+                            showMessage("No valid options saved in this slot to recall.", "error");
+                        }
+                    });
+                }
+                spinnerSaveSlotsContainerInModal.appendChild(savedSpinnerButton);
+            });
+            // Update the text of the delete button
+            document.getElementById('deleteSavedSpinnerOptionsBtn').textContent = isDeletingSavedSpinner ? 'Cancel Delete' : 'Delete Saved';
+        }
+
+        // Function to render the saved spinners list in the Options Card
+        let isDeletingSavedSpinnerOptions = false; // State for delete mode in Options card
+        const deleteSavedSpinnerOptionsBtnOptions = document.getElementById('deleteSavedSpinnerOptionsBtnOptions');
+
+        deleteSavedSpinnerOptionsBtnOptions.addEventListener('click', () => {
+            isDeletingSavedSpinnerOptions = !isDeletingSavedSpinnerOptions; // Toggle delete mode
+            renderSavedSpinnersListOptions(); // Re-render to show/hide highlights
+        });
+
+        function renderSavedSpinnersListOptions() {
+            savedSpinnersListOptions.innerHTML = '';
+            if (savedSpinnerSlots.length === 0) {
+                savedSpinnersListOptions.innerHTML = '<p class="text-sm text-gray-600">No saved spinners yet.</p>';
+                deleteSavedSpinnerOptionsBtnOptions.disabled = true;
+            } else {
+                deleteSavedSpinnerOptionsBtnOptions.disabled = false;
+            }
+
+            savedSpinnerSlots.forEach((slot, index) => {
+                const slotWrapper = document.createElement('div');
+                slotWrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
+
+                const savedSpinnerButton = document.createElement('button');
+                savedSpinnerButton.classList.add('saved-slot-btn', 'saved-spinner-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'flex-grow');
+                savedSpinnerButton.textContent = `${slot.name} (${slot.options.length} parts): ${slot.options.map(o => o.name).join(', ')}`;
+                savedSpinnerButton.dataset.slotIndex = index;
+
+                if (isDeletingSavedSpinnerOptions) {
+                    savedSpinnerButton.classList.add('delete-mode');
+                    savedSpinnerButton.addEventListener('click', (event) => {
+                        const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                        showConfirmationModal(
+                            "Delete Saved Spinner",
+                            `Are you sure you want to delete "${savedSpinnerSlots[idxToDelete].name}"?`,
+                            () => {
+                                savedSpinnerSlots.splice(idxToDelete, 1);
+                                saveSpinnerSlotsToLocalStorage();
+                                renderSavedSpinnersListOptions(); // Re-render the list in Options card
+                                showMessage("Saved spinner option deleted!", "info");
+                            }
+                        );
+                    });
+                } else {
+                    savedSpinnerButton.addEventListener('click', (event) => {
+                        // When clicked, load these options into Spinner and open its edit modal
+                        currentCount = slot.options.length; // Set currentCount to match saved spinner
+                        spinnerOptions = [ ...slot.options ];
+                        showCard(decisionSelectionCard); // Return to main menu
+                        setTimeout(() => {
+                            showCard(spinnerCard); // Go to spinner card
+                            openSpinnerEditModal(0); // Open edit modal for spinner
+                            showMessage(`Options from "${slot.name}" loaded into Spinner!`, "info");
+                        }, 500); // Small delay to allow card transition
+                    });
+                }
+                slotWrapper.appendChild(savedSpinnerButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-saved-option-btn');
+                deleteButton.textContent = 'x';
+                deleteButton.dataset.slotIndex = index;
+                deleteButton.addEventListener('click', (event) => {
+                    const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                    showConfirmationModal(
+                        "Delete Saved Spinner",
+                        `Are you sure you want to delete "${savedSpinnerSlots[idxToDelete].name}"?`,
+                        () => {
+                            savedSpinnerSlots.splice(idxToDelete, 1);
+                            saveSpinnerSlotsToLocalStorage();
+                            renderSavedSpinnersListOptions(); // Re-render the list in Options card
+                            showMessage("Saved spinner option deleted!", "info");
+                        }
+                    );
+                });
+                slotWrapper.appendChild(deleteButton);
+                savedSpinnersListOptions.appendChild(slotWrapper);
+            });
+            deleteSavedSpinnerOptionsBtnOptions.textContent = isDeletingSavedSpinnerOptions ? 'Cancel Delete' : 'Delete Saved';
+        }
+
+        // Event listener for the "Save Current Spinner" button inside the modal
+        saveCurrentSpinnerOptionsBtn.addEventListener('click', () => {
+            if (editingSpinnerPartIndex !== -1) {
+                const currentOptions = [];
+                let allValid = true;
+                for (let i = 0; i < currentCount; i++) {
+                    const nameInput = document.getElementById(`modalSpinnerOptionName${i + 1}`);
+                    const weightInput = document.getElementById(`modalSpinnerOptionWeight${i + 1}`);
+                    const name = nameInput.value.trim();
+                    const weight = parseInt(weightInput.value, 10);
+                    if (!name || isNaN(weight) || weight < 0) { allValid = false; break; }
+                    currentOptions.push({ name, weight });
+                }
+
+                if (allValid && currentOptions.length === currentCount) {
+                    const saveName = prompt("Name this saved spinner option (e.g., 'Food Choices', 'Activity Ideas'):");
+                    if (saveName) {
+                        const newSavedOption = {
+                            name: saveName.trim(),
+                            options: currentOptions
+                        };
+                        const existingIndex = savedSpinnerSlots.findIndex(slot => slot.name === newSavedOption.name);
+                        if (existingIndex !== -1) {
+                            savedSpinnerSlots[existingIndex] = newSavedOption;
+                            showMessage(`Updated saved options for "${newSavedOption.name}"!`, "info");
+                        } else {
+                            savedSpinnerSlots.push(newSavedOption);
+                            showMessage(`Saved options "${newSavedOption.name}"!`, "info");
+                        }
+                        saveSpinnerSlotsToLocalStorage();
+                        renderSpinnerSaveSlotsInModal(); // Update display of saved slots
+                    } else {
+                        showMessage("Save operation cancelled. Please provide a name.", "info");
+                    }
+                } else {
+                    showMessage(`Please provide a valid name and a non-negative weight for all ${currentCount} parts of the spinner before saving.`, "error");
+                }
+            } else {
+                showMessage("No spinner is currently being edited.", "error");
+            }
+        });
+
+        // Event listener for the new "Delete Saved" button in the spinner modal
+        document.getElementById('deleteSavedSpinnerOptionsBtn').addEventListener('click', () => {
+            isDeletingSavedSpinner = !isDeletingSavedSpinner; // Toggle delete mode
+            renderSpinnerSaveSlotsInModal(); // Re-render to show/hide highlights
+        });
+
+
+        // --- Card Game Logic ---
+        const cardInput = document.getElementById('cardInput');
+        const addCardBtn = document.getElementById('addCardBtn');
+        const currentDeckCountSpan = document.getElementById('currentDeckCount');
+        const cardDeckDisplay = document.getElementById('cardDeckDisplay');
+        const drawCardBtn = document.getElementById('drawCardBtn');
+        const splitDeckBtn = document.getElementById('splitDeckBtn');
+        const splitDeckContainer = document.getElementById('splitDeckContainer');
+        const splitDecksDisplay = document.getElementById('splitDecksDisplay');
+        const drawFromSplitDecksBtn = document.getElementById('drawFromSplitDecksBtn');
+        const clearDeckBtn = document.getElementById('clearDeckBtn');
+        const saveCurrentDeckBtn = document.getElementById('saveCurrentDeckBtn'); // New
+        const cardGameSaveModal = document.getElementById('cardGameSaveModal'); // New modal for saving deck
+        const modalCurrentDeckDisplay = document.getElementById('modalCurrentDeckDisplay'); // Display deck in save modal
+        const saveDeckNameInput = document.getElementById('saveDeckNameInput'); // Input for deck name
+        const saveDeckOptionsBtn = document.getElementById('saveDeckOptionsBtn'); // Save button in modal
+        const cancelDeckOptionsBtn = document.getElementById('cancelDeckOptionsBtn'); // Cancel button in modal
+        const savedDecksListCardGame = document.getElementById('savedDecksListCardGame'); // New: Saved decks on card game page
+
+        let currentDeck = []; // Array to store current deck cards
+        let splitDecks = []; // Array of arrays for split decks (will only hold one sub-array for the "other half")
+        let savedDeckSlots = []; // Array to store saved decks
+
+        function updateCardGameDisplay() {
+            cardDeckDisplay.innerHTML = '';
+            splitDecksDisplay.innerHTML = '';
+            splitDeckContainer.classList.add('hidden'); // Hide split decks by default
+
+            currentDeckCountSpan.textContent = currentDeck.length;
+
+            // Get theme-specific card back color
+            const cardBackColor = getComputedStyle(document.body).getPropertyValue('--card-back-color-theme');
+
+            if (currentDeck.length === 0) {
+                cardDeckDisplay.classList.add('empty-deck');
+                drawCardBtn.disabled = true;
+                splitDeckBtn.disabled = true;
+                clearDeckBtn.disabled = true;
+                saveCurrentDeckBtn.disabled = true;
+            } else {
+                cardDeckDisplay.classList.remove('empty-deck');
+                // Create stacked cards
+                const stackOffset = 3; // Pixels offset for each card
+                const baseLeft = -50; // Half of card width to center
+                const baseTop = -70;  // Half of card height to center
+
+                for (let i = 0; i < currentDeck.length; i++) {
+                    const cardElement = document.createElement('div');
+                    cardElement.classList.add('card-in-deck'); // Use the new class
+                    cardElement.style.backgroundColor = cardBackColor; // Apply theme color
+                    cardElement.style.zIndex = i; // Ensure stacking order
+                    cardElement.style.transform = `translate(${i * stackOffset}px, ${i * stackOffset}px)`;
+                    cardElement.style.left = `calc(50% + ${baseLeft}px + ${i * stackOffset}px)`;
+                    cardElement.style.top = `calc(50% + ${baseTop}px + ${i * stackOffset}px)`;
+                    
+                    // Add the actual card name for each card in the stack
+                    const cardText = document.createElement('span');
+                    cardText.classList.add('card-text'); // This class now controls visibility based on position/hover
+                    cardText.textContent = currentDeck[i];
+                    cardElement.appendChild(cardText);
+                    
+                    cardDeckDisplay.appendChild(cardElement);
+                }
+                drawCardBtn.disabled = false;
+                splitDeckBtn.disabled = (currentDeck.length < 2); // Can only split if 2 or more cards
+                clearDeckBtn.disabled = false;
+                saveCurrentDeckBtn.disabled = false;
+            }
+        }
+
+        addCardBtn.addEventListener('click', () => {
+            const card = cardInput.value.trim();
+            if (card) {
+                currentDeck.push(card);
+                cardInput.value = '';
+                updateCardGameDisplay();
+                showMessage(`"${card}" added to deck!`, "success");
+            } else {
+                showMessage("Please enter a card to add.", "error");
+            }
+        });
+
+        cardInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                addCardBtn.click();
+            }
+        });
+
+        drawCardBtn.addEventListener('click', () => {
+            if (currentDeck.length > 0) {
+                const randomIndex = Math.floor(Math.random() * currentDeck.length);
+                const chosenCard = currentDeck.splice(randomIndex, 1)[0]; // Remove card from deck
+                showResultSplashScreen(chosenCard);
+                updateCardGameDisplay(); // Update display after drawing
+            } else {
+                showMessage("Please add cards to the deck first!", "error");
+            }
+        });
+
+        clearDeckBtn.addEventListener('click', () => {
+            if (currentDeck.length > 0 || splitDecks.length > 0) {
+                showConfirmationModal(
+                    "Clear Deck",
+                    "Are you sure you want to clear all cards from the current deck and any split piles?",
+                    () => {
+                        currentDeck = [];
+                        splitDecks = []; // Also clear split decks
+                        updateCardGameDisplay();
+                        showMessage("Deck cleared!", "info");
+                    }
+                );
+            } else {
+                showMessage("Deck is already empty.", "info");
+            }
+        });
+
+        splitDeckBtn.addEventListener('click', () => {
+            if (currentDeck.length < 2) {
+                showMessage("You need at least 2 cards to split the deck!", "error");
+                return;
+            }
+
+            // Shuffle the current deck before splitting
+            const shuffledDeck = [...currentDeck].sort(() => Math.random() - 0.5);
+            
+            const halfIndex = Math.ceil(shuffledDeck.length / 2);
+            const deck1 = shuffledDeck.slice(0, halfIndex);
+            const deck2 = shuffledDeck.slice(halfIndex);
+
+            currentDeck = deck1; // First half remains in currentDeck
+            splitDecks = [deck2]; // Second half becomes the first split pile
+
+            renderSplitDecks();
+            splitDeckContainer.classList.remove('hidden');
+            updateCardGameDisplay(); // Update main deck display
+            showMessage(`Deck split into 2 piles!`, "success");
+        });
+
+        function renderSplitDecks() {
+            splitDecksDisplay.innerHTML = '';
+            
+            const cardBackColor = getComputedStyle(document.body).getPropertyValue('--card-back-color-theme');
+
+            const renderPile = (deck, pileIndex) => {
+                const pileWrapper = document.createElement('div');
+                pileWrapper.classList.add('card-pile-wrapper'); // Use new wrapper class
+
+                const pileLabel = document.createElement('span');
+                pileLabel.classList.add('card-pile-label');
+                pileLabel.textContent = `Pile ${pileIndex + 1} (${deck.length} cards)`;
+                pileWrapper.appendChild(pileLabel);
+
+                const pileContainer = document.createElement('div');
+                pileContainer.classList.add('card-pile-container'); // Use new container class
+
+                if (deck.length === 0) {
+                    const emptyPile = document.createElement('div');
+                    emptyPile.classList.add('card-in-pile', 'empty'); // Use card-in-pile and empty
+                    emptyPile.textContent = 'Empty';
+                    pileContainer.appendChild(emptyPile);
+                } else {
+                    const stackOffset = 3;
+                    for (let i = 0; i < deck.length; i++) {
+                        const cardElement = document.createElement('div');
+                        cardElement.classList.add('card-in-pile'); // Use the new class
+                        cardElement.style.backgroundColor = cardBackColor; // Apply theme color
+                        cardElement.style.zIndex = i;
+                        cardElement.style.transform = `translate(${i * stackOffset}px, ${i * stackOffset}px)`;
+                        cardElement.style.left = `0px`; // Position relative to pileContainer
+                        cardElement.style.top = `0px`;
+
+                        // Add the actual card name for each card in the split pile stack
+                        const cardText = document.createElement('span');
+                        cardText.classList.add('card-text'); // This class now controls visibility based on position/hover
+                        cardText.textContent = deck[i];
+                        cardElement.appendChild(cardText);
+                        
+                        pileContainer.appendChild(cardElement);
+                    }
+                }
+                pileWrapper.appendChild(pileContainer);
+                splitDecksDisplay.appendChild(pileWrapper);
+            };
+
+            // Render Pile 1 (currentDeck)
+            renderPile(currentDeck, 0);
+
+            // Render Pile 2 (splitDecks[0])
+            if (splitDecks.length > 0) {
+                renderPile(splitDecks[0], 1);
+            }
+
+            drawFromSplitDecksBtn.disabled = (currentDeck.length === 0 && (splitDecks.length === 0 || splitDecks[0].length === 0));
+        }
+
+        drawFromSplitDecksBtn.addEventListener('click', () => {
+            const drawnCards = [];
+            let allEmpty = true;
+
+            // Draw from Pile 1 (currentDeck)
+            if (currentDeck.length > 0) {
+                const randomIndex = Math.floor(Math.random() * currentDeck.length);
+                const chosenCard = currentDeck.splice(randomIndex, 1)[0];
+                drawnCards.push(`Pile 1: ${chosenCard}`);
+                allEmpty = false;
+            } else {
+                drawnCards.push(`Pile 1: (Empty)`);
+            }
+
+            // Draw from Pile 2 (splitDecks[0])
+            if (splitDecks.length > 0 && splitDecks[0].length > 0) {
+                const randomIndex = Math.floor(Math.random() * splitDecks[0].length);
+                const chosenCard = splitDecks[0].splice(randomIndex, 1)[0];
+                drawnCards.push(`Pile 2: ${chosenCard}`);
+                allEmpty = false;
+            } else if (splitDecks.length > 0) {
+                drawnCards.push(`Pile 2: (Empty)`);
+            }
+
+            if (allEmpty) {
+                showMessage("All decks are empty, cannot draw!", "error");
+                drawFromSplitDecksBtn.disabled = true;
+                return;
+            }
+
+            renderSplitDecks(); // Re-render decks after drawing
+            updateCardGameDisplay(); // Update main deck display (will show empty if currentDeck is empty)
+            showResultSplashScreen(drawnCards.join('\n'));
+        });
+
+
+        // --- Saved Deck Slots Logic ---
+        function loadSavedDeckSlots() {
+            const savedData = localStorage.getItem('decidoDeckSlots');
+            if (savedData) {
+                savedDeckSlots = JSON.parse(savedData);
+            } else {
+                savedDeckSlots = [];
+            }
+        }
+
+        function saveDeckSlotsToLocalStorage() {
+            localStorage.setItem('decidoDeckSlots', JSON.stringify(savedDeckSlots));
+        }
+
+        saveCurrentDeckBtn.addEventListener('click', () => {
+            if (currentDeck.length > 0) {
+                modalCurrentDeckDisplay.innerHTML = '';
+                currentDeck.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = item;
+                    modalCurrentDeckDisplay.appendChild(listItem);
+                });
+                saveDeckNameInput.value = ''; // Clear previous name
+                cardGameSaveModal.classList.add('show');
+            } else {
+                showMessage("Please add cards to the deck before saving.", "error");
+            }
+        });
+
+        saveDeckOptionsBtn.addEventListener('click', () => {
+            const deckName = saveDeckNameInput.value.trim();
+            if (deckName) {
+                const newSavedDeck = {
+                    name: deckName,
+                    cards: [...currentDeck] // Save a copy
+                };
+                const existingIndex = savedDeckSlots.findIndex(slot => slot.name === newSavedDeck.name);
+                if (existingIndex !== -1) {
+                    savedDeckSlots[existingIndex] = newSavedDeck;
+                    showMessage(`Updated saved deck "${newSavedDeck.name}"!`, "info");
+                } else {
+                    savedDeckSlots.push(newSavedDeck);
+                    showMessage(`Saved deck "${newSavedDeck.name}"!`, "info");
+                }
+                saveDeckSlotsToLocalStorage();
+                renderSavedDeckListOptions(); // Update display in Options card
+                renderSavedDeckListCardGame(); // Update display on card game page
+                cardGameSaveModal.classList.remove('show');
+            } else {
+                showMessage("Please provide a name for your deck.", "error");
+            }
+        });
+
+        cancelDeckOptionsBtn.addEventListener('click', () => {
+            cardGameSaveModal.classList.remove('show');
+        });
+
+        cardGameSaveModal.addEventListener('click', (event) => {
+            if (event.target === cardGameSaveModal) {
+                cardGameSaveModal.classList.remove('show');
+            }
+        });
+
+        let isDeletingSavedDeckOptions = false; // State for delete mode in Options card
+        const deleteSavedDeckOptionsBtnOptions = document.getElementById('deleteSavedDeckOptionsBtnOptions');
+
+        deleteSavedDeckOptionsBtnOptions.addEventListener('click', () => {
+            isDeletingSavedDeckOptions = !isDeletingSavedDeckOptions; // Toggle delete mode
+            renderSavedDeckListOptions(); // Re-render to show/hide highlights
+        });
+
+        function renderSavedDeckListOptions() {
+            savedDeckListOptions.innerHTML = '';
+            if (savedDeckSlots.length === 0) {
+                savedDeckListOptions.innerHTML = '<p class="text-sm text-gray-600">No saved decks yet.</p>';
+                deleteSavedDeckOptionsBtnOptions.disabled = true;
+            } else {
+                deleteSavedDeckOptionsBtnOptions.disabled = false;
+            }
+
+            savedDeckSlots.forEach((slot, index) => {
+                const slotWrapper = document.createElement('div');
+                slotWrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
+
+                const savedDeckButton = document.createElement('button');
+                savedDeckButton.classList.add('saved-slot-btn', 'saved-card-game-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'flex-grow');
+                savedDeckButton.textContent = `${slot.name} (${slot.cards.length} cards): ${slot.cards.join(', ')}`;
+                savedDeckButton.dataset.slotIndex = index;
+
+                if (isDeletingSavedDeckOptions) {
+                    savedDeckButton.classList.add('delete-mode');
+                    savedDeckButton.addEventListener('click', (event) => {
+                        const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                        showConfirmationModal(
+                            "Delete Saved Deck",
+                            `Are you sure you want to delete "${savedDeckSlots[idxToDelete].name}"?`,
+                            () => {
+                                savedDeckSlots.splice(idxToDelete, 1);
+                                saveDeckSlotsToLocalStorage();
+                                renderSavedDeckListOptions(); // Re-render the list in Options card
+                                renderSavedDeckListCardGame(); // Update display on card game page
+                                showMessage("Saved deck deleted!", "info");
+                            }
+                        );
+                    });
+                } else {
+                    savedDeckButton.addEventListener('click', (event) => {
+                        currentDeck = [...slot.cards]; // Load the saved deck
+                        showCard(decisionSelectionCard); // Return to main menu
+                        setTimeout(() => {
+                            showCard(cardGameCard); // Go to card game card
+                            updateCardGameDisplay();
+                            showMessage(`Deck "${slot.name}" loaded!`, "info");
+                        }, 500); // Small delay for card transition
+                    });
+                }
+                slotWrapper.appendChild(savedDeckButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-saved-option-btn');
+                    deleteButton.textContent = 'x';
+                    deleteButton.dataset.slotIndex = index;
+                    deleteButton.addEventListener('click', (event) => {
+                        const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                        showConfirmationModal(
+                            "Delete Saved Deck",
+                            `Are you sure you want to delete "${savedDeckSlots[idxToDelete].name}"?`,
+                            () => {
+                                savedDeckSlots.splice(idxToDelete, 1);
+                                saveDeckSlotsToLocalStorage();
+                                renderSavedDeckListOptions(); // Re-render the list in Options card
+                                renderSavedDeckListCardGame(); // Update display on card game page
+                                showMessage("Saved deck deleted!", "info");
+                            }
+                        );
+                    });
+                slotWrapper.appendChild(deleteButton);
+                savedDeckListOptions.appendChild(slotWrapper);
+            });
+            deleteSavedDeckOptionsBtnOptions.textContent = isDeletingSavedDeckOptions ? 'Cancel Delete' : 'Delete Saved';
+        }
+
+        // New function to render saved decks directly on the Card Game page
+        let isDeletingSavedDeckCardGame = false; // State for delete mode in Card Game page
+        function renderSavedDeckListCardGame() {
+            savedDecksListCardGame.innerHTML = '';
+            if (savedDeckSlots.length === 0) {
+                savedDecksListCardGame.innerHTML = '<p class="text-sm text-gray-600">No saved decks yet.</p>';
+            }
+            savedDeckSlots.forEach((slot, index) => {
+                const slotWrapper = document.createElement('div');
+                slotWrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
+
+                const savedDeckButton = document.createElement('button');
+                savedDeckButton.classList.add('saved-slot-btn', 'saved-card-game-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'flex-grow');
+                savedDeckButton.textContent = `${slot.name} (${slot.cards.length} cards): ${slot.cards.join(', ')}`;
+                savedDeckButton.dataset.slotIndex = index;
+
+                savedDeckButton.addEventListener('click', (event) => {
+                    currentDeck = [...slot.cards]; // Load the saved deck
+                    updateCardGameDisplay();
+                    showMessage(`Deck "${slot.name}" loaded!`, "info");
+                });
+                slotWrapper.appendChild(savedDeckButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-saved-option-btn');
+                deleteButton.textContent = 'x';
+                deleteButton.dataset.slotIndex = index;
+                deleteButton.addEventListener('click', (event) => {
+                    const idxToDelete = parseInt(event.target.dataset.slotIndex, 10);
+                    showConfirmationModal(
+                        "Delete Saved Deck",
+                        `Are you sure you want to delete "${savedDeckSlots[idxToDelete].name}"?`,
+                        () => {
+                            savedDeckSlots.splice(idxToDelete, 1);
+                            saveDeckSlotsToLocalStorage();
+                            renderSavedDeckListOptions(); // Update display in Options card
+                            renderSavedDeckListCardGame(); // Update display on card game page
+                            showMessage("Saved deck deleted!", "info");
+                        }
+                    );
+                });
+                slotWrapper.appendChild(deleteButton);
+                savedDecksListCardGame.appendChild(slotWrapper);
+            });
+        }
+
+
+        // Initial calls for cleaner start if cards are initially visible
+        if (spinnerCard.classList.contains('card-visible')) {
+            if (spinnerOptions.length !== currentCount) {
+                spinnerOptions = Array.from({length: currentCount}, (_, i) => ({ name: `Option ${i + 1}`, weight: 1 }));
+            }
+            updateSpinnerDisplay();
+            loadSavedSpinnerSlots();
+        }
+        if (coinCard.classList.contains('card-visible')) {
+            if (coinOptions.length !== currentCount) {
+                coinOptions = Array.from({length: currentCount}, () => ({heads: "Heads", tails: "Tails"}));
+            }
+            updateCoinDisplay();
+            loadSavedCoinSlots();
+        }
+        if (dieCard.classList.contains('card-visible')) {
+            if (dieOptions.length !== currentCount) {
+                dieOptions = Array.from({length: currentCount}, () => ({faces: Array.from({length: currentDieFacesCount}, (_, f) => (f + 1).toString())}));
+            }
+            updateDieDisplay();
+            loadSavedDieSlots();
+        }
+        if (cardGameCard.classList.contains('card-visible')) {
+            updateCardGameDisplay();
+            loadSavedDeckSlots();
+        }
+    </script>
+</body>
+</html>
