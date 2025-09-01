@@ -68,6 +68,17 @@
         .back-button:hover {
             transform: scale(1.1);
         }
+        .logo-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="theme-natural p-4 sm:p-6 md:p-8">
@@ -79,7 +90,10 @@
                 </svg>
                 Back to App
             </a>
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 tracking-tight text-center flex-grow">About Quandar</h1>
+            <div class="logo-title-container">
+                <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-800 text-center">About Quandar</h1>
+                <img src="quandar_logo.png" alt="Quandar Logo" class="h-10 w-auto ml-4">
+            </div>
             <div></div> <!-- Spacer to keep title centered -->
         </div>
 
