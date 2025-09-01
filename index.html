@@ -805,11 +805,112 @@
                         </div>
                     </div>
                     
+                    <!-- New Quick Pick Section for Dice -->
+                    <div id="dieQuickPicks" class="space-y-4 mb-6" style="display:none;">
+                        <!-- 1-die options -->
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">One Die</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6"]}]'>
+                                    Standard d6
+                                </button>
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4"]}]'>
+                                    4-Sided Die (d4)
+                                </button>
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]}]'>
+                                    20-Sided Die (d20)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 2-dice options -->
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Dice</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>
+                                    Roll 2d6
+                                </button>
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["North","South","East","West"]},{"faces":["Go Left","Go Right","Go Forward","Go Back"]}]'>
+                                    Direction & Movement
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 3-dice options -->
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Three Dice</h3>
+                            <div class="grid grid-cols-1 gap-4">
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>
+                                    Roll 3d6 (Character Stats)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <!-- New Quick Pick Section for Spinners -->
+                    <div id="spinnerQuickPicks" class="space-y-4 mb-6" style="display:none;">
+                        <!-- 3-part spinner options -->
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>
+                                    Where to Eat
+                                </button>
+                                <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>
+                                    Evening Plans
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 4-part spinner options -->
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Four-Part Spinners</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>
+                                    Weekend Activities
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Quick Pick Section for Cards -->
+                    <div id="cardGameQuickPicks" class="space-y-4 mb-6" style="display:none;">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Deck Quick Picks</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <button class="quick-pick-btn-card neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-options='["Yes", "No", "Maybe"]'>
+                                Yes / No / Maybe
+                            </button>
+                            <button class="quick-pick-btn-card neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-options='["Order Chinese", "Order Pizza", "Cook Pasta", "Go Out for Burgers"]'>
+                                Dinner Tonight
+                            </button>
+                            <button class="quick-pick-btn-card neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-options='["Action", "Comedy", "Horror", "Sci-Fi", "Animated"]'>
+                                Movie Night Genres
+                            </button>
+                        </div>
+                    </div>
+                    
                     <!-- Saved Coins section on count screen -->
                     <div id="coinSavedList" class="bg-amber-100 p-4 rounded-lg shadow-inner mb-6" style="display:none;">
                         <h4 class="text-xl font-bold text-amber-800 mb-3 text-center">Your Saved Coins</h4>
                         <div id="savedCoinsListCount" class="space-y-2">
                             <p class="text-sm text-gray-600">No saved coins yet.</p>
+                        </div>
+                    </div>
+
+                    <!-- Saved Dice section on count screen -->
+                    <div id="dieSavedList" class="bg-emerald-100 p-4 rounded-lg shadow-inner mb-6" style="display:none;">
+                        <h4 class="text-xl font-bold text-emerald-800 mb-3 text-center">Your Saved Dice</h4>
+                        <div id="savedDiceListCount" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved dice yet.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Saved Spinner section on count screen -->
+                    <div id="spinnerSavedList" class="bg-blue-100 p-4 rounded-lg shadow-inner mb-6" style="display:none;">
+                        <h4 class="text-xl font-bold text-blue-800 mb-3 text-center">Your Saved Spinners</h4>
+                        <div id="savedSpinnersListCount" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved spinners yet.</p>
                         </div>
                     </div>
 
@@ -1505,8 +1606,15 @@
         const countSelectionTitle = document.getElementById('countSelectionTitle');
         const countButtonsContainer = document.getElementById('countButtonsContainer');
         const coinQuickPicks = document.getElementById('coinQuickPicks');
+        const dieQuickPicks = document.getElementById('dieQuickPicks');
+        const spinnerQuickPicks = document.getElementById('spinnerQuickPicks'); // New spinner quick picks
+        const cardGameQuickPicks = document.getElementById('cardGameQuickPicks'); // New card game quick picks
         const coinSavedList = document.getElementById('coinSavedList');
+        const dieSavedList = document.getElementById('dieSavedList');
+        const spinnerSavedList = document.getElementById('spinnerSavedList'); // New spinner saved list
         const savedCoinsListCount = document.getElementById('savedCoinsListCount');
+        const savedDiceListCount = document.getElementById('savedDiceListCount');
+        const savedSpinnersListCount = document.getElementById('savedSpinnersListCount'); // New spinner saved list
 
 
         const returnToMenuFromCoin = document.getElementById('returnToMenuFromCoin');
@@ -1558,7 +1666,12 @@
                 let countOptionsHtml = '';
                 // Hide all specific sections
                 coinQuickPicks.style.display = 'none';
+                dieQuickPicks.style.display = 'none';
+                spinnerQuickPicks.style.display = 'none';
+                cardGameQuickPicks.style.display = 'none';
                 coinSavedList.style.display = 'none';
+                dieSavedList.style.display = 'none';
+                spinnerSavedList.style.display = 'none';
                 
                 if (type === 'coin') {
                     countSelectionTitle.textContent = `How many coins?`;
@@ -1573,11 +1686,25 @@
                     [1, 2, 3, 4, 5, 6, 7].forEach(c => {
                         countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`;
                     });
+                    dieQuickPicks.style.display = 'block';
+                    dieSavedList.style.display = 'block';
+                    renderSavedDiceListCountScreen();
                 } else if (type === 'spinner') {
                     countSelectionTitle.textContent = `How many parts of the pie chart?`;
                     [2, 3, 4, 5, 6, 8].forEach(c => {
                         countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`;
                     });
+                    spinnerQuickPicks.style.display = 'block';
+                    spinnerSavedList.style.display = 'block';
+                    renderSavedSpinnersListCountScreen();
+                } else if (type === 'cardGame') {
+                    countSelectionTitle.textContent = `Cards`;
+                    // Card Game uses its own card for now, so no count buttons are needed
+                    countButtonsContainer.innerHTML = '';
+                    cardGameQuickPicks.style.display = 'block';
+                    // We'll add the saved list for cards here too
+                    // cardGameSavedList.style.display = 'block';
+                    // renderSavedDeckListCountScreen(); // We don't have a count screen for cards yet
                 }
                 countButtonsContainer.innerHTML = countOptionsHtml;
                 // Re-attach event listeners for newly created buttons
@@ -1632,13 +1759,16 @@
         function handleCountButtonClick(event) {
             currentCount = parseInt(event.target.dataset.count, 10);
             if (currentDecisionType === 'coin') {
-                // A new button is now used to trigger the flip with defaults
+                // A new button is now to trigger the flip with defaults
                 const defaultOptions = Array.from({length: currentCount}, () => ({heads: "Heads", tails: "Tails"}));
                 loadCoinOptionsAndShowFlip(defaultOptions);
             } else if (currentDecisionType === 'die') {
-                showCard(dieCard);
+                // A new button is now to trigger the roll with defaults
+                const defaultOptions = Array.from({length: currentCount}, () => ({faces: Array.from({length: 6}, (_, f) => (f + 1).toString())}));
+                loadDieOptionsAndShowRoll(defaultOptions);
             } else if (currentDecisionType === 'spinner') {
-                showCard(spinnerCard);
+                const defaultOptions = Array.from({length: currentCount}, (_, i) => ({ name: `Option ${i + 1}`, weight: 1 }));
+                loadSpinnerOptionsAndShowSpin(defaultOptions);
             }
         }
         
@@ -1651,11 +1781,55 @@
             // setTimeout(() => flipCoinBtn.click(), 500);
         }
 
-        // Event listeners for Quick Pick buttons
+        // New function to load options and show the die roll screen
+        function loadDieOptionsAndShowRoll(options) {
+            currentCount = options.length;
+            dieOptions = options;
+            showCard(dieCard);
+        }
+        
+        // New function to load options and show the spinner spin screen
+        function loadSpinnerOptionsAndShowSpin(options) {
+            currentCount = options.length;
+            spinnerOptions = options;
+            showCard(spinnerCard);
+        }
+        
+        // New function to load options and show the card game screen
+        function loadCardOptionsAndShowGame(options) {
+            currentDeck = options;
+            showCard(cardGameCard);
+        }
+
+        // Event listeners for Quick Pick buttons for coins
         document.querySelectorAll('.quick-pick-btn').forEach(button => {
             button.addEventListener('click', (event) => {
                 const options = JSON.parse(event.target.dataset.options);
                 loadCoinOptionsAndShowFlip(options);
+            });
+        });
+        
+        // Event listeners for Quick Pick buttons for dice
+        document.querySelectorAll('.quick-pick-btn-die').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const options = JSON.parse(event.target.dataset.options);
+                loadDieOptionsAndShowRoll(options);
+            });
+        });
+        
+        // Event listeners for Quick Pick buttons for spinners
+        document.querySelectorAll('.quick-pick-btn-spinner').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const options = JSON.parse(event.target.dataset.options);
+                loadSpinnerOptionsAndShowSpin(options);
+            });
+        });
+        
+        // Event listeners for Quick Pick buttons for cards
+        document.querySelectorAll('.quick-pick-btn-card').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const options = JSON.parse(event.target.dataset.options);
+                loadCardOptionsAndShowGame(options);
             });
         });
 
@@ -2266,6 +2440,30 @@
             localStorage.setItem('decidoDieSlots', JSON.stringify(savedDieSlots));
         }
 
+        // New function to render saved dice on the count screen
+        function renderSavedDiceListCountScreen() {
+            savedDiceListCount.innerHTML = '';
+            if (savedDieSlots.length === 0) {
+                savedDiceListCount.innerHTML = '<p class="text-sm text-gray-600">No saved dice yet.</p>';
+                return;
+            }
+
+            savedDieSlots.forEach((slot, index) => {
+                const savedDieButton = document.createElement('button');
+                savedDieButton.classList.add('saved-slot-btn', 'saved-die-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full', 'mb-2');
+                savedDieButton.textContent = `${slot.name} (${slot.options.length} dice): ${slot.options.map(o => `d${o.faces.length}`).join(', ')}`;
+                savedDieButton.dataset.slotIndex = index;
+                
+                savedDieButton.addEventListener('click', (event) => {
+                    const slotIndex = parseInt(event.target.dataset.slotIndex, 10);
+                    loadDieOptionsAndShowRoll(savedDieSlots[slotIndex].options);
+                    showMessage(`Options from "${savedDieSlots[slotIndex].name}" loaded!`, "info");
+                });
+                
+                savedDiceListCount.appendChild(savedDieButton);
+            });
+        }
+
         function renderDieSaveSlotsInModal() {
             dieSaveSlotsContainerInModal.innerHTML = '';
             if (savedDieSlots.length === 0) {
@@ -2340,7 +2538,7 @@
 
                 const savedDieButton = document.createElement('button');
                 savedDieButton.classList.add('saved-slot-btn', 'saved-die-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'flex-grow');
-                savedDieButton.textContent = `${slot.name} (d${slot.options.faces.length}): ${slot.options.faces.join(', ')}`;
+                savedDieButton.textContent = `${slot.name} (d${slot.options.length}): ${slot.options.faces.join(', ')}`;
                 savedDieButton.dataset.slotIndex = index;
 
                 if (isDeletingSavedDieOptions) {
@@ -2779,6 +2977,30 @@
         function saveSpinnerSlotsToLocalStorage() {
             localStorage.setItem('decidoSpinnerSlots', JSON.stringify(savedSpinnerSlots));
         }
+        
+        function renderSavedSpinnersListCountScreen() {
+            savedSpinnersListCount.innerHTML = '';
+            if (savedSpinnerSlots.length === 0) {
+                savedSpinnersListCount.innerHTML = '<p class="text-sm text-gray-600">No saved spinners yet.</p>';
+                return;
+            }
+
+            savedSpinnerSlots.forEach((slot, index) => {
+                const savedSpinnerButton = document.createElement('button');
+                savedSpinnerButton.classList.add('saved-slot-btn', 'saved-spinner-slot-btn', 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full', 'mb-2');
+                savedSpinnerButton.textContent = `${slot.name} (${slot.options.length} parts): ${slot.options.map(o => o.name).join(', ')}`;
+                savedSpinnerButton.dataset.slotIndex = index;
+                
+                savedSpinnerButton.addEventListener('click', (event) => {
+                    const slotIndex = parseInt(event.target.dataset.slotIndex, 10);
+                    loadSpinnerOptionsAndShowSpin(savedSpinnerSlots[slotIndex].options);
+                    showMessage(`Options from "${savedSpinnerSlots[slotIndex].name}" loaded!`, "info");
+                });
+                
+                savedSpinnersListCount.appendChild(savedSpinnerButton);
+            });
+        }
+
 
         function renderSpinnerSaveSlotsInModal() {
             spinnerSaveSlotsContainerInModal.innerHTML = '';
