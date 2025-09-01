@@ -42,6 +42,8 @@
         .theme-natural .card-game-btn-main:hover { background-color: #f87171; } /* red-400 */
         .theme-natural .options-btn-main { background-color: #d1d5db; color: #374151; } /* gray-300 */
         .theme-natural .options-btn-main:hover { background-color: #9ca3af; } /* gray-400 */
+        .theme-natural .about-btn-main { background-color: #9ca3af; color: #374151; } /* gray-400 */
+        .theme-natural .about-btn-main:hover { background-color: #6b7280; } /* gray-500 */
 
         .theme-natural .coin-card { background-color: #fffbeb; border-color: #fcd34d; color: #78350f; } /* yellow-50, amber-300 */
         .theme-natural .die-card { background-color: #ecfdf5; border-color: #6ee7b7; color: #065f46; } /* emerald-50, emerald-300 */
@@ -56,6 +58,8 @@
         .theme-natural .neutral-action-btn:hover { background-color: #9ca3af; } /* gray-400 */
         .theme-natural .danger-action-btn { background-color: #ef4444; color: white; } /* red-500 */
         .theme-natural .danger-action-btn:hover { background-color: #dc2626; } /* red-600 */
+        .theme-natural .about-btn-options { background-color: #9ca3af; color: #374151; }
+        .theme-natural .about-btn-options:hover { background-color: #6b7280; }
 
         /* Modals and inputs */
         .theme-natural .modal-content { background-color: #ffffff; color: #343a40; }
@@ -122,6 +126,10 @@
         .theme-bold .card-game-btn-main:hover { background-color: #ef4444; } /* red-500 */
         .theme-bold .options-btn-main { background-color: #4a5568; color: #e2e8f0; } /* gray-700 */
         .theme-bold .options-btn-main:hover { background-color: #2d3748; } /* gray-800 */
+        .theme-bold .about-btn-main { background-color: #4a5568; color: #e2e8f0; } /* gray-700 */
+        .theme-bold .about-btn-main:hover { background-color: #2d3748; } /* gray-800 */
+        .theme-bold .about-btn-options { background-color: #4a5568; color: #e2e8f0; }
+        .theme-bold .about-btn-options:hover { background-color: #2d3748; }
 
         .theme-bold .coin-card { background-color: #451a03; border-color: #d69e2e; color: #fcd34d; } /* yellow-950, yellow-700, yellow-200 */
         .theme-bold .die-card { background-color: #0c152e; border-color: #3b82f6; color: #93c5fd; } /* blue-950, blue-700, blue-200 */
@@ -202,53 +210,10 @@
         .theme-modern .card-game-btn-main:hover { background-color: #fff5f5; } /* red-50 */
         .theme-modern .options-btn-main { background-color: #e2e8f0; color: #2d3748; } /* gray-200 */
         .theme-modern .options-btn-main:hover { background-color: #cbd5e0; } /* gray-300 */
-
-        .theme-modern .coin-card { background-color: #ebf8ff; border-color: #90cdf4; color: #2b6cb0; } /* blue-50, blue-200, blue-800 */
-        .theme-modern .die-card { background-color: #e0e7ff; border-color: #a3bffa; color: #4c51bf; } /* indigo-50, indigo-200, indigo-800 */
-        .theme-modern .spinner-card { background-color: #f0e4ff; border-color: #d6bcfa; color: #805ad5; } /* fuchsia-50, fuchsia-200, fuchsia-800 */
-        .theme-modern .card-game-card { background-color: #fff5f5; border-color: #fed7d7; color: #e53e3e; } /* red-50, red-200, red-600 */
-
-        .theme-modern .primary-action-btn { background-color: #4299e1; color: white; } /* blue-500 */
-        .theme-modern .primary-action-btn:hover { background-color: #3182ce; } /* blue-600 */
-        .theme-modern .secondary-action-btn { background-color: #90cdf4; color: #2b6cb0; } /* blue-300 */
-        .theme-modern .secondary-action-btn:hover { background-color: #63b3ed; } /* blue-400 */
-        .theme-modern .neutral-action-btn { background-color: #cbd5e0; color: #2d3748; } /* gray-300 */
-        .theme-modern .neutral-action-btn:hover { background-color: #a0aec0; } /* gray-400 */
-        .theme-modern .danger-action-btn { background-color: #ef4444; color: white; } /* red-500 */
-        .theme-modern .danger-action-btn:hover { background-color: #dc2626; } /* red-600 */
-
-        /* Modals and inputs */
-        .theme-modern .modal-content { background-color: #ffffff; color: #2d3748; }
-        .theme-modern .modal-content label { color: #4a5568; }
-        .theme-modern .modal-content input[type="text"], .theme-modern .modal-content select { background-color: #e2e8f0; border-color: #cbd5e0; color: #2d3748; }
-        .theme-modern .modal-content input[type="text"]:focus, .theme-modern .modal-content select:focus { border-color: #4299e1; box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5); }
-        .theme-modern .modal-arrow-button { background-color: #e2e8f0; color: #2d3748; }
-        .theme-modern .modal-arrow-button:hover:not(:disabled) { background-color: #cbd5e0; }
-
-        /* Saved slots in modals */
-        .theme-modern .bg-amber-100 { background-color: #ebf8ff; }
-        .theme-modern .text-amber-800 { color: #2b6cb0; }
-        .theme-modern .saved-coin-slot-btn { background-color: #90cdf4; color: #2b6cb0; border-color: #90cdf4; }
-        .theme-modern .saved-coin-slot-btn:hover { background-color: #63b3ed; }
-
-        .theme-modern .bg-emerald-100 { background-color: #e0e7ff; }
-        .theme-modern .text-emerald-800 { color: #4c51bf; }
-        .theme-modern .saved-die-slot-btn { background-color: #a3bffa; color: #4c51bf; border-color: #a3bffa; }
-        .theme-modern .saved-die-slot-btn:hover { background-color: #7f9cf7; }
-
-        .theme-modern .bg-blue-100 { background-color: #f0e4ff; }
-        .theme-modern .text-blue-800 { color: #805ad5; }
-        .theme-modern .saved-spinner-slot-btn { background-color: #d6bcfa; color: #805ad5; border-color: #d6bcfa; }
-        .theme-modern .saved-spinner-slot-btn:hover { background-color: #b794f4; }
-
-        .theme-modern .bg-red-100 { background-color: #fff5f5; }
-        .theme-modern .text-red-800 { color: #e53e3e; }
-        .theme-modern .saved-card-game-slot-btn { background-color: #fed7d7; color: #e53e3e; border-color: #fed7d7; }
-        .theme-modern .saved-card-game-slot-btn:hover { background-color: #fc8181; }
-
-        .theme-modern .delete-saved-option-btn { background-color: #ef4444; }
-        .theme-modern .delete-saved-option-btn:hover { background-color: #dc2626; }
-        .theme-modern .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; }
+        .theme-modern .about-btn-main { background-color: #cbd5e0; color: #2d3748; } /* gray-300 */
+        .theme-modern .about-btn-main:hover { background-color: #a0aec0; } /* gray-400 */
+        .theme-modern .about-btn-options { background-color: #cbd5e0; color: #2d3748; }
+        .theme-modern .about-btn-options:hover { background-color: #a0aec0; }
 
         /* Spinner slice colors for Modern & Calm */
         .theme-modern .spinner-slice-color-0 { fill: #A2D2FF; }
@@ -713,7 +678,10 @@
     <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 lg:p-12 space-y-8">
         <!-- App Header -->
         <header class="text-center mb-8">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 tracking-tight mb-2">Quandar</h1>
+            <div class="flex items-center justify-center gap-4">
+                <img src="quandar_logo.png" alt="Quandar Logo" class="h-10 w-auto">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 tracking-tight">Quandar</h1>
+            </div>
             <p class="text-lg text-gray-600">When you can’t decide, let Quandar decide for you.</p>
         </header>
 
@@ -748,7 +716,7 @@
                         Draw a Card
                     </button>
                 </div>
-                <div class="flex justify-center mt-6">
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
                     <button id="optionsBtn"
                             class="options-btn-main font-bold py-3 px-6 rounded-lg shadow-lg
                                    transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
@@ -1068,9 +1036,6 @@
                             <button class="quick-pick-btn-card neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-options='["Action", "Comedy", "Horror", "Sci-Fi", "Animated"]'>
                                 Movie Night Genres
                             </button>
-                            <button class="quick-pick-btn-card neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-options='["Goblin", "Orc", "Dragon", "Ogre", "Kobold"]'>
-                                D&D Encounters
-                            </button>
                         </div>
                     </div>
                     
@@ -1256,6 +1221,11 @@
                                        w-full sm:w-auto text-lg">
                             Back to Menu
                         </button>
+                        <a href="about.html" class="about-btn-options font-bold py-3 px-6 rounded-lg shadow-lg
+                                   transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95
+                                   w-full sm:w-auto text-lg flex items-center justify-center">
+                            About Quandar
+                        </a>
                     </div>
                 </div>
             </section>
