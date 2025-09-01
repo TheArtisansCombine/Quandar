@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Quandar</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <style>
+        /* Base styles from the main app for consistency */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+        }
+
+        /* --- Theme: Natural & Calm (Default) --- */
+        body.theme-natural {
+            background-color: #f8fbf8;
+            color: #343a40;
+        }
+        .theme-natural .about-card {
+            background-color: #ffffff;
+            color: #343a40;
+            border-color: #d1fae5;
+        }
+
+        /* --- Theme: Bold & Energetic --- */
+        body.theme-bold {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .theme-bold .about-card {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            border-color: #4a5568;
+        }
+
+        /* --- Theme: Modern & Calm --- */
+        body.theme-modern {
+            background-color: #f0f4f8;
+            color: #2d3748;
+        }
+        .theme-modern .about-card {
+            background-color: #ffffff;
+            color: #2d3748;
+            border-color: #cbd5e0;
+        }
+
+        /* Common styles for the about page */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .back-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="theme-natural p-4 sm:p-6 md:p-8">
+    <div class="max-w-4xl w-full about-card rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 lg:p-12 space-y-8 border-2">
+        <div class="header-section">
+            <a href="index.html" class="back-button text-gray-500 hover:text-gray-900 font-semibold flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to App
+            </a>
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 tracking-tight text-center flex-grow">About Quandar</h1>
+            <div></div> <!-- Spacer to keep title centered -->
+        </div>
+
+        <section>
+            <h2 class="text-2xl font-bold mb-4">Our Mission</h2>
+            <p class="text-lg leading-relaxed">
+                Quandar was created for those moments when you're faced with a tough decision and just need a little help from fate. It's an easy and fun way to break a deadlock, get a new perspective, or simply add an element of chance to your day.
+            </p>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold mb-4">The Tools We Provide</h2>
+            <ul class="space-y-4 text-lg">
+                <li class="bg-gray-50 p-4 rounded-lg">
+                    <strong class="text-amber-600">Flip a Coin:</strong> For simple, classic choices. Use default "Heads" or "Tails," or quickly create a custom coin for options like "Coffee or Tea?"
+                </li>
+                <li class="bg-gray-50 p-4 rounded-lg">
+                    <strong class="text-emerald-600">Roll a Die:</strong> Go beyond a standard 6-sided die. Our die roller supports various faces (d4, d8, d10, d20) and includes quick picks for popular scenarios like a D&D encounter.
+                </li>
+                <li class="bg-gray-50 p-4 rounded-lg">
+                    <strong class="text-blue-600">Spin a Spinner:</strong> Perfect for making a choice from multiple options. Create your own spinner with as many parts as you need, and even apply weights to give certain outcomes a higher chance.
+                </li>
+                <li class="bg-gray-50 p-4 rounded-lg">
+                    <strong class="text-red-600">Draw a Card:</strong> For those times when you need a choice from a list. Build a deck with your own custom cards, draw a single card, or even split the deck into multiple piles for complex decisions.
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold mb-4">Designed for You</h2>
+            <ul class="list-disc list-inside space-y-2 text-lg">
+                <li><strong class="font-semibold">Quick & Easy:</strong> Our quick-pick options let you jump right into the action with pre-made choices.</li>
+                <li><strong class="font-semibold">Your Saved Choices:</strong> The app remembers your custom configurations, saving them for quick access.</li>
+                <li><strong class="font-semibold">Choose Your Mood:</strong> With multiple themes—Natural & Calm, Bold & Energetic, and Modern & Calm—you can customize the app to fit your personal style.</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        // This script applies the theme from local storage to the about page.
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentTheme = localStorage.getItem('decidoTheme') || 'natural';
+            document.body.classList.remove('theme-natural', 'theme-bold', 'theme-modern');
+            document.body.classList.add(`theme-${currentTheme}`);
+        });
+    </script>
+</body>
+</html>
