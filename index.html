@@ -682,7 +682,9 @@
     <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 lg:p-12 space-y-8">
         <!-- App Header -->
         <header class="text-center mb-8">
-            <img src="quandar_logo.png" alt="Quandar Logo" class="h-24 w-auto mx-auto mb-4">
+            <a href="#" id="mainLogoLink">
+                <img src="quandar_logo.png" alt="Quandar Logo" class="h-24 w-auto mx-auto mb-4">
+            </a>
             <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 tracking-tight">Quandar</h1>
             <p class="text-lg text-gray-600">When you can’t decide, let Quandar decide for you.</p>
         </header>
@@ -3354,18 +3356,29 @@
         saveCurrentDeckBtn.addEventListener('click', () => {
             if (currentDeck.length > 0) {
                 modalCurrentDeckDisplay.innerHTML = '';
+                // Dynamically add a multi-column grid for the list items
+                const gridContainer = document.createElement('div');
+                gridContainer.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'gap-2');
+                modalCurrentDeckDisplay.appendChild(gridContainer);
+
                 currentDeck.forEach(item => {
                     const listItem = document.createElement('li');
                     listItem.textContent = item;
-                    modalCurrentDeckDisplay.appendChild(listItem);
+                    gridContainer.appendChild(listItem);
                 });
+                
+                // Adjusting modal content to handle scroll if needed
+                const modalList = document.getElementById('modalCurrentDeckDisplay');
+                modalList.classList.remove('overflow-y-auto', 'max-h-[150px]');
+                modalList.classList.add('overflow-y-auto', 'max-h-[300px]');
+                
                 saveDeckNameInput.value = ''; // Clear previous name
                 cardGameSaveModal.classList.add('show');
             } else {
                 showMessage("Please add cards to the deck before saving.", "error");
             }
         });
-
+        
         saveDeckOptionsBtn.addEventListener('click', () => {
             const deckName = saveDeckNameInput.value.trim();
             if (deckName) {
@@ -3513,45 +3526,4 @@
                         `Are you sure you want to delete "${savedDeckSlots[idxToDelete].name}"?`,
                         () => {
                             savedDeckSlots.splice(idxToDelete, 1);
-                            saveDeckSlotsToLocalStorage();
-                            renderSavedDeckListOptions(); // Update display in Options card
-                            renderSavedDeckListCardGame(); // Update display on card game page
-                            showMessage("Saved deck deleted!", "info");
-                        }
-                    );
-                });
-                slotWrapper.appendChild(deleteButton);
-                savedDecksListCardGame.appendChild(slotWrapper);
-            });
-        }
-
-
-        // Initial calls for cleaner start if cards are initially visible
-        if (spinnerCard.classList.contains('card-visible')) {
-            if (spinnerOptions.length !== currentCount) {
-                spinnerOptions = Array.from({length: currentCount}, (_, i) => ({ name: `Option ${i + 1}`, weight: 1 }));
-            }
-            updateSpinnerDisplay();
-            loadSavedSpinnerSlots();
-        }
-        if (coinCard.classList.contains('card-visible')) {
-            if (coinOptions.length !== currentCount) {
-                coinOptions = Array.from({length: currentCount}, () => ({heads: "Heads", tails: "Tails"}));
-            }
-            updateCoinDisplay();
-            loadSavedCoinSlots();
-        }
-        if (dieCard.classList.contains('card-visible')) {
-            if (dieOptions.length !== currentCount) {
-                dieOptions = Array.from({length: currentCount}, () => ({faces: Array.from({length: currentDieFacesCount}, (_, f) => (f + 1).toString())}));
-            }
-            updateDieDisplay();
-            loadSavedDieSlots();
-        }
-        if (cardGameCard.classList.contains('card-visible')) {
-            updateCardGameDisplay();
-            loadSavedDeckSlots();
-        }
-    </script>
-</body>
-</html>
+                            save
