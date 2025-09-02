@@ -3526,5 +3526,51 @@
                         `Are you sure you want to delete "${savedDeckSlots[idxToDelete].name}"?`,
                         () => {
                             savedDeckSlots.splice(idxToDelete, 1);
-                            save
+                            saveDeckSlotsToLocalStorage();
+                            renderSavedDeckListOptions(); // Update display in Options card
+                            renderSavedDeckListCardGame(); // Update display on card game page
+                            showMessage("Saved deck deleted!", "info");
+                        }
+                    );
+                });
+                slotWrapper.appendChild(deleteButton);
+                savedDecksListCardGame.appendChild(slotWrapper);
+            });
+        }
 
+
+        // Initial calls for cleaner start if cards are initially visible
+        if (spinnerCard.classList.contains('card-visible')) {
+            if (spinnerOptions.length !== currentCount) {
+                spinnerOptions = Array.from({length: currentCount}, (_, i) => ({ name: `Option ${i + 1}`, weight: 1 }));
+            }
+            updateSpinnerDisplay();
+            loadSavedSpinnerSlots();
+        }
+        if (coinCard.classList.contains('card-visible')) {
+            if (coinOptions.length !== currentCount) {
+                coinOptions = Array.from({length: currentCount}, () => ({heads: "Heads", tails: "Tails"}));
+            }
+            updateCoinDisplay();
+            loadSavedCoinSlots();
+        }
+        if (dieCard.classList.contains('card-visible')) {
+            if (dieOptions.length !== currentCount) {
+                dieOptions = Array.from({length: currentCount}, () => ({faces: Array.from({length: currentDieFacesCount}, (_, f) => (f + 1).toString())}));
+            }
+            updateDieDisplay();
+            loadSavedDieSlots();
+        }
+        if (cardGameCard.classList.contains('card-visible')) {
+            updateCardGameDisplay();
+            loadSavedDeckSlots();
+        }
+
+        // Add a click listener to the logo to return to the main card
+        document.getElementById('mainLogoLink').addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default anchor link behavior
+            showCard(decisionSelectionCard);
+        });
+    </script>
+</body>
+</html>
