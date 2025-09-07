@@ -19,7 +19,6 @@
             transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
             overflow-y: auto;
         }
-
         /* --- Theme: Natural & Calm (Default) --- */
         body.theme-natural {
             background-color: #f8fbf8;
@@ -83,7 +82,6 @@
         .theme-natural .spinner-slice-color-4 { fill: #a2d2ff; } .theme-natural .spinner-slice-color-5 { fill: #bde0fe; }
         .theme-natural .spinner-slice-color-6 { fill: #c1e1c1; } .theme-natural .spinner-slice-color-7 { fill: #f0f4c3; }
         .theme-natural .spinner-result-text { color: #495057; }
-
         /* --- Theme: Bold & Energetic --- */
         body.theme-bold {
             background-color: #1a202c; color: #e2e8f0; --card-back-color-theme: #ef4444;
@@ -145,7 +143,6 @@
         .theme-bold .spinner-slice-color-4 { fill: #6633FF; } .theme-bold .spinner-slice-color-5 { fill: #33FFCC; }
         .theme-bold .spinner-slice-color-6 { fill: #FF6633; } .theme-bold .spinner-slice-color-7 { fill: #CC33FF; }
         .theme-bold .spinner-result-text { color: white; }
-
         /* --- Theme: Modern & Calm --- */
         body.theme-modern {
             background-color: #f0f4f8; color: #2d3748; --card-back-color-theme: #fed7d7;
@@ -170,7 +167,6 @@
         .theme-modern .spinner-slice-color-4 { fill: #CDB4DB; } .theme-modern .spinner-slice-color-5 { fill: #A0C4FF; }
         .theme-modern .spinner-slice-color-6 { fill: #98F5E1; } .theme-modern .spinner-slice-color-7 { fill: #FFD166; }
         .theme-modern .spinner-result-text { color: white; }
-
         .message-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); z-index: 1000; opacity: 0; transition: opacity 0.3s ease-in-out; font-weight: 600; }
         .message-box.show { opacity: 1; }
         .message-box[data-type="success"] { background-color: #10b981; color: white; }
@@ -251,7 +247,6 @@
                     <button id="optionsBtn" class="options-btn-main font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Options</button>
                 </div>
             </section>
-
             <section id="countSelectionCard" class="card-transition card-hidden" style="display: none;">
                 <div class="bg-gray-100 p-6 rounded-xl shadow-md border border-gray-200">
                     <h2 id="countSelectionTitle" class="text-3xl font-bold text-gray-800 mb-6 text-center">How many?</h2>
@@ -263,7 +258,6 @@
                     </div>
                 </div>
             </section>
-            
             <section id="coinCard" class="card-transition card-hidden" style="display: none;">
                 <div class="coin-card p-6 rounded-xl shadow-md border">
                     <h2 id="coinCardTitle" class="text-3xl font-bold mb-6 text-center">Flip a Coin</h2>
@@ -278,7 +272,6 @@
                     </div>
                 </div>
             </section>
-            
             <section id="dieCard" class="card-transition card-hidden" style="display: none;">
                 <div class="die-card p-6 rounded-xl shadow-md border">
                     <h2 id="dieCardTitle" class="text-3xl font-bold mb-6 text-center">Roll a Die</h2>
@@ -293,7 +286,6 @@
                     </div>
                 </div>
             </section>
-            
             <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
                 <div class="spinner-card p-6 rounded-xl shadow-md border">
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
@@ -308,7 +300,6 @@
                     </div>
                 </div>
             </section>
-
             <section id="cardGameCard" class="card-transition card-hidden" style="display: none;">
                 <div class="card-game-card p-6 rounded-xl shadow-md border">
                     <h2 id="cardGameCardTitle" class="text-3xl font-bold mb-6 text-center">Random Card Game</h2>
@@ -357,7 +348,6 @@
                     </div>
                 </div>
             </section>
-            
             <section id="optionsCard" class="card-transition card-hidden" style="display: none;">
                 <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
                     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Options</h2>
@@ -418,7 +408,6 @@
     </div>
     <div id="messageBox" class="message-box"></div>
     <div id="resultSplashScreen" class="splash-screen"></div>
-
     <div id="coinEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="coinEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Coin Options</h3>
@@ -448,7 +437,6 @@
             </div>
         </div>
     </div>
-
     <div id="dieEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="dieEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Die Options</h3>
@@ -482,7 +470,6 @@
             </div>
         </div>
     </div>
-
     <div id="spinnerEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="spinnerEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Spinner Options</h3>
@@ -503,7 +490,6 @@
             </div>
         </div>
     </div>
-
     <div id="cardGameSaveModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="cardGameSaveModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Save Current Deck</h3>
@@ -517,7 +503,6 @@
             </div>
         </div>
     </div>
-    
     <div id="confirmationModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="confirmationModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Confirm Action</h3>
@@ -528,7 +513,6 @@
             </div>
         </div>
     </div>
-
     <script>
         function showMessage(message, type = 'success', duration = 3000) {
             const msgBox = document.getElementById('messageBox');
@@ -537,7 +521,6 @@
             msgBox.classList.add('show');
             setTimeout(() => msgBox.classList.remove('show'), duration);
         }
-
         const resultSplashScreen = document.getElementById('resultSplashScreen');
         function showResultSplashScreen(result, callback) {
             resultSplashScreen.textContent = result;
@@ -547,14 +530,12 @@
                 setTimeout(() => { if (callback) callback(); }, 500);
             }, 1500);
         }
-
         const confirmationModal = document.getElementById('confirmationModal');
         const confirmationModalTitle = document.getElementById('confirmationModalTitle');
         const confirmationModalMessage = document.getElementById('confirmationModalMessage');
         const confirmActionBtn = document.getElementById('confirmActionBtn');
         const cancelActionBtn = document.getElementById('cancelActionBtn');
         let onConfirmCallbackGlobal = null;
-
         function showConfirmationModal(title, message, onConfirm) {
             confirmationModalTitle.textContent = title;
             confirmationModalMessage.textContent = message;
@@ -568,7 +549,6 @@
         confirmActionBtn.addEventListener('click', () => { if (onConfirmCallbackGlobal) onConfirmCallbackGlobal(); hideConfirmationModal(); });
         cancelActionBtn.addEventListener('click', hideConfirmationModal);
         confirmationModal.addEventListener('click', (event) => { if (event.target === confirmationModal) hideConfirmationModal(); });
-
         const cards = {
             main: document.getElementById('decisionSelectionCard'),
             count: document.getElementById('countSelectionCard'),
@@ -578,7 +558,6 @@
             cardGame: document.getElementById('cardGameCard'),
             options: document.getElementById('optionsCard')
         };
-
         const elements = {
             showCoinCountBtn: document.getElementById('showCoinCountBtn'),
             showDieCountBtn: document.getElementById('showDieCountBtn'),
@@ -612,7 +591,6 @@
             themeBoldBtn: document.getElementById('themeBoldBtn'),
             themeModernBtn: document.getElementById('themeModernBtn')
         };
-
         let currentDecisionType = '';
         let currentCount = 1;
         let currentDieFacesCount = 6;
@@ -626,7 +604,6 @@
         let savedDieSlots = JSON.parse(localStorage.getItem('decidoDieSlots') || '[]');
         let savedSpinnerSlots = JSON.parse(localStorage.getItem('decidoSpinnerSlots') || '[]');
         let savedDeckSlots = JSON.parse(localStorage.getItem('decidoDeckSlots') || '[]');
-
         function showCard(cardToShow, type = '') {
             Object.values(cards).forEach(card => {
                 if (card !== cardToShow) {
@@ -640,13 +617,11 @@
                 cardToShow.classList.remove('card-hidden');
                 cardToShow.classList.add('card-visible');
             }, 10);
-            
             if (cardToShow === cards.count) {
                 currentDecisionType = type;
                 let countOptionsHtml = '';
                 elements.quickPicksContainer.innerHTML = '';
                 elements.savedListContainer.innerHTML = '';
-                
                 if (type === 'coin') {
                     elements.countSelectionTitle.textContent = `How many coins?`;
                     [1, 2, 3, 4, 5].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
@@ -683,7 +658,6 @@
                 document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.toggle('border-2', btn.id === `theme${currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1)}Btn`));
             }
         }
-
         function renderQuickPicksAndSavedList(type) {
             elements.quickPicksContainer.innerHTML = '';
             elements.savedListContainer.innerHTML = '';
@@ -746,24 +720,20 @@
                         </div>
                     </div>`
             };
-
             const savedLists = {
                 coin: savedCoinSlots,
                 die: savedDieSlots,
                 spinner: savedSpinnerSlots
             };
-
             const savedListClass = {
                 coin: 'bg-amber-100 text-amber-800',
                 die: 'bg-emerald-100 text-emerald-800',
                 spinner: 'bg-blue-100 text-blue-800'
             };
-
             elements.quickPicksContainer.innerHTML = quickPicks[type];
             elements.savedListContainer.classList = ['p-4 rounded-lg shadow-inner mb-6', savedListClass[type]];
             elements.savedListContainer.innerHTML = `<h4 class="text-xl font-bold mb-3 text-center">Your Saved ${type.charAt(0).toUpperCase() + type.slice(1)}s</h4><div id="savedItemsList" class="space-y-2"></div>`;
             const savedItemsList = document.getElementById('savedItemsList');
-
             if (savedLists[type].length === 0) {
                 savedItemsList.innerHTML = `<p class="text-sm text-gray-600">No saved ${type}s yet.</p>`;
             } else {
@@ -781,15 +751,13 @@
                     savedItemsList.appendChild(button);
                 });
             }
-
-            document.querySelectorAll(`.quick-pick-btn-${type}`).forEach(button => button.addEventListener('click', (event) => {
-                const options = JSON.parse(event.target.dataset.options);
+            document.querySelectorAll(`.quick-pick-btn-${type}`).forEach(button => button.addEventListener('click', (e) => {
+                const options = JSON.parse(e.target.dataset.options);
                 if (type === 'coin') loadCoinOptionsAndShowFlip(options);
                 else if (type === 'die') loadDieOptionsAndShowRoll(options);
                 else if (type === 'spinner') loadSpinnerOptionsAndShowSpin(options);
             }));
         }
-
         function handleCountButtonClick(event) {
             currentCount = parseInt(event.target.dataset.count, 10);
             if (currentDecisionType === 'coin') {
@@ -803,12 +771,10 @@
                 loadSpinnerOptionsAndShowSpin(defaultOptions);
             }
         }
-
         function loadCoinOptionsAndShowFlip(options) { currentCount = options.length; coinOptions = options; showCard(cards.coin); }
         function loadDieOptionsAndShowRoll(options) { currentCount = options.length; dieOptions = options; showCard(cards.die); }
         function loadSpinnerOptionsAndShowSpin(options) { currentCount = options.length; spinnerOptions = options; showCard(cards.spinner); }
         function loadCardOptionsAndShowGame(options) { currentDeck = options; showCard(cards.cardGame); }
-
         elements.showCoinCountBtn.addEventListener('click', () => showCard(cards.count, 'coin'));
         elements.showDieCountBtn.addEventListener('click', () => showCard(cards.count, 'die'));
         elements.showSpinnerCountBtn.addEventListener('click', () => showCard(cards.count, 'spinner'));
@@ -825,8 +791,6 @@
         elements.changeSpinnerCountBtn.addEventListener('click', () => showCard(cards.count, 'spinner'));
         document.querySelectorAll('.quick-pick-btn-card').forEach(button => button.addEventListener('click', (e) => loadCardOptionsAndShowGame(JSON.parse(e.target.dataset.options))));
         document.getElementById('mainLogoLink').addEventListener('click', (e) => { e.preventDefault(); showCard(cards.main); });
-
-        // Theme Management
         function applyTheme(themeName) {
             document.body.classList.remove('theme-natural', 'theme-bold', 'theme-modern');
             document.body.classList.add(`theme-${themeName}`);
@@ -838,8 +802,6 @@
         elements.themeNaturalBtn.addEventListener('click', () => applyTheme('natural'));
         elements.themeBoldBtn.addEventListener('click', () => applyTheme('bold'));
         elements.themeModernBtn.addEventListener('click', () => applyTheme('modern'));
-
-        // Coin Logic (simplified)
         const coinElements = {
             flipBtn: document.getElementById('flipCoinBtn'),
             customizeBtn: document.getElementById('customizeCoinBtn'),
@@ -863,7 +825,6 @@
         coinElements.display.addEventListener('click', (e) => { if (e.target.classList.contains('coin')) openCoinEditModal(e.target.dataset.index); });
         coinElements.customizeBtn.addEventListener('click', () => { if (currentCount > 0) openCoinEditModal(0); else showMessage("Please select a count first.", "info"); });
         coinElements.modal.addEventListener('click', (e) => { if (e.target === coinElements.modal) closeCoinEditModal(); });
-
         function updateCoinDisplay(results = []) {
             coinElements.display.innerHTML = '';
             for (let i = 0; i < currentCount; i++) {
@@ -876,7 +837,6 @@
             }
             document.getElementById('coinCardTitle').textContent = currentCount > 1 ? 'Flip Coins' : 'Flip a Coin';
         }
-        
         function openCoinEditModal(index) {
             editingCoinIndex = parseInt(index, 10);
             const opts = coinOptions[editingCoinIndex];
@@ -900,8 +860,6 @@
             } else { showMessage("Please provide both options.", "error"); }
         });
         coinElements.cancelBtn.addEventListener('click', closeCoinEditModal);
-        
-        // Die Logic (simplified)
         const dieElements = {
             rollBtn: document.getElementById('rollDieBtn'),
             customizeBtn: document.getElementById('customizeDieBtn'),
@@ -925,7 +883,6 @@
         dieElements.display.addEventListener('click', (e) => { if (e.target.classList.contains('die')) openDieEditModal(e.target.dataset.index); });
         dieElements.customizeBtn.addEventListener('click', () => { if (currentCount > 0) openDieEditModal(0); else showMessage("Please select a count first.", "info"); });
         dieElements.modal.addEventListener('click', (e) => { if (e.target === dieElements.modal) closeDieEditModal(); });
-
         function updateDieDisplay(results = []) {
             dieElements.display.innerHTML = '';
             for (let i = 0; i < currentCount; i++) {
@@ -938,7 +895,6 @@
             }
             document.getElementById('dieCardTitle').textContent = currentCount > 1 ? 'Roll Dice' : 'Roll a Die';
         }
-        
         function openDieEditModal(index) {
             editingDieIndex = parseInt(index, 10);
             currentDieFacesCount = dieOptions[editingDieIndex].faces.length;
@@ -961,8 +917,6 @@
             } else { showMessage("Please provide a value for all faces.", "error"); }
         });
         dieElements.cancelBtn.addEventListener('click', closeDieEditModal);
-        
-        // Spinner Logic (simplified)
         const spinnerElements = {
             spinBtn: document.getElementById('spinSpinnerBtn'),
             customizeBtn: document.getElementById('customizeSpinnerBtn'),
@@ -1017,8 +971,6 @@
             } else { showMessage("Please provide a valid name and a non-negative weight for all parts.", "error"); }
         });
         spinnerElements.cancelBtn.addEventListener('click', closeSpinnerEditModal);
-
-        // Card Game Logic (simplified)
         const cardGameElements = {
             input: document.getElementById('cardInput'),
             addBtn: document.getElementById('addCardBtn'),
@@ -1041,13 +993,11 @@
             deleteBtnOptions: document.getElementById('deleteSavedDeckOptionsBtnOptions')
         };
         let isDeletingSavedDeckOptions = false;
-
         function updateCardGameDisplay() {
             cardGameElements.display.innerHTML = '';
             cardGameElements.splitDisplay.innerHTML = '';
             cardGameElements.splitContainer.classList.add('hidden');
             cardGameElements.countSpan.textContent = currentDeck.length;
-
             if (currentDeck.length === 0) {
                 cardGameElements.display.classList.add('empty-deck');
                 cardGameElements.drawBtn.disabled = cardGameElements.splitBtn.disabled = cardGameElements.clearBtn.disabled = cardGameElements.saveBtn.disabled = true;
@@ -1093,31 +1043,25 @@
             updateCardGameDisplay();
             showMessage(`Deck split into 2 piles!`, "success");
         });
-
-        // Combined render/delete logic for all saved types
         function renderSavedOptionsLists() {
             renderSavedList('coin', savedCoinSlots, coinElements.listOptions, 'coin', coinElements.deleteBtnOptions, () => showCard(cards.coin));
             renderSavedList('die', savedDieSlots, dieElements.listOptions, 'die', dieElements.deleteBtnOptions, () => showCard(cards.die));
             renderSavedList('spinner', savedSpinnerSlots, spinnerElements.listOptions, 'spinner', spinnerElements.deleteBtnOptions, () => showCard(cards.spinner));
             renderSavedList('deck', savedDeckSlots, cardGameElements.savedListOptions, 'card', cardGameElements.deleteBtnOptions, () => showCard(cards.cardGame));
         }
-
         function renderSavedList(type, slots, container, btnClass, deleteBtn, navCallback) {
             container.innerHTML = slots.length === 0 ? `<p class="text-sm text-gray-600">No saved ${type}s yet.</p>` : '';
             deleteBtn.disabled = slots.length === 0;
-
             slots.forEach((slot, index) => {
                 const wrapper = document.createElement('div');
                 wrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
                 const button = document.createElement('button');
                 button.classList.add('saved-slot-btn', `saved-${btnClass}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'flex-grow');
-                
                 let label;
                 if (type === 'coin') label = `${slot.name} (${slot.options.length} coins): ${slot.options.map(o => `${o.heads}/${o.tails}`).join(', ')}`;
                 else if (type === 'die') label = `${slot.name} (d${slot.options.length}): ${slot.options.faces.join(', ')}`;
                 else if (type === 'spinner') label = `${slot.name} (${slot.options.length} parts): ${slot.options.map(o => o.name).join(', ')}`;
                 else if (type === 'deck') label = `${slot.name} (${slot.cards.length} cards): ${slot.cards.join(', ')}`;
-                
                 button.textContent = label;
                 button.dataset.slotIndex = index;
                 button.addEventListener('click', () => {
@@ -1129,7 +1073,6 @@
                     showMessage(`"${slot.name}" loaded!`, "info");
                 });
                 wrapper.appendChild(button);
-
                 const deleteButton = document.createElement('button');
                 deleteButton.classList.add('delete-saved-option-btn');
                 deleteButton.textContent = 'x';
@@ -1147,8 +1090,6 @@
                 container.appendChild(wrapper);
             });
         }
-        
-        // Initial setup
         document.addEventListener('DOMContentLoaded', () => {
             applyTheme(currentTheme);
             showCard(cards.main);
