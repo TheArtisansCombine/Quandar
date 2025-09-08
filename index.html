@@ -825,6 +825,39 @@
         coinElements.display.addEventListener('click', (e) => { if (e.target.classList.contains('coin')) openCoinEditModal(e.target.dataset.index); });
         coinElements.customizeBtn.addEventListener('click', () => { if (currentCount > 0) openCoinEditModal(0); else showMessage("Please select a count first.", "info"); });
         coinElements.modal.addEventListener('click', (e) => { if (e.target === coinElements.modal) closeCoinEditModal(); });
+
+        coinElements.flipBtn.addEventListener('click', () => {
+            const coinElementsOnScreen = coinElements.display.querySelectorAll('.coin');
+            coinElements.flipBtn.disabled = true;
+            coinElements.customizeBtn.disabled = true;
+            elements.changeCoinCountBtn.disabled = true;
+            elements.returnToMenuFromCoin.disabled = true;
+
+            const results = [];
+            coinElementsOnScreen.forEach((coinEl, index) => {
+                const currentCoinOptions = coinOptions[index];
+                const chosenOption = Math.random() < 0.5 ? currentCoinOptions.heads : currentCoinOptions.tails;
+                results.push(chosenOption);
+
+                coinEl.textContent = '?';
+                coinEl.classList.add('flipping');
+                coinEl.style.animationDelay = `${index * 100}ms`;
+
+                setTimeout(() => {
+                    coinEl.classList.remove('flipping');
+                    coinEl.textContent = chosenOption;
+
+                    if (index === coinElementsOnScreen.length - 1) {
+                        coinElements.flipBtn.disabled = false;
+                        coinElements.customizeBtn.disabled = false;
+                        elements.changeCoinCountBtn.disabled = false;
+                        elements.returnToMenuFromCoin.disabled = false;
+                        showResultSplashScreen(results.join(', '));
+                    }
+                }, 1000 + (index * 100));
+            });
+        });
+
         function updateCoinDisplay(results = []) {
             coinElements.display.innerHTML = '';
             for (let i = 0; i < currentCount; i++) {
