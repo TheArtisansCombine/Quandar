@@ -887,6 +887,28 @@
             } else { showMessage("Please provide both options.", "error"); }
         });
         coinElements.cancelBtn.addEventListener('click', closeCoinEditModal);
+
+        coinElements.prevBtn.addEventListener('click', () => {
+            const newOptions = { heads: coinElements.option1.value.trim(), tails: coinElements.option2.value.trim() };
+            if (newOptions.heads && newOptions.tails) {
+                coinOptions[editingCoinIndex] = newOptions;
+                openCoinEditModal(editingCoinIndex - 1);
+            } else {
+                showMessage("Please save or cancel current edits.", "error");
+            }
+        });
+
+        coinElements.nextBtn.addEventListener('click', () => {
+            const newOptions = { heads: coinElements.option1.value.trim(), tails: coinElements.option2.value.trim() };
+            if (newOptions.heads && newOptions.tails) {
+                coinOptions[editingCoinIndex] = newOptions;
+                openCoinEditModal(editingCoinIndex + 1);
+            } else {
+                showMessage("Please save or cancel current edits.", "error");
+            }
+        });
+
+
         const dieElements = {
             rollBtn: document.getElementById('rollDieBtn'),
             customizeBtn: document.getElementById('customizeDieBtn'),
@@ -1131,8 +1153,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             applyTheme(currentTheme);
             showCard(cards.main);
-
-            // Attach event listeners to all quick-pick buttons after DOM is loaded
             document.querySelectorAll('.quick-pick-btn').forEach(button => {
                 button.addEventListener('click', (event) => {
                     const options = JSON.parse(event.target.dataset.options);
