@@ -825,28 +825,23 @@
         coinElements.display.addEventListener('click', (e) => { if (e.target.classList.contains('coin')) openCoinEditModal(e.target.dataset.index); });
         coinElements.customizeBtn.addEventListener('click', () => { if (currentCount > 0) openCoinEditModal(0); else showMessage("Please select a count first.", "info"); });
         coinElements.modal.addEventListener('click', (e) => { if (e.target === coinElements.modal) closeCoinEditModal(); });
-
         coinElements.flipBtn.addEventListener('click', () => {
             const coinElementsOnScreen = coinElements.display.querySelectorAll('.coin');
             coinElements.flipBtn.disabled = true;
             coinElements.customizeBtn.disabled = true;
             elements.changeCoinCountBtn.disabled = true;
             elements.returnToMenuFromCoin.disabled = true;
-
             const results = [];
             coinElementsOnScreen.forEach((coinEl, index) => {
                 const currentCoinOptions = coinOptions[index];
                 const chosenOption = Math.random() < 0.5 ? currentCoinOptions.heads : currentCoinOptions.tails;
                 results.push(chosenOption);
-
                 coinEl.textContent = '?';
                 coinEl.classList.add('flipping');
                 coinEl.style.animationDelay = `${index * 100}ms`;
-
                 setTimeout(() => {
                     coinEl.classList.remove('flipping');
                     coinEl.textContent = chosenOption;
-
                     if (index === coinElementsOnScreen.length - 1) {
                         coinElements.flipBtn.disabled = false;
                         coinElements.customizeBtn.disabled = false;
@@ -857,7 +852,6 @@
                 }, 1000 + (index * 100));
             });
         });
-
         function updateCoinDisplay(results = []) {
             coinElements.display.innerHTML = '';
             for (let i = 0; i < currentCount; i++) {
@@ -1098,11 +1092,22 @@
                 button.textContent = label;
                 button.dataset.slotIndex = index;
                 button.addEventListener('click', () => {
-                    if (type === 'coin') coinOptions = [...slot.options];
-                    else if (type === 'die') dieOptions = [...slot.options];
-                    else if (type === 'spinner') spinnerOptions = [...slot.options];
-                    else if (type === 'deck') currentDeck = [...slot.cards];
-                    navCallback();
+                    if (type === 'coin') {
+                        currentCount = slot.options.length;
+                        coinOptions = [...slot.options];
+                        showCard(cards.coin);
+                    } else if (type === 'die') {
+                        currentCount = slot.options.length;
+                        dieOptions = [...slot.options];
+                        showCard(cards.die);
+                    } else if (type === 'spinner') {
+                        currentCount = slot.options.length;
+                        spinnerOptions = [...slot.options];
+                        showCard(cards.spinner);
+                    } else if (type === 'deck') {
+                        currentDeck = [...slot.cards];
+                        showCard(cards.cardGame);
+                    }
                     showMessage(`"${slot.name}" loaded!`, "info");
                 });
                 wrapper.appendChild(button);
@@ -1126,6 +1131,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             applyTheme(currentTheme);
             showCard(cards.main);
+
+            // Attach event listeners to all quick-pick buttons after DOM is loaded
+            document.querySelectorAll('.quick-pick-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const options = JSON.parse(event.target.dataset.options);
+                    loadCoinOptionsAndShowFlip(options);
+                });
+            });
         });
     </script>
 </body>
