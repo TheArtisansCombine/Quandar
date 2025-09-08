@@ -872,7 +872,7 @@
             coinElements.modalTitle.textContent = `Edit Coin ${editingCoinIndex + 1}`;
             coinElements.prevBtn.style.display = (editingCoinIndex === 0) ? 'none' : 'block';
             coinElements.nextBtn.style.display = (editingCoinIndex === currentCount - 1) ? 'none' : 'block';
-            renderSavedSlotsInModal('coin');
+            // Placeholder: renderSavedSlotsInModal('coin');
             coinElements.modal.classList.add('show');
         }
         function closeCoinEditModal() { coinElements.modal.classList.remove('show'); editingCoinIndex = -1; isDeletingSavedCoin = false; }
@@ -948,7 +948,7 @@
             dieElements.modalTitle.textContent = `Edit Die ${editingDieIndex + 1}`;
             dieElements.prevBtn.style.display = (editingDieIndex === 0) ? 'none' : 'block';
             dieElements.nextBtn.style.display = (editingDieIndex === currentCount - 1) ? 'none' : 'block';
-            renderSavedSlotsInModal('die');
+            // Placeholder: renderSavedSlotsInModal('die');
             dieElements.modal.classList.add('show');
         }
         function closeDieEditModal() { dieElements.modal.classList.remove('show'); editingDieIndex = -1; isDeletingSavedDie = false; }
@@ -995,7 +995,7 @@
             spinnerElements.modalTitle.textContent = `Edit Spinner Options`;
             spinnerElements.prevBtn.style.display = (editingSpinnerPartIndex === 0) ? 'none' : 'block';
             spinnerElements.nextBtn.style.display = (editingSpinnerPartIndex === currentCount - 1) ? 'none' : 'block';
-            renderSavedSlotsInModal('spinner');
+            // Placeholder: renderSavedSlotsInModal('spinner');
             spinnerElements.modal.classList.add('show');
         }
         function closeSpinnerEditModal() { spinnerElements.modal.classList.remove('show'); editingSpinnerPartIndex = -1; isDeletingSavedSpinner = false; }
