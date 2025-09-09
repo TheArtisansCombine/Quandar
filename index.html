@@ -251,13 +251,134 @@
                 <div class="bg-gray-100 p-6 rounded-xl shadow-md border border-gray-200">
                     <h2 id="countSelectionTitle" class="text-3xl font-bold text-gray-800 mb-6 text-center">How many?</h2>
                     <div id="countButtonsContainer" class="flex justify-center gap-4 mb-6 flex-wrap"></div>
-                    <div id="quickPicks" class="space-y-4 mb-6"></div>
-                    <div id="savedList" class="p-4 rounded-lg shadow-inner mb-6"></div>
+                    
+                    <!-- Coin Quick Picks - Corrected to use grid-cols-2 -->
+                    <div id="coinQuickPicks" class="space-y-4 mb-6" style="display: none;">
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">One Coin</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Coffee","tails":"Tea"}]'>
+                                    Morning Coffee / Tea
+                                </button>
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Stay Inside","tails":"Go Outside"}]'>
+                                    Stay Inside / Go Outside
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Coins</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Watch a Movie","tails":"Read a Book"},{"heads":"Burger","tails":"Tacos"}]'>
+                                    Movie/Book & Burger/Tacos
+                                </button>
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Sandwich","tails":"Salad"},{"heads":"Water","tails":"Soda"}]'>
+                                    Sandwich/Salad & Water/Soda
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Three Coins</h3>
+                            <div class="grid grid-cols-1 gap-4">
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"heads":"Order In","tails":"Cook at Home"},{"heads":"Go to the Gym","tails":"Go for a Run"},{"heads":"Wear Sweatpants","tails":"Wear Shorts"}]'>
+                                    3-in-1: Food, Exercise, Clothes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Die Quick Picks -->
+                    <div id="dieQuickPicks" class="space-y-4 mb-6" style="display: none;">
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">One Die</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6"]}]'>
+                                    Standard d6
+                                </button>
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4"]}]'>
+                                    4-Sided Die (d4)
+                                </button>
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]}]'>
+                                    20-Sided Die (d20)
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Dice</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>
+                                    Roll 2d6
+                                </button>
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["North","South","East","West"]},{"faces":["Go Left","Go Right","Go Forward","Go Back"]}]'>
+                                    Direction & Movement
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Three Dice</h3>
+                            <div class="grid grid-cols-1 gap-4">
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>
+                                    Roll 3d6 (Character Stats)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Spinner Quick Picks -->
+                    <div id="spinnerQuickPicks" class="space-y-4 mb-6" style="display: none;">
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>
+                                    Where to Eat
+                                </button>
+                                <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>
+                                    Evening Plans
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Four-Part Spinners</h3>
+                            <div class="grid grid-cols-1 gap-4">
+                                <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>
+                                    Weekend Activities
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Saved Coins section on count screen -->
+                    <div id="coinSavedList" class="bg-amber-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
+                        <h4 class="text-xl font-bold text-amber-800 mb-3 text-center">Your Saved Coins</h4>
+                        <div id="savedCoinsListCount" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved coins yet.</p>
+                        </div>
+                    </div>
+
+                    <!-- Saved Dice section on count screen -->
+                    <div id="dieSavedList" class="bg-emerald-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
+                        <h4 class="text-xl font-bold text-emerald-800 mb-3 text-center">Your Saved Dice</h4>
+                        <div id="savedDiceListCount" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved dice yet.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Saved Spinner section on count screen -->
+                    <div id="spinnerSavedList" class="bg-blue-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
+                        <h4 class="text-xl font-bold text-blue-800 mb-3 text-center">Your Saved Spinners</h4>
+                        <div id="savedSpinnersListCount" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved spinners yet.</p>
+                        </div>
+                    </div>
+
                     <div class="flex justify-center">
-                        <button id="backToMainBtn" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Back</button>
+                        <button id="backToMainBtn" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">
+                            Back
+                        </button>
                     </div>
                 </div>
             </section>
+            
+            <!-- Coin Flip Section -->
             <section id="coinCard" class="card-transition card-hidden" style="display: none;">
                 <div class="coin-card p-6 rounded-xl shadow-md border">
                     <h2 id="coinCardTitle" class="text-3xl font-bold mb-6 text-center">Flip a Coin</h2>
@@ -272,6 +393,8 @@
                     </div>
                 </div>
             </section>
+            
+            <!-- Die Roll Section -->
             <section id="dieCard" class="card-transition card-hidden" style="display: none;">
                 <div class="die-card p-6 rounded-xl shadow-md border">
                     <h2 id="dieCardTitle" class="text-3xl font-bold mb-6 text-center">Roll a Die</h2>
@@ -286,6 +409,8 @@
                     </div>
                 </div>
             </section>
+            
+            <!-- Spinner Section -->
             <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
                 <div class="spinner-card p-6 rounded-xl shadow-md border">
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
@@ -300,6 +425,8 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Card Game Section -->
             <section id="cardGameCard" class="card-transition card-hidden" style="display: none;">
                 <div class="card-game-card p-6 rounded-xl shadow-md border">
                     <h2 id="cardGameCardTitle" class="text-3xl font-bold mb-6 text-center">Random Card Game</h2>
@@ -348,6 +475,8 @@
                     </div>
                 </div>
             </section>
+            
+            <!-- Options Card -->
             <section id="optionsCard" class="card-transition card-hidden" style="display: none;">
                 <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
                     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Options</h2>
@@ -406,8 +535,14 @@
             </section>
         </div>
     </div>
+    
+    <!-- Message Box for Alerts -->
     <div id="messageBox" class="message-box"></div>
+    
+    <!-- Splash Screen for Result -->
     <div id="resultSplashScreen" class="splash-screen"></div>
+
+    <!-- Coin Edit Modal -->
     <div id="coinEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="coinEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Coin Options</h3>
@@ -437,6 +572,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Die Edit Modal -->
     <div id="dieEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="dieEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Die Options</h3>
@@ -470,6 +607,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Spinner Edit Modal -->
     <div id="spinnerEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="spinnerEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Spinner Options</h3>
@@ -490,6 +629,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Card Game Save Modal -->
     <div id="cardGameSaveModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="cardGameSaveModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Save Current Deck</h3>
@@ -503,6 +644,8 @@
             </div>
         </div>
     </div>
+    
+    <!-- Generic Confirmation Modal -->
     <div id="confirmationModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="confirmationModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Confirm Action</h3>
@@ -513,6 +656,7 @@
             </div>
         </div>
     </div>
+
     <script>
         function showMessage(message, type = 'success', duration = 3000) {
             const msgBox = document.getElementById('messageBox');
@@ -625,15 +769,30 @@
                 if (type === 'coin') {
                     elements.countSelectionTitle.textContent = `How many coins?`;
                     [1, 2, 3, 4, 5].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
-                    renderQuickPicksAndSavedList('coin');
+                    elements.coinQuickPicks.style.display = 'block';
+                    elements.dieQuickPicks.style.display = 'none';
+                    elements.spinnerQuickPicks.style.display = 'none';
+                    elements.coinSavedList.style.display = 'block';
+                    elements.dieSavedList.style.display = 'none';
+                    elements.spinnerSavedList.style.display = 'none';
                 } else if (type === 'die') {
                     elements.countSelectionTitle.textContent = `How many dice?`;
                     [1, 2, 3, 4, 5, 6, 7].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
-                    renderQuickPicksAndSavedList('die');
+                    elements.coinQuickPicks.style.display = 'none';
+                    elements.dieQuickPicks.style.display = 'block';
+                    elements.spinnerQuickPicks.style.display = 'none';
+                    elements.coinSavedList.style.display = 'none';
+                    elements.dieSavedList.style.display = 'block';
+                    elements.spinnerSavedList.style.display = 'none';
                 } else if (type === 'spinner') {
                     elements.countSelectionTitle.textContent = `How many parts of the pie chart?`;
                     [2, 3, 4, 5, 6, 8].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
-                    renderQuickPicksAndSavedList('spinner');
+                    elements.coinQuickPicks.style.display = 'none';
+                    elements.dieQuickPicks.style.display = 'none';
+                    elements.spinnerQuickPicks.style.display = 'block';
+                    elements.coinSavedList.style.display = 'none';
+                    elements.dieSavedList.style.display = 'none';
+                    elements.spinnerSavedList.style.display = 'block';
                 }
                 elements.countButtonsContainer.innerHTML = countOptionsHtml;
                 elements.countButtonsContainer.querySelectorAll('.count-btn').forEach(button => button.addEventListener('click', handleCountButtonClick));
@@ -665,14 +824,14 @@
                 coin: `
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">One Coin</h3>
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-2 gap-4">
                             <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Coffee","tails":"Tea"}]'>Morning Coffee / Tea</button>
                             <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Stay Inside","tails":"Go Outside"}]'>Stay Inside / Go Outside</button>
                         </div>
                     </div>
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Coins</h3>
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-2 gap-4">
                             <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Watch a Movie","tails":"Read a Book"},{"heads":"Burger","tails":"Tacos"}]'>Movie/Book & Burger/Tacos</button>
                             <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Sandwich","tails":"Salad"},{"heads":"Water","tails":"Soda"}]'>Sandwich/Salad & Water/Soda</button>
                         </div>
@@ -686,7 +845,7 @@
                 die: `
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">One Die</h3>
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-2 gap-4">
                             <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6"]}]'>Standard d6</button>
                             <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4"]}]'>4-Sided Die (d4)</button>
                             <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]}]'>20-Sided Die (d20)</button>
@@ -694,7 +853,7 @@
                     </div>
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Dice</h3>
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-2 gap-4">
                             <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>Roll 2d6</button>
                             <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["North","South","East","West"]},{"faces":["Go Left","Go Right","Go Forward","Go Back"]}]'>Direction & Movement</button>
                         </div>
@@ -708,7 +867,7 @@
                 spinner: `
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-2 gap-4">
                             <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
                             <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
                         </div>
@@ -751,12 +910,30 @@
                     savedItemsList.appendChild(button);
                 });
             }
-            document.querySelectorAll(`.quick-pick-btn-${type}`).forEach(button => button.addEventListener('click', (e) => {
-                const options = JSON.parse(e.target.dataset.options);
-                if (type === 'coin') loadCoinOptionsAndShowFlip(options);
-                else if (type === 'die') loadDieOptionsAndShowRoll(options);
-                else if (type === 'spinner') loadSpinnerOptionsAndShowSpin(options);
-            }));
+            // Re-attach quick pick listeners for coins
+            document.querySelectorAll('.quick-pick-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const options = JSON.parse(event.target.dataset.options);
+                    loadCoinOptionsAndShowFlip(options);
+                });
+            });
+
+            // Re-attach quick pick listeners for dice
+            document.querySelectorAll('.quick-pick-btn-die').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const options = JSON.parse(event.target.dataset.options);
+                    loadDieOptionsAndShowRoll(options);
+                });
+            });
+
+            // Re-attach quick pick listeners for spinners
+            document.querySelectorAll('.quick-pick-btn-spinner').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const options = JSON.parse(event.target.dataset.options);
+                    loadSpinnerOptionsAndShowSpin(options);
+                });
+            });
+
         }
         function handleCountButtonClick(event) {
             currentCount = parseInt(event.target.dataset.count, 10);
@@ -824,7 +1001,6 @@
         let isDeletingSavedCoin = false;
         coinElements.display.addEventListener('click', (e) => { if (e.target.classList.contains('coin')) openCoinEditModal(e.target.dataset.index); });
         
-        // Corrected customize button click listener
         coinElements.customizeBtn.addEventListener('click', () => { 
             if (currentCount > 0) {
                 openCoinEditModal(0);
@@ -835,7 +1011,6 @@
 
         coinElements.modal.addEventListener('click', (e) => { if (e.target === coinElements.modal) closeCoinEditModal(); });
         
-        // Corrected flipCoinBtn functionality
         coinElements.flipBtn.addEventListener('click', () => {
             const coinElementsOnScreen = coinElements.display.querySelectorAll('.coin');
             coinElements.flipBtn.disabled = true;
