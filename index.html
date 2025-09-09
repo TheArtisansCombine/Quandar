@@ -701,8 +701,6 @@
             changeSpinnerCountBtn: document.getElementById('changeSpinnerCountBtn'),
             countSelectionTitle: document.getElementById('countSelectionTitle'),
             countButtonsContainer: document.getElementById('countButtonsContainer'),
-            quickPicksContainer: document.getElementById('quickPicks'),
-            savedListContainer: document.getElementById('savedList'),
             coinQuickPicks: document.getElementById('coinQuickPicks'),
             dieQuickPicks: document.getElementById('dieQuickPicks'),
             spinnerQuickPicks: document.getElementById('spinnerQuickPicks'),
@@ -746,8 +744,6 @@
             if (cardToShow === cards.count) {
                 currentDecisionType = type;
                 let countOptionsHtml = '';
-                elements.quickPicksContainer.innerHTML = '';
-                elements.savedListContainer.innerHTML = '';
                 if (type === 'coin') {
                     elements.countSelectionTitle.textContent = `How many coins?`;
                     [1, 2, 3, 4, 5].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
@@ -800,104 +796,7 @@
             }
         }
         function renderQuickPicksAndSavedList(type) {
-            elements.quickPicksContainer.innerHTML = '';
-            elements.savedListContainer.innerHTML = '';
-            const quickPicks = {
-                coin: `
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">One Coin</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Coffee","tails":"Tea"}]'>Morning Coffee / Tea</button>
-                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Stay Inside","tails":"Go Outside"}]'>Stay Inside / Go Outside</button>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Coins</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Watch a Movie","tails":"Read a Book"},{"heads":"Burger","tails":"Tacos"}]'>Movie/Book & Burger/Tacos</button>
-                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Sandwich","tails":"Salad"},{"heads":"Water","tails":"Soda"}]'>Sandwich/Salad & Water/Soda</button>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Three Coins</h3>
-                        <div class="grid grid-cols-1 gap-4">
-                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"heads":"Order In","tails":"Cook at Home"},{"heads":"Go to the Gym","tails":"Go for a Run"},{"heads":"Wear Sweatpants","tails":"Wear Shorts"}]'>3-in-1: Food, Exercise, Clothes</button>
-                        </div>
-                    </div>`,
-                die: `
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">One Die</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6"]}]'>Standard d6</button>
-                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4"]}]'>4-Sided Die (d4)</button>
-                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]}]'>20-Sided Die (d20)</button>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Dice</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>Roll 2d6</button>
-                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["North","South","East","West"]},{"faces":["Go Left","Go Right","Go Forward","Go Back"]}]'>Direction & Movement</button>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Three Dice</h3>
-                        <div class="grid grid-cols-1 gap-4">
-                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>Roll 3d6 (Character Stats)</button>
-                        </div>
-                    </div>`,
-                spinner: `
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Four-Part Spinners</h3>
-                        <div class="grid grid-cols-1 gap-4">
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>Weekend Activities</button>
-                        </div>
-                    </div>`
-            };
-            const savedLists = {
-                coin: savedCoinSlots,
-                die: savedDieSlots,
-                spinner: savedSpinnerSlots
-            };
-            const savedListClass = {
-                coin: 'bg-amber-100 text-amber-800',
-                die: 'bg-emerald-100 text-emerald-800',
-                spinner: 'bg-blue-100 text-blue-800'
-            };
-            elements.quickPicksContainer.innerHTML = quickPicks[type];
-            elements.savedListContainer.classList = ['p-4 rounded-lg shadow-inner mb-6', savedListClass[type]];
-            elements.savedListContainer.innerHTML = `<h4 class="text-xl font-bold mb-3 text-center">Your Saved ${type.charAt(0).toUpperCase() + type.slice(1)}s</h4><div id="savedItemsList" class="space-y-2"></div>`;
-            const savedItemsList = document.getElementById('savedItemsList');
-            if (savedLists[type].length === 0) {
-                savedItemsList.innerHTML = `<p class="text-sm text-gray-600">No saved ${type}s yet.</p>`;
-            } else {
-                savedLists[type].forEach((slot, index) => {
-                    const button = document.createElement('button');
-                    button.classList.add('saved-slot-btn', `saved-${type}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full');
-                    const label = type === 'coin' ? slot.options.map(o => `${o.heads}/${o.tails}`).join(', ') : type === 'die' ? slot.options.map(o => `d${o.faces.length}`).join(', ') : slot.options.map(o => o.name).join(', ');
-                    button.textContent = `${slot.name} (${slot.options.length} ${type}s): ${label}`;
-                    button.addEventListener('click', () => {
-                        if (type === 'coin') loadCoinOptionsAndShowFlip(slot.options);
-                        else if (type === 'die') loadDieOptionsAndShowRoll(slot.options);
-                        else if (type === 'spinner') loadSpinnerOptionsAndShowSpin(slot.options);
-                        showMessage(`Options from "${slot.name}" loaded!`, "info");
-                    });
-                    savedItemsList.appendChild(button);
-                });
-            }
-            document.querySelectorAll(`.quick-pick-btn-${type}`).forEach(button => button.addEventListener('click', (e) => {
-                const options = JSON.parse(e.target.dataset.options);
-                if (type === 'coin') loadCoinOptionsAndShowFlip(options);
-                else if (type === 'die') loadDieOptionsAndShowRoll(options);
-                else if (type === 'spinner') loadSpinnerOptionsAndShowSpin(options);
-            }));
+            // These functions are no longer needed, as the quick pick buttons are in the HTML
         }
         function handleCountButtonClick(event) {
             currentCount = parseInt(event.target.dataset.count, 10);
