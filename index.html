@@ -76,7 +76,7 @@
         .theme-natural .saved-card-game-slot-btn:hover { background-color: #f87171; }
         .theme-natural .delete-saved-option-btn { background-color: #ef4444; }
         .theme-natural .delete-saved-option-btn:hover { background-color: #dc2626; }
-        .theme-natural .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; }
+        .theme-natural .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; cursor: pointer; }
         .theme-natural .spinner-slice-color-0 { fill: #81c784; } .theme-natural .spinner-slice-color-1 { fill: #a5d6a7; }
         .theme-natural .spinner-slice-color-2 { fill: #fcd34d; } .theme-natural .spinner-slice-color-3 { fill: #ffe082; }
         .theme-natural .spinner-slice-color-4 { fill: #a2d2ff; } .theme-natural .spinner-slice-color-5 { fill: #bde0fe; }
@@ -252,7 +252,6 @@
                     <h2 id="countSelectionTitle" class="text-3xl font-bold text-gray-800 mb-6 text-center">How many?</h2>
                     <div id="countButtonsContainer" class="flex justify-center gap-4 mb-6 flex-wrap"></div>
                     
-                    <!-- Coin Quick Picks - Corrected to use grid-cols-2 -->
                     <div id="coinQuickPicks" class="space-y-4 mb-6" style="display: none;">
                         <div class="space-y-2">
                             <h3 class="text-xl font-bold text-gray-800 mb-2">One Coin</h3>
@@ -286,7 +285,6 @@
                         </div>
                     </div>
                     
-                    <!-- Die Quick Picks -->
                     <div id="dieQuickPicks" class="space-y-4 mb-6" style="display: none;">
                         <div class="space-y-2">
                             <h3 class="text-xl font-bold text-gray-800 mb-2">One Die</h3>
@@ -323,7 +321,6 @@
                         </div>
                     </div>
                     
-                    <!-- Spinner Quick Picks -->
                     <div id="spinnerQuickPicks" class="space-y-4 mb-6" style="display: none;">
                         <div class="space-y-2">
                             <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
@@ -346,7 +343,6 @@
                         </div>
                     </div>
                     
-                    <!-- Saved Coins section on count screen -->
                     <div id="coinSavedList" class="bg-amber-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
                         <h4 class="text-xl font-bold text-amber-800 mb-3 text-center">Your Saved Coins</h4>
                         <div id="savedCoinsListCount" class="space-y-2">
@@ -354,7 +350,6 @@
                         </div>
                     </div>
 
-                    <!-- Saved Dice section on count screen -->
                     <div id="dieSavedList" class="bg-emerald-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
                         <h4 class="text-xl font-bold text-emerald-800 mb-3 text-center">Your Saved Dice</h4>
                         <div id="savedDiceListCount" class="space-y-2">
@@ -362,7 +357,6 @@
                         </div>
                     </div>
                     
-                    <!-- Saved Spinner section on count screen -->
                     <div id="spinnerSavedList" class="bg-blue-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
                         <h4 class="text-xl font-bold text-blue-800 mb-3 text-center">Your Saved Spinners</h4>
                         <div id="savedSpinnersListCount" class="space-y-2">
@@ -378,7 +372,6 @@
                 </div>
             </section>
             
-            <!-- Coin Flip Section -->
             <section id="coinCard" class="card-transition card-hidden" style="display: none;">
                 <div class="coin-card p-6 rounded-xl shadow-md border">
                     <h2 id="coinCardTitle" class="text-3xl font-bold mb-6 text-center">Flip a Coin</h2>
@@ -394,7 +387,6 @@
                 </div>
             </section>
             
-            <!-- Die Roll Section -->
             <section id="dieCard" class="card-transition card-hidden" style="display: none;">
                 <div class="die-card p-6 rounded-xl shadow-md border">
                     <h2 id="dieCardTitle" class="text-3xl font-bold mb-6 text-center">Roll a Die</h2>
@@ -410,7 +402,6 @@
                 </div>
             </section>
             
-            <!-- Spinner Section -->
             <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
                 <div class="spinner-card p-6 rounded-xl shadow-md border">
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
@@ -426,7 +417,6 @@
                 </div>
             </section>
 
-            <!-- Card Game Section -->
             <section id="cardGameCard" class="card-transition card-hidden" style="display: none;">
                 <div class="card-game-card p-6 rounded-xl shadow-md border">
                     <h2 id="cardGameCardTitle" class="text-3xl font-bold mb-6 text-center">Random Card Game</h2>
@@ -476,7 +466,6 @@
                 </div>
             </section>
             
-            <!-- Options Card -->
             <section id="optionsCard" class="card-transition card-hidden" style="display: none;">
                 <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
                     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Options</h2>
@@ -536,13 +525,10 @@
         </div>
     </div>
     
-    <!-- Message Box for Alerts -->
     <div id="messageBox" class="message-box"></div>
     
-    <!-- Splash Screen for Result -->
     <div id="resultSplashScreen" class="splash-screen"></div>
 
-    <!-- Coin Edit Modal -->
     <div id="coinEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="coinEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Coin Options</h3>
@@ -573,7 +559,6 @@
         </div>
     </div>
 
-    <!-- Die Edit Modal -->
     <div id="dieEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="dieEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Die Options</h3>
@@ -608,7 +593,6 @@
         </div>
     </div>
 
-    <!-- Spinner Edit Modal -->
     <div id="spinnerEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="spinnerEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Spinner Options</h3>
@@ -630,7 +614,6 @@
         </div>
     </div>
 
-    <!-- Card Game Save Modal -->
     <div id="cardGameSaveModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="cardGameSaveModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Save Current Deck</h3>
@@ -645,7 +628,6 @@
         </div>
     </div>
     
-    <!-- Generic Confirmation Modal -->
     <div id="confirmationModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="confirmationModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Confirm Action</h3>
@@ -910,30 +892,12 @@
                     savedItemsList.appendChild(button);
                 });
             }
-            // Re-attach quick pick listeners for coins
-            document.querySelectorAll('.quick-pick-btn').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const options = JSON.parse(event.target.dataset.options);
-                    loadCoinOptionsAndShowFlip(options);
-                });
-            });
-
-            // Re-attach quick pick listeners for dice
-            document.querySelectorAll('.quick-pick-btn-die').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const options = JSON.parse(event.target.dataset.options);
-                    loadDieOptionsAndShowRoll(options);
-                });
-            });
-
-            // Re-attach quick pick listeners for spinners
-            document.querySelectorAll('.quick-pick-btn-spinner').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const options = JSON.parse(event.target.dataset.options);
-                    loadSpinnerOptionsAndShowSpin(options);
-                });
-            });
-
+            document.querySelectorAll(`.quick-pick-btn-${type}`).forEach(button => button.addEventListener('click', (e) => {
+                const options = JSON.parse(e.target.dataset.options);
+                if (type === 'coin') loadCoinOptionsAndShowFlip(options);
+                else if (type === 'die') loadDieOptionsAndShowRoll(options);
+                else if (type === 'spinner') loadSpinnerOptionsAndShowSpin(options);
+            }));
         }
         function handleCountButtonClick(event) {
             currentCount = parseInt(event.target.dataset.count, 10);
@@ -1038,7 +1002,7 @@
                 }, 1000 + (index * 100));
             });
         });
-
+        
         function updateCoinDisplay(results = []) {
             coinElements.display.innerHTML = '';
             for (let i = 0; i < currentCount; i++) {
@@ -1051,6 +1015,7 @@
             }
             document.getElementById('coinCardTitle').textContent = currentCount > 1 ? 'Flip Coins' : 'Flip a Coin';
         }
+
         function openCoinEditModal(index) {
             editingCoinIndex = parseInt(index, 10);
             const opts = coinOptions[editingCoinIndex];
