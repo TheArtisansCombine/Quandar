@@ -236,7 +236,6 @@
                     <h2 id="countSelectionTitle" class="text-3xl font-bold text-gray-800 mb-6 text-center">How many?</h2>
                     <div id="countButtonsContainer" class="flex justify-center gap-4 mb-6 flex-wrap"></div>
                     
-                    <!-- Coin Quick Picks -->
                     <div id="coinQuickPicks" class="space-y-4 mb-6" style="display: none;">
                         <div class="space-y-2">
                             <h3 class="text-xl font-bold text-gray-800 mb-2">One Coin</h3>
@@ -270,7 +269,6 @@
                         </div>
                     </div>
                     
-                    <!-- Die Quick Picks -->
                     <div id="dieQuickPicks" class="space-y-4 mb-6" style="display: none;">
                         <div class="space-y-2">
                             <h3 class="text-xl font-bold text-gray-800 mb-2">One Die</h3>
@@ -307,7 +305,6 @@
                         </div>
                     </div>
                     
-                    <!-- Spinner Quick Picks -->
                     <div id="spinnerQuickPicks" class="space-y-4 mb-6" style="display: none;">
                         <div class="space-y-2">
                             <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
@@ -330,7 +327,6 @@
                         </div>
                     </div>
                     
-                    <!-- Saved Coins section on count screen -->
                     <div id="coinSavedList" class="bg-amber-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
                         <h4 class="text-xl font-bold text-amber-800 mb-3 text-center">Saved Coins</h4>
                         <div id="savedCoinsListCount" class="space-y-2">
@@ -338,7 +334,6 @@
                         </div>
                     </div>
 
-                    <!-- Saved Dice section on count screen -->
                     <div id="dieSavedList" class="bg-emerald-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
                         <h4 class="text-xl font-bold text-emerald-800 mb-3 text-center">Saved Dice</h4>
                         <div id="savedDiceListCount" class="space-y-2">
@@ -346,7 +341,6 @@
                         </div>
                     </div>
                     
-                    <!-- Saved Spinner section on count screen -->
                     <div id="spinnerSavedList" class="bg-blue-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
                         <h4 class="text-xl font-bold text-blue-800 mb-3 text-center">Saved Spinners</h4>
                         <div id="savedSpinnersListCount" class="space-y-2">
@@ -362,7 +356,6 @@
                 </div>
             </section>
             
-            <!-- Coin Flip Section -->
             <section id="coinCard" class="card-transition card-hidden" style="display: none;">
                 <div class="coin-card p-6 rounded-xl shadow-md border">
                     <h2 id="coinCardTitle" class="text-3xl font-bold mb-6 text-center">Flip a Coin</h2>
@@ -378,7 +371,6 @@
                 </div>
             </section>
             
-            <!-- Die Roll Section -->
             <section id="dieCard" class="card-transition card-hidden" style="display: none;">
                 <div class="die-card p-6 rounded-xl shadow-md border">
                     <h2 id="dieCardTitle" class="text-3xl font-bold mb-6 text-center">Roll a Die</h2>
@@ -394,13 +386,12 @@
                 </div>
             </section>
             
-            <!-- Spinner Section -->
             <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
                 <div class="spinner-card p-6 rounded-xl shadow-md border">
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
                     <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto mb-8">
                         <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
-                        <div id="spinnerPointer" class="absolute left-1/2 -top-4 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444;"></div>
+                        <div id="spinnerPointer" class="absolute left-1/2 -top-4 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%) rotate(180deg);"></div>
                     </div>
                     <div class="flex flex-col justify-center gap-4">
                         <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
@@ -413,7 +404,6 @@
                 </div>
             </section>
 
-            <!-- Card Game Section -->
             <section id="cardGameCard" class="card-transition card-hidden" style="display: none;">
                 <div class="card-game-card p-6 rounded-xl shadow-md border">
                     <h2 id="cardGameCardTitle" class="text-3xl font-bold mb-6 text-center">Random Card Game</h2>
@@ -463,7 +453,6 @@
                 </div>
             </section>
             
-            <!-- Options Card -->
             <section id="optionsCard" class="card-transition card-hidden" style="display: none;">
                 <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
                     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Options</h2>
@@ -523,13 +512,10 @@
         </div>
     </div>
     
-    <!-- Message Box for Alerts -->
     <div id="messageBox" class="message-box"></div>
     
-    <!-- Splash Screen for Result -->
     <div id="resultSplashScreen" class="splash-screen"></div>
 
-    <!-- Coin Edit Modal -->
     <div id="coinEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="coinEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Coin Options</h3>
@@ -560,7 +546,6 @@
         </div>
     </div>
 
-    <!-- Die Edit Modal -->
     <div id="dieEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="dieEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Die Options</h3>
@@ -595,7 +580,6 @@
         </div>
     </div>
 
-    <!-- Spinner Edit Modal -->
     <div id="spinnerEditModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="spinnerEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Spinner Options</h3>
@@ -617,7 +601,6 @@
         </div>
     </div>
 
-    <!-- Card Game Save Modal -->
     <div id="cardGameSaveModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="cardGameSaveModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Save Current Deck</h3>
@@ -632,7 +615,6 @@
         </div>
     </div>
     
-    <!-- Generic Confirmation Modal -->
     <div id="confirmationModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="confirmationModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Confirm Action</h3>
@@ -995,7 +977,7 @@
                     coinEl.textContent = chosenOption;
                     if (index === coinElementsOnScreen.length - 1) {
                         coinElements.flipBtn.disabled = false;
-                        coinElements.customizeCoinBtn.disabled = false;
+                        coinElements.customizeBtn.disabled = false;
                         elements.changeCoinCountBtn.disabled = false;
                         elements.returnToMenuFromCoin.disabled = false;
                         showResultSplashScreen(results.join(', '));
@@ -1207,7 +1189,6 @@
                 return;
             }
 
-            // Disable buttons during spin
             spinnerElements.spinBtn.disabled = true;
             spinnerElements.customizeBtn.disabled = true;
             elements.changeSpinnerCountBtn.disabled = true;
@@ -1223,25 +1204,24 @@
             spinnerOptions.forEach(option => {
                 const angle = (option.weight || 1) / totalWeight * 360;
                 sliceAngles.push({ name: option.name, angle, startAngle: currentAngle });
-                if (randomWeight < angle) {
+                if (winner === null && randomWeight <= angle) {
                     winner = option.name;
-                    randomWeight = Infinity; // Ensure no other winner is picked
                 }
+                randomWeight -= angle;
                 currentAngle += angle;
             });
-
-            // Find the center angle of the winning slice
+            
             const winningSlice = sliceAngles.find(slice => slice.name === winner);
             const winningAngle = winningSlice.startAngle + (winningSlice.angle / 2);
             
-            // Generate a random number of full spins for a dramatic effect
-            const fullSpins = Math.floor(Math.random() * 5) + 3; 
-            const totalRotation = 360 * fullSpins + (360 - winningAngle);
-
+            const randomExtraRotation = Math.random() * (winningSlice.angle - 10) + 5; 
+            const rotationOffset = winningAngle;
+            const fullSpins = Math.floor(Math.random() * 5) + 3;
+            const totalRotation = 360 * fullSpins - (rotationOffset - 90) + randomExtraRotation;
+            
             const spinner = document.getElementById('spinnerCanvas');
-            const pointer = document.getElementById('spinnerPointer');
 
-            spinner.style.transition = `transform 5s ease-in-out`;
+            spinner.style.transition = `transform 5s ease-out`;
             spinner.style.transform = `rotate(${totalRotation}deg)`;
 
             setTimeout(() => {
@@ -1256,7 +1236,7 @@
 
         spinnerElements.customizeBtn.addEventListener('click', () => { if (currentCount > 0) openSpinnerEditModal(0); else showMessage("Please select a count first.", "info"); });
         spinnerElements.modal.addEventListener('click', (e) => { if (e.target === spinnerElements.modal) closeSpinnerEditModal(); });
-
+        
         function updateSpinnerDisplay() {
             const container = document.getElementById('spinnerContainer');
             const canvas = document.getElementById('spinnerCanvas');
@@ -1300,7 +1280,6 @@
             });
             spinnerElements.display.innerHTML = '';
             spinnerElements.display.appendChild(container);
-
             document.getElementById('spinnerCardTitle').textContent = `Spin a Spinner (${currentCount} parts)`;
         }
 
