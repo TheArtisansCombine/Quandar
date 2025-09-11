@@ -84,145 +84,737 @@
         .theme-natural .spinner-result-text { color: #495057; }
         /* --- Theme: Bold & Energetic --- */
         body.theme-bold {
-            background-color: #1a202c; color: #e2e8f0; --card-back-color-theme: #ef4444;
+            background-color: #1a202c;
+            color: #e2e8f0;
+            --card-back-color-theme: #ef4444;
         }
-        .theme-bold .decision-selection-card { background: linear-gradient(to bottom right, #6b21a8, #4338ca); color: white; }
-        .theme-bold .coin-btn-main { background-color: #fbbf24; color: #5b21b6; }
-        .theme-bold .coin-btn-main:hover { background-color: #facc15; }
-        .theme-bold .die-btn-main { background-color: #60a5fa; color: #3730a3; }
-        .theme-bold .die-btn-main:hover { background-color: #3b82f6; }
-        .theme-bold .spinner-btn-main { background-color: #e879f9; color: #86198f; }
-        .theme-bold .spinner-btn-main:hover { background-color: #d946eef; }
-        .theme-bold .card-game-btn-main { background-color: #f87171; color: #7f1d1d; }
-        .theme-bold .card-game-btn-main:hover { background-color: #ef4444; }
-        .theme-bold .options-btn-main { background-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .options-btn-main:hover { background-color: #2d3748; }
-        .theme-bold .about-btn-main { background-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .about-btn-main:hover { background-color: #2d3748; }
-        .theme-bold .about-btn-options { background-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .about-btn-options:hover { background-color: #2d3748; }
-        .theme-bold .coin-card { background-color: #451a03; border-color: #d69e2e; color: #fcd34d; }
-        .theme-bold .die-card { background-color: #0c152e; border-color: #3b82f6; color: #93c5fd; }
-        .theme-bold .spinner-card { background-color: #4a0429; border-color: #ec4899; color: #f0abfc; }
-        .theme-bold .card-game-card { background-color: #7f1d1d; border-color: #ef4444; color: #fca5a5; }
-        .theme-bold .primary-action-btn { background-color: #6366f1; color: white; }
-        .theme-bold .primary-action-btn:hover { background-color: #4f46e5; }
-        .theme-bold .secondary-action-btn { background-color: #a78bfa; color: white; }
-        .theme-bold .secondary-action-btn:hover { background-color: #8b5cf6; }
-        .theme-bold .neutral-action-btn { background-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .neutral-action-btn:hover { background-color: #2d3748; }
-        .theme-bold .danger-action-btn { background-color: #ef4444; color: white; }
-        .theme-bold .danger-action-btn:hover { background-color: #dc2626; }
-        .theme-bold .modal-content { background-color: #2d3748; color: #e2e8f0; }
-        .theme-bold .modal-content label { color: #cbd5e0; }
-        .theme-bold .modal-content input, .theme-bold .modal-content select { background-color: #4a5568; border-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .modal-content input:focus, .theme-bold .modal-content select:focus { border-color: #667eea; box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5); }
-        .theme-bold .modal-arrow-button { background-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .modal-arrow-button:hover:not(:disabled) { background-color: #6a7f8e; }
-        .theme-bold .bg-amber-100 { background-color: #451a03; }
-        .theme-bold .text-amber-800 { color: #fcd34d; }
-        .theme-bold .saved-coin-slot-btn { background-color: #d69e2e; color: white; border-color: #d69e2e; }
-        .theme-bold .saved-coin-slot-btn:hover { background-color: #e6a73c; }
-        .theme-bold .bg-emerald-100 { background-color: #065f46; }
-        .theme-bold .text-emerald-800 { color: #6ee7b7; }
-        .theme-bold .saved-die-slot-btn { background-color: #3b82f6; color: white; border-color: #3b82f6; }
-        .theme-bold .saved-die-slot-btn:hover { background-color: #60a5fa; }
-        .theme-bold .bg-blue-100 { background-color: #1e3a8a; }
-        .theme-bold .text-blue-800 { color: #93c5fd; }
-        .theme-bold .saved-spinner-slot-btn { background-color: #ec4899; color: white; border-color: #ec4899; }
-        .theme-bold .saved-spinner-slot-btn:hover { background-color: #f472b6; }
-        .theme-bold .bg-red-100 { background-color: #7f1d1d; }
-        .theme-bold .text-red-800 { color: #fca5a5; }
-        .theme-bold .saved-card-game-slot-btn { background-color: #ef4444; color: white; border-color: #ef4444; }
-        .theme-bold .saved-card-game-slot-btn:hover { background-color: #dc2626; }
-        .theme-bold .delete-saved-option-btn { background-color: #ef4444; }
-        .theme-bold .delete-saved-option-btn:hover { background-color: #dc2626; }
-        .theme-bold .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; }
-        .theme-bold .spinner-slice-color-0 { fill: #FF3366; } .theme-bold .spinner-slice-color-1 { fill: #33CCFF; }
-        .theme-bold .spinner-slice-color-2 { fill: #CCFF33; } .theme-bold .spinner-slice-color-3 { fill: #FFCC33; }
-        .theme-bold .spinner-slice-color-4 { fill: #6633FF; } .theme-bold .spinner-slice-color-5 { fill: #33FFCC; }
-        .theme-bold .spinner-slice-color-6 { fill: #FF6633; } .theme-bold .spinner-slice-color-7 { fill: #CC33FF; }
-        .theme-bold .spinner-result-text { color: white; }
+        .theme-bold .decision-selection-card {
+            background: linear-gradient(to bottom right, #6b21a8, #4338ca);
+            color: white;
+        }
+        .theme-bold .coin-btn-main {
+            background-color: #fbbf24;
+            color: #5b21b6;
+        }
+        .theme-bold .coin-btn-main:hover {
+            background-color: #facc15;
+        }
+        .theme-bold .die-btn-main {
+            background-color: #60a5fa;
+            color: #3730a3;
+        }
+        .theme-bold .die-btn-main:hover {
+            background-color: #3b82f6;
+        }
+        .theme-bold .spinner-btn-main {
+            background-color: #e879f9;
+            color: #86198f;
+        }
+        .theme-bold .spinner-btn-main:hover {
+            background-color: #d946eef;
+        }
+        .theme-bold .card-game-btn-main {
+            background-color: #f87171;
+            color: #7f1d1d;
+        }
+        .theme-bold .card-game-btn-main:hover {
+            background-color: #ef4444;
+        }
+        .theme-bold .options-btn-main {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .options-btn-main:hover {
+            background-color: #2d3748;
+        }
+        .theme-bold .about-btn-main {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .about-btn-main:hover {
+            background-color: #2d3748;
+        }
+        .theme-bold .about-btn-options {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .about-btn-options:hover {
+            background-color: #2d3748;
+        }
+        .theme-bold .coin-card {
+            background-color: #451a03;
+            border-color: #d69e2e;
+            color: #fcd34d;
+        }
+        .theme-bold .die-card {
+            background-color: #0c152e;
+            border-color: #3b82f6;
+            color: #93c5fd;
+        }
+        .theme-bold .spinner-card {
+            background-color: #4a0429;
+            border-color: #ec4899;
+            color: #f0abfc;
+        }
+        .theme-bold .card-game-card {
+            background-color: #7f1d1d;
+            border-color: #ef4444;
+            color: #fca5a5;
+        }
+        .theme-bold .primary-action-btn {
+            background-color: #6366f1;
+            color: white;
+        }
+        .theme-bold .primary-action-btn:hover {
+            background-color: #4f46e5;
+        }
+        .theme-bold .secondary-action-btn {
+            background-color: #a78bfa;
+            color: white;
+        }
+        .theme-bold .secondary-action-btn:hover {
+            background-color: #8b5cf6;
+        }
+        .theme-bold .neutral-action-btn {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .neutral-action-btn:hover {
+            background-color: #2d3748;
+        }
+        .theme-bold .danger-action-btn {
+            background-color: #ef4444;
+            color: white;
+        }
+        .theme-bold .danger-action-btn:hover {
+            background-color: #dc2626;
+        }
+        .theme-bold .modal-content {
+            background-color: #2d3748;
+            color: #e2e8f0;
+        }
+        .theme-bold .modal-content label {
+            color: #cbd5e0;
+        }
+        .theme-bold .modal-content input,
+        .theme-bold .modal-content select {
+            background-color: #4a5568;
+            border-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .modal-content input:focus,
+        .theme-bold .modal-content select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5);
+        }
+        .theme-bold .modal-arrow-button {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .modal-arrow-button:hover:not(:disabled) {
+            transform: translateY(-50%) scale(1.05);
+        }
+        .theme-bold .modal-arrow-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .theme-bold .bg-amber-100 {
+            background-color: #451a03;
+        }
+        .theme-bold .text-amber-800 {
+            color: #fcd34d;
+        }
+        .theme-bold .saved-coin-slot-btn {
+            background-color: #d69e2e;
+            color: white;
+            border-color: #d69e2e;
+        }
+        .theme-bold .saved-coin-slot-btn:hover {
+            background-color: #e6a73c;
+        }
+        .theme-bold .bg-emerald-100 {
+            background-color: #065f46;
+        }
+        .theme-bold .text-emerald-800 {
+            color: #6ee7b7;
+        }
+        .theme-bold .saved-die-slot-btn {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .theme-bold .saved-die-slot-btn:hover {
+            background-color: #60a5fa;
+        }
+        .theme-bold .bg-blue-100 {
+            background-color: #1e3a8a;
+        }
+        .theme-bold .text-blue-800 {
+            color: #93c5fd;
+        }
+        .theme-bold .saved-spinner-slot-btn {
+            background-color: #ec4899;
+            color: white;
+            border-color: #ec4899;
+        }
+        .theme-bold .saved-spinner-slot-btn:hover {
+            background-color: #f472b6;
+        }
+        .theme-bold .bg-red-100 {
+            background-color: #7f1d1d;
+        }
+        .theme-bold .text-red-800 {
+            color: #fca5a5;
+        }
+        .theme-bold .saved-card-game-slot-btn {
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+        .theme-bold .saved-card-game-slot-btn:hover {
+            background-color: #dc2626;
+        }
+        .theme-bold .delete-saved-option-btn {
+            background-color: #ef4444;
+        }
+        .theme-bold .delete-saved-option-btn:hover {
+            background-color: #dc2626;
+        }
+        .theme-bold .saved-slot-btn.delete-mode {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 2px #ef4444;
+            cursor: pointer;
+        }
+        .theme-bold .spinner-slice-color-0 {
+            fill: #FF3366;
+        }
+        .theme-bold .spinner-slice-color-1 {
+            fill: #33CCFF;
+        }
+        .theme-bold .spinner-slice-color-2 {
+            fill: #CCFF33;
+        }
+        .theme-bold .spinner-slice-color-3 {
+            fill: #FFCC33;
+        }
+        .theme-bold .spinner-slice-color-4 {
+            fill: #6633FF;
+        }
+        .theme-bold .spinner-slice-color-5 {
+            fill: #33FFCC;
+        }
+        .theme-bold .spinner-slice-color-6 {
+            fill: #FF6633;
+        }
+        .theme-bold .spinner-slice-color-7 {
+            fill: #CC33FF;
+        }
+        .theme-bold .spinner-result-text {
+            color: white;
+        }
         /* --- Theme: Modern & Calm --- */
         body.theme-modern {
-            background-color: #f0f4f8; color: #2d3748; --card-back-color-theme: #fed7d7;
+            background-color: #f0f4f8;
+            color: #2d3748;
+            --card-back-color-theme: #fed7d7;
         }
-        .theme-modern .decision-selection-card { background: linear-gradient(to bottom right, #4299e1, #667eea); color: white; }
-        .theme-modern .coin-btn-main { background-color: white; color: #2b6cb0; }
-        .theme-modern .coin-btn-main:hover { background-color: #ebf8ff; }
-        .theme-modern .die-btn-main { background-color: white; color: #4c51bf; }
-        .theme-modern .die-btn-main:hover { background-color: #e0e7ff; }
-        .theme-modern .spinner-btn-main { background-color: white; color: #805ad5; }
-        .theme-modern .spinner-btn-main:hover { background-color: #f0e4ff; }
-        .theme-modern .card-game-btn-main { background-color: white; color: #e53e3e; }
-        .theme-modern .card-game-btn-main:hover { background-color: #fff5f5; }
-        .theme-modern .options-btn-main { background-color: #e2e8f0; color: #2d3748; }
-        .theme-modern .options-btn-main:hover { background-color: #cbd5e0; }
-        .theme-modern .about-btn-main { background-color: #cbd5e0; color: #2d3748; }
-        .theme-modern .about-btn-main:hover { background-color: #a0aec0; }
-        .theme-modern .about-btn-options { background-color: #cbd5e0; color: #2d3748; }
-        .theme-modern .about-btn-options:hover { background-color: #a0aec0; }
-        .theme-modern .spinner-slice-color-0 { fill: #A2D2FF; } .theme-modern .spinner-slice-color-1 { fill: #BDE0FE; }
-        .theme-modern .spinner-slice-color-2 { fill: #FFC8DD; } .theme-modern .spinner-slice-color-3 { fill: #FFADAD; }
-        .theme-modern .spinner-slice-color-4 { fill: #CDB4DB; } .theme-modern .spinner-slice-color-5 { fill: #A0C4FF; }
-        .theme-modern .spinner-slice-color-6 { fill: #98F5E1; } .theme-modern .spinner-slice-color-7 { fill: #FFD166; }
-        .theme-modern .spinner-result-text { color: white; }
-        .message-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); z-index: 1000; opacity: 0; transition: opacity 0.3s ease-in-out; font-weight: 600; }
-        .message-box.show { opacity: 1; }
-        .message-box[data-type="success"] { background-color: #10b981; color: white; }
-        .message-box[data-type="error"] { background-color: #ef4444; color: white; }
-        .message-box[data-type="info"] { background-color: #3b82f6; color: white; }
-        .decision-display { min-height: 12rem; display: flex; justify-content: center; align-items: center; gap: 1.5rem; flex-wrap: wrap; font-size: 2.5rem; font-weight: 700; }
-        .coin, .die { width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; font-weight: 700; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); position: relative; transform-style: preserve-3d; animation: none; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s ease-in-out; }
-        .coin { border-radius: 50%; font-size: 1.5rem; }
-        .die { border-radius: 12px; font-size: 2rem; }
-        .coin.flipping { animation: flip 1s ease-out forwards; }
-        @keyframes flip { 0% { transform: rotateX(0deg); } 50% { transform: rotateX(1800deg); } 100% { transform: rotateX(3600deg); } }
-        .die.rolling { animation: roll 0.5s infinite linear; }
-        @keyframes roll { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .spinner-container { position: relative; width: 250px; height: 250px; display: flex; justify-content: center; align-items: center; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); background-color: transparent; }
-        .spinner-canvas { position: absolute; top: 0; left: 0; }
-        .central-spinner-pointer { position: absolute; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 20px solid #ef4444; top: 50%; left: 50%; transform: translate(-50%, -100%); transform-origin: 50% 100%; transition: transform 3s ease-out; z-index: 10; }
-        .spinner-result-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; font-size: 1.2rem; color: white; background-color: rgba(0, 0, 0, 0.7); padding: 6px 12px; border-radius: 8px; z-index: 11; word-break: break-word; max-width: 80%; text-align: center; }
-        .card-deck-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; min-height: 10rem; align-items: flex-start; }
-        .card-base-style { width: 100px; height: 140px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); display: flex; justify-content: center; align-items: center; font-size: 1.2rem; font-weight: 600; color: white; position: relative; cursor: pointer; transition: transform 0.2s ease-in-out; border: 1px solid rgba(0,0,0,0.1); background-color: var(--card-back-color-theme); }
-        .card-base-style:hover { transform: translateY(-5px); }
-        .card-base-style.empty { background-color: #e2e8f0; color: #a0aec0; cursor: not-allowed; }
-        .card-pile-label { position: absolute; top: -1.5rem; font-size: 0.8rem; font-weight: 500; color: #4a5568; }
-        #cardDeckDisplay { position: relative; min-height: 160px; display: flex; justify-content: center; align-items: center; margin-bottom: 1rem; }
-        #cardDeckDisplay .card-in-deck { position: absolute; transform-origin: center center; }
-        #cardDeckDisplay .card-in-deck:hover { transform: translateY(-8px) scale(1.05); z-index: 10; }
-        #cardDeckDisplay .card-in-deck .card-text { display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; padding: 0.5rem; font-size: 0.9rem; font-weight: 600; text-align: center; word-break: break-word; color: white; background-color: var(--card-back-color-theme); border-radius: 8px; opacity: 0; transition: opacity 0.3s ease-in-out; }
-        #cardDeckDisplay .card-in-deck:last-child .card-text { opacity: 1; }
-        #cardDeckDisplay .card-in-deck:hover .card-text { opacity: 1; }
-        #cardDeckDisplay.empty-deck { background-color: #e2e8f0; border-radius: 8px; border: 1px dashed #a0aec0; color: #a0aec0; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
-        #cardDeckDisplay.empty-deck::before { content: "Deck is Empty"; }
-        .card-pile-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 120px; }
-        .card-pile-container { position: relative; width: 100px; height: 140px; display: flex; justify-content: center; align-items: center; }
-        .card-pile-container .card-in-pile { position: absolute; transform-origin: center center; }
-        .card-pile-container .card-in-pile:hover { transform: translateY(-5px) scale(1.05); z-index: 10; }
-        .card-pile-container .card-in-pile .card-text { display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; padding: 0.5rem; font-size: 0.8rem; font-weight: 600; text-align: center; word-break: break-word; color: white; background-color: var(--card-back-color-theme); border-radius: 8px; opacity: 0; transition: opacity 0.3s ease-in-out; }
-        .card-pile-container .card-in-pile:last-child .card-text { opacity: 1; }
-        .card-pile-container .card-in-pile:hover .card-text { opacity: 1; }
-        .card-pile-container .card-in-pile.empty { position: relative; }
-        .card-transition { transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out; overflow: hidden; }
-        .card-hidden { opacity: 0; max-height: 0; padding: 0; margin: 0; visibility: hidden; }
-        .card-visible { opacity: 1; max-height: 1000px; visibility: visible; }
-        .splash-screen { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; height: auto; background-color: rgba(0, 0, 0, 0.7); color: white; display: flex; justify-content: center; align-items: center; font-size: 4rem; font-weight: bold; text-align: center; opacity: 0; visibility: hidden; transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out; z-index: 2000; padding: 20px; box-sizing: border-box; word-break: break-word; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
-        .splash-screen.show { opacity: 1; visibility: visible; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); display: flex; justify-content: center; align-items: center; z-index: 3000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
-        .modal-overlay.show { opacity: 1; visibility: visible; }
-        .modal-content { padding: 2rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); max-width: 400px; width: 90%; text-align: center; position: relative; max-height: 80vh; overflow-y: auto; }
-        .modal-arrow-button { position: absolute; top: 50%; transform: translateY(-50%); font-weight: bold; padding: 0.5rem 0.8rem; border-radius: 9999px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out; cursor: pointer; font-size: 1.25rem; line-height: 1; }
-        .modal-arrow-button:hover:not(:disabled) { transform: translateY(-50%) scale(1.05); }
-        .modal-arrow-button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .modal-arrow-button.left { left: 1rem; }
-        .modal-arrow-button.right { right: 1rem; }
-        .saved-slot-btn { font-weight: 600; padding: 0.5rem 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out; cursor: pointer; width: 100%; text-align: center; border: none; position: relative; }
-        .saved-slot-btn:hover { transform: translateY(-1px); }
-        .delete-saved-option-btn { position: absolute; top: 5px; right: 5px; background-color: #ef4444; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 0.75rem; font-weight: bold; display: flex; justify-content: center; align-items: center; cursor: pointer; line-height: 1; padding: 0; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); transition: background-color 0.2s; }
-        .delete-saved-option-btn:hover { background-color: #dc2626; }
-        .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; cursor: pointer; }
+        .theme-modern .decision-selection-card {
+            background: linear-gradient(to bottom right, #4299e1, #667eea);
+            color: white;
+        }
+        .theme-modern .coin-btn-main {
+            background-color: white;
+            color: #2b6cb0;
+        }
+        .theme-modern .coin-btn-main:hover {
+            background-color: #ebf8ff;
+        }
+        .theme-modern .die-btn-main {
+            background-color: white;
+            color: #4c51bf;
+        }
+        .theme-modern .die-btn-main:hover {
+            background-color: #e0e7ff;
+        }
+        .theme-modern .spinner-btn-main {
+            background-color: white;
+            color: #805ad5;
+        }
+        .theme-modern .spinner-btn-main:hover {
+            background-color: #f0e4ff;
+        }
+        .theme-modern .card-game-btn-main {
+            background-color: white;
+            color: #e53e3e;
+        }
+        .theme-modern .card-game-btn-main:hover {
+            background-color: #fff5f5;
+        }
+        .theme-modern .options-btn-main {
+            background-color: #e2e8f0;
+            color: #2d3748;
+        }
+        .theme-modern .options-btn-main:hover {
+            background-color: #cbd5e0;
+        }
+        .theme-modern .about-btn-main {
+            background-color: #cbd5e0;
+            color: #2d3748;
+        }
+        .theme-modern .about-btn-main:hover {
+            background-color: #a0aec0;
+        }
+        .theme-modern .about-btn-options {
+            background-color: #cbd5e0;
+            color: #2d3748;
+        }
+        .theme-modern .about-btn-options:hover {
+            background-color: #a0aec0;
+        }
+        .theme-modern .spinner-slice-color-0 {
+            fill: #A2D2FF;
+        }
+        .theme-modern .spinner-slice-color-1 {
+            fill: #BDE0FE;
+        }
+        .theme-modern .spinner-slice-color-2 {
+            fill: #FFC8DD;
+        }
+        .theme-modern .spinner-slice-color-3 {
+            fill: #FFADAD;
+        }
+        .theme-modern .spinner-slice-color-4 {
+            fill: #CDB4DB;
+        }
+        .theme-modern .spinner-slice-color-5 {
+            fill: #A0C4FF;
+        }
+        .theme-modern .spinner-slice-color-6 {
+            fill: #98F5E1;
+        }
+        .theme-modern .spinner-slice-color-7 {
+            fill: #FFD166;
+        }
+        .theme-modern .spinner-result-text {
+            color: white;
+        }
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-weight: 600;
+        }
+        .message-box.show {
+            opacity: 1;
+        }
+        .message-box[data-type="success"] {
+            background-color: #10b981;
+            color: white;
+        }
+        .message-box[data-type="error"] {
+            background-color: #ef4444;
+            color: white;
+        }
+        .message-box[data-type="info"] {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .decision-display {
+            min-height: 12rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .coin, .die {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            position: relative;
+            transform-style: preserve-3d;
+            animation: none;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease-in-out;
+        }
+        .coin {
+            border-radius: 50%;
+            font-size: 1.5rem;
+        }
+        .die {
+            border-radius: 12px;
+            font-size: 2rem;
+        }
+        .coin.flipping {
+            animation: flip 1s ease-out forwards;
+        }
+        @keyframes flip {
+            0% {
+                transform: rotateX(0deg);
+            }
+            50% {
+                transform: rotateX(1800deg);
+            }
+            100% {
+                transform: rotateX(3600deg);
+            }
+        }
+        .die.rolling {
+            animation: roll 0.5s infinite linear;
+        }
+        @keyframes roll {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .spinner-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: transparent;
+        }
+        .spinner-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .central-spinner-pointer {
+            position: absolute;
+            left: 50%;
+            top: -20px;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid #ef4444;
+            z-index: 10;
+        }
+        .spinner-result-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 6px 12px;
+            border-radius: 8px;
+            z-index: 11;
+            word-break: break-word;
+            max-width: 80%;
+            text-align: center;
+        }
+        .card-deck-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            min-height: 10rem;
+            align-items: flex-start;
+        }
+        .card-base-style {
+            width: 100px;
+            height: 140px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: var(--card-back-color-theme);
+        }
+        .card-base-style:hover {
+            transform: translateY(-5px);
+        }
+        .card-base-style.empty {
+            background-color: #e2e8f0;
+            color: #a0aec0;
+            cursor: not-allowed;
+        }
+        .card-pile-label {
+            position: absolute;
+            top: -1.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        #cardDeckDisplay {
+            position: relative;
+            min-height: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        #cardDeckDisplay .card-in-deck {
+            position: absolute;
+            transform-origin: center center;
+        }
+        #cardDeckDisplay .card-in-deck:hover {
+            transform: translateY(-8px) scale(1.05);
+            z-index: 10;
+        }
+        #cardDeckDisplay .card-in-deck .card-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            word-break: break-word;
+            color: white;
+            background-color: var(--card-back-color-theme);
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #cardDeckDisplay .card-in-deck:last-child .card-text {
+            opacity: 1;
+        }
+        #cardDeckDisplay .card-in-deck:hover .card-text {
+            opacity: 1;
+        }
+        #cardDeckDisplay.empty-deck {
+            background-color: #e2e8f0;
+            border-radius: 8px;
+            border: 1px dashed #a0aec0;
+            color: #a0aec0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #cardDeckDisplay.empty-deck::before {
+            content: "Deck is Empty";
+        }
+        .card-pile-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 120px;
+        }
+        .card-pile-container {
+            position: relative;
+            width: 100px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card-pile-container .card-in-pile {
+            position: absolute;
+            transform-origin: center center;
+        }
+        .card-pile-container .card-in-pile:hover {
+            transform: translateY(-5px) scale(1.05);
+            z-index: 10;
+        }
+        .card-pile-container .card-in-pile .card-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            word-break: break-word;
+            color: white;
+            background-color: var(--card-back-color-theme);
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .card-pile-container .card-in-pile:last-child .card-text {
+            opacity: 1;
+        }
+        .card-pile-container .card-in-pile:hover .card-text {
+            opacity: 1;
+        }
+        .card-pile-container .card-in-pile.empty {
+            position: relative;
+        }
+        .card-transition {
+            transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
+            overflow: hidden;
+        }
+        .card-hidden {
+            opacity: 0;
+            max-height: 0;
+            padding: 0;
+            margin: 0;
+            visibility: hidden;
+        }
+        .card-visible {
+            opacity: 1;
+            max-height: 1000px;
+            visibility: visible;
+        }
+        .splash-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            height: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+            z-index: 2000;
+            padding: 20px;
+            box-sizing: border-box;
+            word-break: break-word;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .splash-screen.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-arrow-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            padding: 0.5rem 0.8rem;
+            border-radius: 9999px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            cursor: pointer;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        .modal-arrow-button:hover:not(:disabled) {
+            transform: translateY(-50%) scale(1.05);
+        }
+        .modal-arrow-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .modal-arrow-button.left {
+            left: 1rem;
+        }
+        .modal-arrow-button.right {
+            right: 1rem;
+        }
+        .saved-slot-btn {
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            border: none;
+            position: relative;
+        }
+        .saved-slot-btn:hover {
+            transform: translateY(-1px);
+        }
+        .delete-saved-option-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+        .delete-saved-option-btn:hover {
+            background-color: #dc2626;
+        }
+        .saved-slot-btn.delete-mode {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 2px #ef4444;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="theme-natural min-h-screen flex items-center justify-center p-4">
@@ -407,7 +999,7 @@
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
                     <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto mb-8">
                         <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
-                        <div id="spinnerPointer" class="absolute left-1/2 -top-4 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%);"></div>
+                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%);"></div>
                     </div>
                     <div class="flex flex-col justify-center gap-4">
                         <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
