@@ -57,7 +57,8 @@
         .theme-natural .modal-content input, .theme-natural .modal-content select { background-color: #f0fdf4; border-color: #d1fae5; color: #1e402e; }
         .theme-natural .modal-content input:focus, .theme-natural .modal-content select:focus { border-color: #84cc16; box-shadow: 0 0 0 2px rgba(132, 204, 22, 0.5); }
         .theme-natural .modal-arrow-button { background-color: #dcfce7; color: #1e402e; }
-        .theme-natural .modal-arrow-button:hover:not(:disabled) { background-color: #a7f3d0; }
+        .theme-natural .modal-arrow-button:hover:not(:disabled) { transform: translateY(-50%) scale(1.05); }
+        .theme-natural .modal-arrow-button:disabled { opacity: 0.5; cursor: not-allowed; }
         .theme-natural .bg-amber-100 { background-color: #fffbeb; }
         .theme-natural .text-amber-800 { color: #78350f; }
         .theme-natural .saved-coin-slot-btn { background-color: #fcd34d; color: #78350f; border-color: #fcd34d; }
@@ -118,10 +119,26 @@
         .theme-bold .modal-content input, .theme-bold .modal-content select { background-color: #4a5568; border-color: #4a5568; color: #e2e8f0; }
         .theme-bold .modal-content input:focus, .theme-bold .modal-content select:focus { border-color: #667eea; box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5); }
         .theme-bold .modal-arrow-button { background-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .modal-arrow-button:hover:not(:disabled) { transform: translateY(-50%) scale(1.05); }
-        .theme-bold .modal-arrow-button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .theme-bold .modal-arrow-button.left { left: 1rem; }
-        .theme-bold .modal-arrow-button.right { right: 1rem; }
+        .theme-bold .modal-arrow-button:hover:not(:disabled) { background-color: #6a7f8e; }
+        .theme-bold .bg-amber-100 { background-color: #451a03; }
+        .theme-bold .text-amber-800 { color: #fcd34d; }
+        .theme-bold .saved-coin-slot-btn { background-color: #d69e2e; color: white; border-color: #d69e2e; }
+        .theme-bold .saved-coin-slot-btn:hover { background-color: #e6a73c; }
+        .theme-bold .bg-emerald-100 { background-color: #065f46; }
+        .theme-bold .text-emerald-800 { color: #6ee7b7; }
+        .theme-bold .saved-die-slot-btn { background-color: #3b82f6; color: white; border-color: #3b82f6; }
+        .theme-bold .saved-die-slot-btn:hover { background-color: #60a5fa; }
+        .theme-bold .bg-blue-100 { background-color: #1e3a8a; }
+        .theme-bold .text-blue-800 { color: #93c5fd; }
+        .theme-bold .saved-spinner-slot-btn { background-color: #ec4899; color: white; border-color: #ec4899; }
+        .theme-bold .saved-spinner-slot-btn:hover { background-color: #f472b6; }
+        .theme-bold .bg-red-100 { background-color: #7f1d1d; }
+        .theme-bold .text-red-800 { color: #fca5a5; }
+        .theme-bold .saved-card-game-slot-btn { background-color: #ef4444; color: white; border-color: #ef4444; }
+        .theme-bold .saved-card-game-slot-btn:hover { background-color: #dc2626; }
+        .theme-bold .delete-saved-option-btn { background-color: #ef4444; }
+        .theme-bold .delete-saved-option-btn:hover { background-color: #dc2626; }
+        .theme-bold .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; }
         .theme-bold .spinner-slice-color-0 { fill: #FF3366; } .theme-bold .spinner-slice-color-1 { fill: #33CCFF; }
         .theme-bold .spinner-slice-color-2 { fill: #CCFF33; } .theme-bold .spinner-slice-color-3 { fill: #FFCC33; }
         .theme-bold .spinner-slice-color-4 { fill: #6633FF; } .theme-bold .spinner-slice-color-5 { fill: #33FFCC; }
@@ -856,23 +873,51 @@
             };
             elements.quickPicksContainer.innerHTML = quickPicks[type];
             elements.savedListContainer.classList = ['p-4 rounded-lg shadow-inner mb-6', savedListClass[type]];
-            elements.savedListContainer.innerHTML = `<h4 class="text-xl font-bold mb-3 text-center">Your Saved ${type.charAt(0).toUpperCase() + type.slice(1)}s</h4><div id="savedItemsList" class="space-y-2"></div>`;
+            elements.savedListContainer.innerHTML = `<h4 class="text-xl font-bold mb-3 text-center">Saved Coins</h4><div id="savedCoinsListCount" class="space-y-2"></div>`;
             const savedItemsList = document.getElementById('savedItemsList');
             if (savedLists[type].length === 0) {
-                savedItemsList.innerHTML = `<p class="text-sm text-gray-600">No saved ${type}s yet.</p>`;
+                savedItemsList.innerHTML = `<p class="text-sm text-gray-600">No saved coins yet.</p>`;
             } else {
                 savedLists[type].forEach((slot, index) => {
                     const button = document.createElement('button');
                     button.classList.add('saved-slot-btn', `saved-${type}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full');
-                    const label = type === 'coin' ? slot.options.map(o => `${o.heads}/${o.tails}`).join(', ') : type === 'die' ? slot.options.map(o => `d${o.faces.length}`).join(', ') : slot.options.map(o => o.name).join(', ');
-                    button.textContent = `${slot.name} (${slot.options.length} ${type}s): ${label}`;
+                    const label = type === 'coin' ? slot.name : `${slot.name} (${slot.options.length} ${type}s)`;
+                    button.textContent = label;
                     button.addEventListener('click', () => {
-                        if (type === 'coin') loadCoinOptionsAndShowFlip(slot.options);
-                        else if (type === 'die') loadDieOptionsAndShowRoll(slot.options);
-                        else if (type === 'spinner') loadSpinnerOptionsAndShowSpin(slot.options);
+                        if (type === 'coin') {
+                            currentCount = slot.options.length;
+                            coinOptions = [...slot.options];
+                            showCard(cards.coin);
+                        } else if (type === 'die') {
+                            currentCount = slot.options.length;
+                            dieOptions = [...slot.options];
+                            showCard(cards.die);
+                        } else if (type === 'spinner') {
+                            currentCount = slot.options.length;
+                            spinnerOptions = [...slot.options];
+                            showCard(cards.spinner);
+                        } else if (type === 'deck') {
+                            currentDeck = [...slot.cards];
+                            showCard(cards.cardGame);
+                        }
                         showMessage(`Options from "${slot.name}" loaded!`, "info");
                     });
-                    savedItemsList.appendChild(button);
+                    const deleteButton = document.createElement('button');
+                    deleteButton.classList.add('delete-saved-option-btn');
+                    deleteButton.textContent = 'x';
+                    deleteButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        showConfirmationModal("Delete Saved", `Are you sure you want to delete "${slot.name}"?`, () => {
+                            slots.splice(index, 1);
+                            localStorage.setItem(`decido${type.charAt(0).toUpperCase() + type.slice(1)}Slots`, JSON.stringify(slots));
+                            renderSavedOptionsLists();
+                        });
+                    });
+                    const wrapper = document.createElement('div');
+                    wrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
+                    wrapper.appendChild(button);
+                    wrapper.appendChild(deleteButton);
+                    savedItemsList.appendChild(wrapper);
                 });
             }
             document.querySelectorAll(`.quick-pick-btn-${type}`).forEach(button => button.addEventListener('click', (e) => {
@@ -882,6 +927,7 @@
                 else if (type === 'spinner') loadSpinnerOptionsAndShowSpin(options);
             }));
         }
+
         function handleCountButtonClick(event) {
             currentCount = parseInt(event.target.dataset.count, 10);
             if (currentDecisionType === 'coin') {
@@ -977,7 +1023,7 @@
                     coinEl.textContent = chosenOption;
                     if (index === coinElementsOnScreen.length - 1) {
                         coinElements.flipBtn.disabled = false;
-                        coinElements.customizeBtn.disabled = false;
+                        coinElements.customizeCoinBtn.disabled = false;
                         elements.changeCoinCountBtn.disabled = false;
                         elements.returnToMenuFromCoin.disabled = false;
                         showResultSplashScreen(results.join(', '));
