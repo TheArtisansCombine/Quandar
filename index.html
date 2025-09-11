@@ -118,7 +118,8 @@
         .theme-bold .modal-content input, .theme-bold .modal-content select { background-color: #4a5568; border-color: #4a5568; color: #e2e8f0; }
         .theme-bold .modal-content input:focus, .theme-bold .modal-content select:focus { border-color: #667eea; box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5); }
         .theme-bold .modal-arrow-button { background-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .modal-arrow-button:hover:not(:disabled) { background-color: #6a7f8e; }
+        .theme-bold .modal-arrow-button:hover:not(:disabled) { transform: translateY(-50%) scale(1.05); }
+        .theme-bold .modal-arrow-button:disabled { opacity: 0.5; cursor: not-allowed; }
         .theme-bold .bg-amber-100 { background-color: #451a03; }
         .theme-bold .text-amber-800 { color: #fcd34d; }
         .theme-bold .saved-coin-slot-btn { background-color: #d69e2e; color: white; border-color: #d69e2e; }
@@ -137,7 +138,7 @@
         .theme-bold .saved-card-game-slot-btn:hover { background-color: #dc2626; }
         .theme-bold .delete-saved-option-btn { background-color: #ef4444; }
         .theme-bold .delete-saved-option-btn:hover { background-color: #dc2626; }
-        .theme-bold .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; cursor: pointer; }
+        .theme-bold .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; }
         .theme-bold .spinner-slice-color-0 { fill: #FF3366; } .theme-bold .spinner-slice-color-1 { fill: #33CCFF; }
         .theme-bold .spinner-slice-color-2 { fill: #CCFF33; } .theme-bold .spinner-slice-color-3 { fill: #FFCC33; }
         .theme-bold .spinner-slice-color-4 { fill: #6633FF; } .theme-bold .spinner-slice-color-5 { fill: #33FFCC; }
@@ -407,7 +408,7 @@
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
                     <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto mb-8">
                         <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
-                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%)"></div>
+                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%) rotate(0deg);"></div>
                     </div>
                     <div class="flex flex-col justify-center gap-4">
                         <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
@@ -1263,7 +1264,9 @@
             const totalRotation = 360 * fullSpins + (270 - winningAngle);
             
             const spinner = document.getElementById('spinnerCanvas');
+            const pointer = document.getElementById('spinnerPointer');
 
+            pointer.style.transform = `translateX(-50%) rotate(0deg)`;
             spinner.style.transition = `transform 5s ease-out`;
             spinner.style.transform = `rotate(${totalRotation}deg)`;
 
@@ -1467,7 +1470,7 @@
                         currentDeck = [...slot.cards];
                         showCard(cards.cardGame);
                     }
-                    showMessage(`"${slot.name}" loaded!`, "info");
+                    showMessage(`Options from "${slot.name}" loaded!`, "info");
                 });
                 wrapper.appendChild(button);
                 const deleteButton = document.createElement('button');
