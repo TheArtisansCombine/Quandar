@@ -57,8 +57,7 @@
         .theme-natural .modal-content input, .theme-natural .modal-content select { background-color: #f0fdf4; border-color: #d1fae5; color: #1e402e; }
         .theme-natural .modal-content input:focus, .theme-natural .modal-content select:focus { border-color: #84cc16; box-shadow: 0 0 0 2px rgba(132, 204, 22, 0.5); }
         .theme-natural .modal-arrow-button { background-color: #dcfce7; color: #1e402e; }
-        .theme-natural .modal-arrow-button:hover:not(:disabled) { transform: translateY(-50%) scale(1.05); }
-        .theme-natural .modal-arrow-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .theme-natural .modal-arrow-button:hover:not(:disabled) { background-color: #a7f3d0; }
         .theme-natural .bg-amber-100 { background-color: #fffbeb; }
         .theme-natural .text-amber-800 { color: #78350f; }
         .theme-natural .saved-coin-slot-btn { background-color: #fcd34d; color: #78350f; border-color: #fcd34d; }
@@ -119,7 +118,8 @@
         .theme-bold .modal-content input, .theme-bold .modal-content select { background-color: #4a5568; border-color: #4a5568; color: #e2e8f0; }
         .theme-bold .modal-content input:focus, .theme-bold .modal-content select:focus { border-color: #667eea; box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5); }
         .theme-bold .modal-arrow-button { background-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .modal-arrow-button:hover:not(:disabled) { background-color: #6a7f8e; }
+        .theme-bold .modal-arrow-button:hover:not(:disabled) { transform: translateY(-50%) scale(1.05); }
+        .theme-bold .modal-arrow-button:disabled { opacity: 0.5; cursor: not-allowed; }
         .theme-bold .bg-amber-100 { background-color: #451a03; }
         .theme-bold .text-amber-800 { color: #fcd34d; }
         .theme-bold .saved-coin-slot-btn { background-color: #d69e2e; color: white; border-color: #d69e2e; }
@@ -408,7 +408,7 @@
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
                     <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto mb-8">
                         <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
-                        <div id="spinnerPointer" class="absolute left-1/2 -top-4 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%) rotate(180deg);"></div>
+                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%) rotate(180deg);"></div>
                     </div>
                     <div class="flex flex-col justify-center gap-4">
                         <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
@@ -955,7 +955,6 @@
         elements.returnToMenuFromCoin.addEventListener('click', () => showCard(cards.main));
         elements.returnToMenuFromDie.addEventListener('click', () => showCard(cards.main));
         elements.returnToMenuFromSpinner.addEventListener('click', () => showCard(cards.main));
-        elements.returnToMenuFromCardGame.addEventListener('click', () => showCard(cards.main));
         elements.changeCoinCountBtn.addEventListener('click', () => showCard(cards.count, 'coin'));
         elements.changeDieCountBtn.addEventListener('click', () => showCard(cards.count, 'die'));
         elements.changeSpinnerCountBtn.addEventListener('click', () => showCard(cards.count, 'spinner'));
@@ -1023,7 +1022,7 @@
                     coinEl.textContent = chosenOption;
                     if (index === coinElementsOnScreen.length - 1) {
                         coinElements.flipBtn.disabled = false;
-                        coinElements.customizeCoinBtn.disabled = false;
+                        coinElements.customizeBtn.disabled = false;
                         elements.changeCoinCountBtn.disabled = false;
                         elements.returnToMenuFromCoin.disabled = false;
                         showResultSplashScreen(results.join(', '));
