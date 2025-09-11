@@ -118,8 +118,7 @@
         .theme-bold .modal-content input, .theme-bold .modal-content select { background-color: #4a5568; border-color: #4a5568; color: #e2e8f0; }
         .theme-bold .modal-content input:focus, .theme-bold .modal-content select:focus { border-color: #667eea; box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5); }
         .theme-bold .modal-arrow-button { background-color: #4a5568; color: #e2e8f0; }
-        .theme-bold .modal-arrow-button:hover:not(:disabled) { transform: translateY(-50%) scale(1.05); }
-        .theme-bold .modal-arrow-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .theme-bold .modal-arrow-button:hover:not(:disabled) { background-color: #6a7f8e; }
         .theme-bold .bg-amber-100 { background-color: #451a03; }
         .theme-bold .text-amber-800 { color: #fcd34d; }
         .theme-bold .saved-coin-slot-btn { background-color: #d69e2e; color: white; border-color: #d69e2e; }
@@ -138,7 +137,7 @@
         .theme-bold .saved-card-game-slot-btn:hover { background-color: #dc2626; }
         .theme-bold .delete-saved-option-btn { background-color: #ef4444; }
         .theme-bold .delete-saved-option-btn:hover { background-color: #dc2626; }
-        .theme-bold .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; }
+        .theme-bold .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; cursor: pointer; }
         .theme-bold .spinner-slice-color-0 { fill: #FF3366; } .theme-bold .spinner-slice-color-1 { fill: #33CCFF; }
         .theme-bold .spinner-slice-color-2 { fill: #CCFF33; } .theme-bold .spinner-slice-color-3 { fill: #FFCC33; }
         .theme-bold .spinner-slice-color-4 { fill: #6633FF; } .theme-bold .spinner-slice-color-5 { fill: #33FFCC; }
@@ -408,7 +407,7 @@
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
                     <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto mb-8">
                         <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
-                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%) rotate(180deg);"></div>
+                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%)"></div>
                     </div>
                     <div class="flex flex-col justify-center gap-4">
                         <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
@@ -1240,29 +1239,28 @@
             elements.returnToMenuFromSpinner.disabled = true;
 
             const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
-            let randomWeight = Math.random() * totalWeight;
+            const weightedOptions = [];
+            spinnerOptions.forEach(option => {
+                for (let i = 0; i < (option.weight || 1); i++) {
+                    weightedOptions.push(option.name);
+                }
+            });
 
-            let winner = null;
+            const winner = weightedOptions[Math.floor(Math.random() * weightedOptions.length)];
+
             let currentAngle = 0;
             const sliceAngles = [];
-
             spinnerOptions.forEach(option => {
                 const angle = (option.weight || 1) / totalWeight * 360;
                 sliceAngles.push({ name: option.name, angle, startAngle: currentAngle });
-                if (winner === null && randomWeight <= angle) {
-                    winner = option.name;
-                }
-                randomWeight -= angle;
                 currentAngle += angle;
             });
             
             const winningSlice = sliceAngles.find(slice => slice.name === winner);
             const winningAngle = winningSlice.startAngle + (winningSlice.angle / 2);
             
-            const randomExtraRotation = Math.random() * (winningSlice.angle - 10) + 5; 
-            const rotationOffset = winningAngle;
-            const fullSpins = Math.floor(Math.random() * 5) + 3;
-            const totalRotation = 360 * fullSpins - (rotationOffset - 90) + randomExtraRotation;
+            const fullSpins = 5;
+            const totalRotation = 360 * fullSpins + (270 - winningAngle);
             
             const spinner = document.getElementById('spinnerCanvas');
 
@@ -1283,7 +1281,6 @@
         spinnerElements.modal.addEventListener('click', (e) => { if (e.target === spinnerElements.modal) closeSpinnerEditModal(); });
         
         function updateSpinnerDisplay() {
-            const container = document.getElementById('spinnerContainer');
             const canvas = document.getElementById('spinnerCanvas');
             const ctx = canvas.getContext('2d');
             const size = 250;
@@ -1299,6 +1296,7 @@
             const colors = ["#ef4444", "#fcd34d", "#10b981", "#3b82f6", "#6b21a8", "#d946ef", "#dc2626", "#fbbf24"];
 
             let totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
+            let cumulativeAngle = 0;
 
             spinnerOptions.forEach((option, index) => {
                 const sliceAngle = (option.weight || 1) / totalWeight * 2 * Math.PI;
@@ -1310,7 +1308,7 @@
                 ctx.closePath();
                 ctx.fillStyle = colors[index % colors.length];
                 ctx.fill();
-                
+
                 // Draw text
                 ctx.save();
                 ctx.translate(centerX, centerY);
@@ -1323,8 +1321,6 @@
 
                 startAngle = endAngle;
             });
-            spinnerElements.display.innerHTML = '';
-            spinnerElements.display.appendChild(container);
             document.getElementById('spinnerCardTitle').textContent = `Spin a Spinner (${currentCount} parts)`;
         }
 
@@ -1478,13 +1474,12 @@
                 deleteButton.classList.add('delete-saved-option-btn');
                 deleteButton.textContent = 'x';
                 deleteButton.dataset.slotIndex = index;
-                deleteButton.addEventListener('click', () => {
+                deleteButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     showConfirmationModal("Delete Saved", `Are you sure you want to delete "${slot.name}"?`, () => {
                         slots.splice(index, 1);
                         localStorage.setItem(`decido${type.charAt(0).toUpperCase() + type.slice(1)}Slots`, JSON.stringify(slots));
                         renderSavedOptionsLists();
-                        if (type === 'deck') renderSavedDeckListCardGame();
-                        showMessage("Deleted!", "info");
                     });
                 });
                 wrapper.appendChild(deleteButton);
