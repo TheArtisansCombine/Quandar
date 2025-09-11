@@ -1439,14 +1439,14 @@
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
                         </div>
                     </div>
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Four-Part Spinners</h3>
                         <div class="grid grid-cols-1 gap-4">
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>Weekend Activities</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>Weekend Activities</button>
                         </div>
                     </div>`
             };
@@ -1829,19 +1829,20 @@
             elements.returnToMenuFromSpinner.disabled = true;
 
             const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
-            let randomWeight = Math.random() * totalWeight;
+            const weightedOptions = [];
+            spinnerOptions.forEach(option => {
+                for (let i = 0; i < (option.weight || 1); i++) {
+                    weightedOptions.push(option.name);
+                }
+            });
 
-            let winner = null;
+            const winner = weightedOptions[Math.floor(Math.random() * weightedOptions.length)];
+
             let currentAngle = 0;
             const sliceAngles = [];
-
             spinnerOptions.forEach(option => {
                 const angle = (option.weight || 1) / totalWeight * 360;
                 sliceAngles.push({ name: option.name, angle, startAngle: currentAngle });
-                if (winner === null && randomWeight <= angle) {
-                    winner = option.name;
-                }
-                randomWeight -= angle;
                 currentAngle += angle;
             });
             
@@ -2026,20 +2027,15 @@
             renderSavedList('deck', savedDeckSlots, cardGameElements.savedListOptions, 'card', cardGameElements.deleteBtnOptions, () => showCard(cards.cardGame));
         }
         function renderSavedList(type, slots, container, btnClass, deleteBtn, navCallback) {
-            container.innerHTML = slots.length === 0 ? `<p class="text-sm text-gray-600">No saved ${type}s yet.</p>` : '';
+            container.innerHTML = slots.length === 0 ? `<p class="text-sm text-gray-600">No saved coins yet.</p>` : '';
             deleteBtn.disabled = slots.length === 0;
             slots.forEach((slot, index) => {
                 const wrapper = document.createElement('div');
                 wrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
                 const button = document.createElement('button');
-                button.classList.add('saved-slot-btn', `saved-${btnClass}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'flex-grow');
-                let label;
-                if (type === 'coin') label = `${slot.name} (${slot.options.length} coins): ${slot.options.map(o => `${o.heads}/${o.tails}`).join(', ')}`;
-                else if (type === 'die') label = `${slot.name} (d${slot.options.length}): ${slot.options.faces.join(', ')}`;
-                else if (type === 'spinner') label = `${slot.name} (${slot.options.length} parts): ${slot.options.map(o => o.name).join(', ')}`;
-                else if (type === 'deck') label = `${slot.name} (${slot.cards.length} cards): ${slot.cards.join(', ')}`;
+                button.classList.add('saved-slot-btn', `saved-${btnClass}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full');
+                const label = type === 'coin' ? slot.name : `${slot.name} (${slot.options.length} ${type}s)`;
                 button.textContent = label;
-                button.dataset.slotIndex = index;
                 button.addEventListener('click', () => {
                     if (type === 'coin') {
                         currentCount = slot.options.length;
@@ -2063,7 +2059,6 @@
                 const deleteButton = document.createElement('button');
                 deleteButton.classList.add('delete-saved-option-btn');
                 deleteButton.textContent = 'x';
-                deleteButton.dataset.slotIndex = index;
                 deleteButton.addEventListener('click', (e) => {
                     e.stopPropagation();
                     showConfirmationModal("Delete Saved", `Are you sure you want to delete "${slot.name}"?`, () => {
