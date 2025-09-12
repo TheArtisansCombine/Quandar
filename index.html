@@ -500,16 +500,17 @@
             top: 0;
             left: 0;
         }
+        /* Adjusted spinner pointer CSS for correct placement and direction */
         .central-spinner-pointer {
             position: absolute;
             left: 50%;
-            top: -20px;
+            top: -20px; /* Positions the pointer just above the spinner */
             transform: translateX(-50%);
             width: 0;
             height: 0;
             border-left: 15px solid transparent;
             border-right: 15px solid transparent;
-            border-bottom: 25px solid #ef4444;
+            border-bottom: 25px solid #ef4444; /* Creates a downward-pointing triangle */
             z-index: 10;
         }
         .spinner-result-text {
@@ -1462,7 +1463,7 @@
             };
             elements.quickPicksContainer.innerHTML = quickPicks[type];
             elements.savedListContainer.classList = ['p-4 rounded-lg shadow-inner mb-6', savedListClass[type]];
-            elements.savedListContainer.innerHTML = `<h4 class="text-xl font-bold mb-3 text-center">Saved Coins</h4><div id="savedCoinsListCount" class="space-y-2"></div>`;
+            elements.savedListContainer.innerHTML = `<h4 class="text-xl font-bold mb-3 text-center">Saved Coins</h4><div id="savedItemsList" class="space-y-2"></div>`;
             const savedItemsList = document.getElementById('savedItemsList');
             if (savedLists[type].length === 0) {
                 savedItemsList.innerHTML = `<p class="text-sm text-gray-600">No saved coins yet.</p>`;
@@ -1844,12 +1845,29 @@
                 currentAngle += angle;
             });
             
-            const winningSlice = sliceAngles.find(slice => slice.name === winner);
+            // Find the winning slice based on the random number
+            let winningSlice = null;
+            let cumulativeWeight = 0;
+            for(let i = 0; i < spinnerOptions.length; i++) {
+                cumulativeWeight += (spinnerOptions[i].weight || 1);
+                if (Math.random() * totalWeight < cumulativeWeight) {
+                    winningSlice = spinnerOptions[i];
+                    break;
+                }
+            }
             
-            const currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const totalRotation = currentRotation + 360 * 5 + (270 - (winningSlice.startAngle + winningSlice.angle / 2));
+            // Calculate the rotation needed to land on the winner.
+            // Pointer is at the top (90 degrees relative to 0deg).
+            // We need to rotate the spinner so the winning slice's center is at 90 degrees.
+            const sliceIndex = spinnerOptions.indexOf(winningSlice);
+            const sliceStartAngle = sliceAngles[sliceIndex].startAngle;
+            const sliceAngle = sliceAngles[sliceIndex].angle;
+            const targetAngle = 90 - (sliceStartAngle + sliceAngle / 2);
             
             const spinner = document.getElementById('spinnerCanvas');
+            const currentRotation = parseFloat(spinner.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            const totalRotation = currentRotation + 360 * 5 + targetAngle; // 5 full spins for effect
+            
             spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
             spinner.style.transform = `rotate(${totalRotation}deg)`;
         
@@ -1859,7 +1877,7 @@
                 spinnerElements.customizeBtn.disabled = false;
                 elements.changeSpinnerCountBtn.disabled = false;
                 elements.returnToMenuFromSpinner.disabled = false;
-                showResultSplashScreen(winner);
+                showResultSplashScreen(winningSlice.name);
             }, 5000);
         });
 
@@ -1882,14 +1900,23 @@
             const colors = ["#ef4444", "#fcd34d", "#10b981", "#3b82f6", "#6b21a8", "#d946ef", "#dc2626", "#fbbf24"];
 
             let totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
-
+            
+            // Calculate angles and draw slices
+            const sliceAngles = [];
+            let cumulativeAngle = 0;
             spinnerOptions.forEach((option, index) => {
-                const sliceAngle = (option.weight || 1) / totalWeight * 2 * Math.PI;
-                const endAngle = startAngle + sliceAngle;
-
+                const angle = (option.weight || 1) / totalWeight * 360;
+                sliceAngles.push({ name: option.name, angle, startAngle: cumulativeAngle });
+                cumulativeAngle += angle;
+            });
+            
+            sliceAngles.forEach((slice, index) => {
+                const startRad = (slice.startAngle - 90) * Math.PI / 180;
+                const endRad = (slice.startAngle + slice.angle - 90) * Math.PI / 180;
+                
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.arc(centerX, centerY, radius, startRad, endRad);
                 ctx.closePath();
                 ctx.fillStyle = colors[index % colors.length];
                 ctx.fill();
@@ -1897,14 +1924,12 @@
                 // Draw text
                 ctx.save();
                 ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2);
+                ctx.rotate(startRad + (endRad - startRad) / 2);
                 ctx.textAlign = 'center';
                 ctx.fillStyle = 'white';
                 ctx.font = '14px Inter';
-                ctx.fillText(option.name, 0, -radius + 20);
+                ctx.fillText(slice.name, 0, -radius + 20);
                 ctx.restore();
-
-                startAngle = endAngle;
             });
             document.getElementById('spinnerCardTitle').textContent = `Spin a Spinner (${currentCount} parts)`;
         }
