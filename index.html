@@ -1200,7 +1200,6 @@
                 <button id="prevSpinnerModalBtn" class="modal-arrow-button left">&larr;</button>
                 <div class="flex justify-center gap-4 flex-grow">
                     <button id="saveSpinnerOptionsBtn" class="primary-action-btn bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Save</button>
-                    <button id="cancelSpinnerOptionsBtn" class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Cancel</button>
                 </div>
                 <button id="nextSpinnerModalBtn" class="modal-arrow-button right">&rarr;</button>
             </div>
@@ -1439,14 +1438,14 @@
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
                         </div>
                     </div>
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Four-Part Spinners</h3>
                         <div class="grid grid-cols-1 gap-4">
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>Weekend Activities</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>Weekend Activities</button>
                         </div>
                     </div>`
             };
@@ -1828,33 +1827,42 @@
             elements.changeSpinnerCountBtn.disabled = true;
             elements.returnToMenuFromSpinner.disabled = true;
         
-            const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
+            let totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
+            
+            // Choose a winner based on weight
             let randomValue = Math.random() * totalWeight;
-        
-            let winningSlice = null;
+            let winningSliceIndex = -1;
             let cumulativeWeight = 0;
-            const sliceAngles = [];
-            let cumulativeAngle = 0;
+            for(let i = 0; i < spinnerOptions.length; i++) {
+                cumulativeWeight += (spinnerOptions[i].weight || 1);
+                if (randomValue < cumulativeWeight) {
+                    winningSliceIndex = i;
+                    break;
+                }
+            }
 
+            // Calculate the total angle for each slice
+            let sliceAngles = [];
+            let cumulativeAngle = 0;
             for(let i = 0; i < spinnerOptions.length; i++) {
                 const angle = (spinnerOptions[i].weight || 1) / totalWeight * 360;
-                sliceAngles.push({ name: spinnerOptions[i].name, angle, startAngle: cumulativeAngle });
+                sliceAngles.push({ name: spinnerOptions[i].name, angle: angle, startAngle: cumulativeAngle });
                 cumulativeAngle += angle;
             }
+
+            const winningSlice = sliceAngles[winningSliceIndex];
             
-            let winningAngle = Math.random() * 360;
-            winningSlice = sliceAngles.find(slice => {
-                const start = slice.startAngle;
-                const end = slice.startAngle + slice.angle;
-                return winningAngle >= start && winningAngle < end;
-            });
-            
+            // Calculate the rotation needed to land on the winner's center
+            const degreesToCenter = (winningSlice.startAngle + winningSlice.angle / 2);
             const currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const totalRotation = currentRotation + 360 * 5 + (360 - winningSlice.startAngle - winningSlice.angle / 2);
             
+            // Add extra spins for dramatic effect and to land on a new point
+            const extraSpins = 5;
+            const finalRotation = (360 * extraSpins) - degreesToCenter;
+
             const spinner = document.getElementById('spinnerCanvas');
             spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
-            spinner.style.transform = `rotate(${totalRotation}deg)`;
+            spinner.style.transform = `rotate(${finalRotation}deg)`;
         
             setTimeout(() => {
                 spinner.style.transition = 'none';
@@ -1881,11 +1889,12 @@
 
             ctx.clearRect(0, 0, size, size);
 
-            let startAngle = -Math.PI / 2;
+            let startAngle = 0;
             const colors = ["#ef4444", "#fcd34d", "#10b981", "#3b82f6", "#6b21a8", "#d946ef", "#dc2626", "#fbbf24"];
 
             let totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
             
+            // Re-draw slices so they are oriented for the new pointer logic
             spinnerOptions.forEach((option, index) => {
                 const sliceAngle = (option.weight || 1) / totalWeight * 2 * Math.PI;
                 const endAngle = startAngle + sliceAngle;
