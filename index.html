@@ -1403,7 +1403,7 @@
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Coins</h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Watch a Movie","tails":"Read a Book"},{"heads":"Burger","tails":"Tacos"}]'>Movie/Book & Burger/Tacos</button>
+                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Watch a Movie","tails":"Read a Book"},{"heads":"Burger","tails":"Tacos"}]'>Movie/Book & Burger/Tacos</button>
                             <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Sandwich","tails":"Salad"},{"heads":"Water","tails":"Soda"}]'>Sandwich/Salad & Water/Soda</button>
                         </div>
                     </div>
@@ -1471,7 +1471,7 @@
                     const wrapper = document.createElement('div');
                     wrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
                     const button = document.createElement('button');
-                    button.classList.add('saved-slot-btn', `saved-${type}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full');
+                    button.classList.add('saved-slot-btn', `saved-${btnClass}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full');
                     const label = type === 'coin' ? slot.name : `${slot.name} (${slot.options.length} ${type}s)`;
                     button.textContent = label;
                     button.addEventListener('click', () => {
@@ -1836,7 +1836,6 @@
             let winner = null;
             let currentAngle = 0;
             const sliceAngles = [];
-        
             spinnerOptions.forEach(option => {
                 const angle = (option.weight || 1) / totalWeight * 360;
                 sliceAngles.push({ name: option.name, angle, startAngle: currentAngle });
@@ -1849,11 +1848,10 @@
             
             const winningSlice = sliceAngles.find(slice => slice.name === winner);
             
-            const fullSpins = 5;
-            const totalRotation = 360 * fullSpins + (270 - (winningSlice.startAngle + winningSlice.angle / 2));
+            const currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            const totalRotation = currentRotation + 360 * 5 + (270 - (winningSlice.startAngle + winningSlice.angle / 2));
             
             const spinner = document.getElementById('spinnerCanvas');
-        
             spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
             spinner.style.transform = `rotate(${totalRotation}deg)`;
         
@@ -1886,7 +1884,6 @@
             const colors = ["#ef4444", "#fcd34d", "#10b981", "#3b82f6", "#6b21a8", "#d946ef", "#dc2626", "#fbbf24"];
 
             let totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
-            let cumulativeAngle = 0;
 
             spinnerOptions.forEach((option, index) => {
                 const sliceAngle = (option.weight || 1) / totalWeight * 2 * Math.PI;
@@ -1902,11 +1899,11 @@
                 // Draw text
                 ctx.save();
                 ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2);
-                ctx.textAlign = 'center';
+                ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.textAlign = 'right';
                 ctx.fillStyle = 'white';
                 ctx.font = '14px Inter';
-                ctx.fillText(option.name, 0, -radius + 20);
+                ctx.fillText(option.name, radius - 10, 5);
                 ctx.restore();
 
                 startAngle = endAngle;
