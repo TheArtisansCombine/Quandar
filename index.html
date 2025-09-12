@@ -500,17 +500,16 @@
             top: 0;
             left: 0;
         }
-        /* Adjusted spinner pointer CSS for correct placement and direction */
         .central-spinner-pointer {
             position: absolute;
             left: 50%;
-            top: -20px; /* Positions the pointer just above the spinner */
+            top: -20px;
             transform: translateX(-50%);
             width: 0;
             height: 0;
             border-left: 15px solid transparent;
             border-right: 15px solid transparent;
-            border-bottom: 25px solid #ef4444; /* Creates a downward-pointing triangle */
+            border-bottom: 25px solid #ef4444;
             z-index: 10;
         }
         .spinner-result-text {
@@ -1783,7 +1782,7 @@
         dieElements.prevBtn.addEventListener('click', () => {
             const newFaces = Array.from(dieElements.inputsContainer.querySelectorAll('input')).map(input => input.value.trim());
             if (newFaces.every(face => face !== '')) {
-                dieOptions[editingDieIndex].faces = newFaces;
+                dieOptions[editingDieIndex] = newFaces;
                 openDieEditModal(editingDieIndex - 1);
             } else {
                 showMessage("Please save or cancel current edits.", "error");
@@ -1792,7 +1791,7 @@
         dieElements.nextBtn.addEventListener('click', () => {
             const newFaces = Array.from(dieElements.inputsContainer.querySelectorAll('input')).map(input => input.value.trim());
             if (newFaces.every(face => face !== '')) {
-                dieOptions[editingDieIndex].faces = newFaces;
+                dieOptions[editingDieIndex] = newFaces;
                 openDieEditModal(editingDieIndex + 1);
             } else {
                 showMessage("Please save or cancel current edits.", "error");
@@ -1832,42 +1831,28 @@
             const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
             let randomValue = Math.random() * totalWeight;
         
-            let winner = null;
-            let currentAngle = 0;
-            const sliceAngles = [];
-            spinnerOptions.forEach(option => {
-                const angle = (option.weight || 1) / totalWeight * 360;
-                sliceAngles.push({ name: option.name, angle, startAngle: currentAngle });
-                if (winner === null && randomValue <= (option.weight || 1)) {
-                    winner = option.name;
-                }
-                randomValue -= (option.weight || 1);
-                currentAngle += angle;
-            });
-            
-            // Find the winning slice based on the random number
             let winningSlice = null;
             let cumulativeWeight = 0;
+            const sliceAngles = [];
+            let cumulativeAngle = 0;
+
             for(let i = 0; i < spinnerOptions.length; i++) {
-                cumulativeWeight += (spinnerOptions[i].weight || 1);
-                if (Math.random() * totalWeight < cumulativeWeight) {
-                    winningSlice = spinnerOptions[i];
-                    break;
-                }
+                const angle = (spinnerOptions[i].weight || 1) / totalWeight * 360;
+                sliceAngles.push({ name: spinnerOptions[i].name, angle, startAngle: cumulativeAngle });
+                cumulativeAngle += angle;
             }
             
-            // Calculate the rotation needed to land on the winner.
-            // Pointer is at the top (90 degrees relative to 0deg).
-            // We need to rotate the spinner so the winning slice's center is at 90 degrees.
-            const sliceIndex = spinnerOptions.indexOf(winningSlice);
-            const sliceStartAngle = sliceAngles[sliceIndex].startAngle;
-            const sliceAngle = sliceAngles[sliceIndex].angle;
-            const targetAngle = 90 - (sliceStartAngle + sliceAngle / 2);
+            let winningAngle = Math.random() * 360;
+            winningSlice = sliceAngles.find(slice => {
+                const start = slice.startAngle;
+                const end = slice.startAngle + slice.angle;
+                return winningAngle >= start && winningAngle < end;
+            });
+            
+            const currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            const totalRotation = currentRotation + 360 * 5 + (360 - winningSlice.startAngle - winningSlice.angle / 2);
             
             const spinner = document.getElementById('spinnerCanvas');
-            const currentRotation = parseFloat(spinner.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const totalRotation = currentRotation + 360 * 5 + targetAngle; // 5 full spins for effect
-            
             spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
             spinner.style.transform = `rotate(${totalRotation}deg)`;
         
@@ -1896,27 +1881,18 @@
 
             ctx.clearRect(0, 0, size, size);
 
-            let startAngle = 0;
+            let startAngle = -Math.PI / 2;
             const colors = ["#ef4444", "#fcd34d", "#10b981", "#3b82f6", "#6b21a8", "#d946ef", "#dc2626", "#fbbf24"];
 
             let totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
             
-            // Calculate angles and draw slices
-            const sliceAngles = [];
-            let cumulativeAngle = 0;
             spinnerOptions.forEach((option, index) => {
-                const angle = (option.weight || 1) / totalWeight * 360;
-                sliceAngles.push({ name: option.name, angle, startAngle: cumulativeAngle });
-                cumulativeAngle += angle;
-            });
-            
-            sliceAngles.forEach((slice, index) => {
-                const startRad = (slice.startAngle - 90) * Math.PI / 180;
-                const endRad = (slice.startAngle + slice.angle - 90) * Math.PI / 180;
-                
+                const sliceAngle = (option.weight || 1) / totalWeight * 2 * Math.PI;
+                const endAngle = startAngle + sliceAngle;
+
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, startRad, endRad);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
                 ctx.closePath();
                 ctx.fillStyle = colors[index % colors.length];
                 ctx.fill();
@@ -1924,12 +1900,14 @@
                 // Draw text
                 ctx.save();
                 ctx.translate(centerX, centerY);
-                ctx.rotate(startRad + (endRad - startRad) / 2);
+                ctx.rotate(startAngle + sliceAngle / 2);
                 ctx.textAlign = 'center';
                 ctx.fillStyle = 'white';
                 ctx.font = '14px Inter';
-                ctx.fillText(slice.name, 0, -radius + 20);
+                ctx.fillText(option.name, 0, -radius + 20);
                 ctx.restore();
+
+                startAngle = endAngle;
             });
             document.getElementById('spinnerCardTitle').textContent = `Spin a Spinner (${currentCount} parts)`;
         }
