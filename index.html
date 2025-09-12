@@ -660,10 +660,10 @@
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
         }
-        .card-pile-container .card-in-pile:last-child .card-text {
+        #cardDeckDisplay .card-in-deck:last-child .card-text {
             opacity: 1;
         }
-        .card-pile-container .card-in-pile:hover .card-text {
+        #cardDeckDisplay .card-in-deck:hover .card-text {
             opacity: 1;
         }
         .card-pile-container .card-in-pile.empty {
@@ -997,7 +997,7 @@
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
                     <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto mb-8">
                         <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
-                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%) rotate(0deg);"></div>
+                        <div id="spinnerPointer" class="absolute left-1/2 -top-4 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%);"></div>
                     </div>
                     <div class="flex flex-col justify-center gap-4">
                         <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
@@ -1396,7 +1396,7 @@
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">One Coin</h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Coffee","tails":"Tea"}]'>Morning Coffee / Tea</button>
+                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Coffee","tails":"Tea"}]'>Morning Coffee / Tea</button>
                             <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Stay Inside","tails":"Go Outside"}]'>Stay Inside / Go Outside</button>
                         </div>
                     </div>
@@ -1468,6 +1468,8 @@
                 savedItemsList.innerHTML = `<p class="text-sm text-gray-600">No saved coins yet.</p>`;
             } else {
                 savedLists[type].forEach((slot, index) => {
+                    const wrapper = document.createElement('div');
+                    wrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
                     const button = document.createElement('button');
                     button.classList.add('saved-slot-btn', `saved-${type}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full');
                     const label = type === 'coin' ? slot.name : `${slot.name} (${slot.options.length} ${type}s)`;
@@ -1822,41 +1824,39 @@
                 showMessage("Please add options to the spinner first.", "error");
                 return;
             }
-
+            
             spinnerElements.spinBtn.disabled = true;
             spinnerElements.customizeBtn.disabled = true;
             elements.changeSpinnerCountBtn.disabled = true;
             elements.returnToMenuFromSpinner.disabled = true;
-
+        
             const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
-            let randomWeight = Math.random() * totalWeight;
-
+            let randomValue = Math.random() * totalWeight;
+        
             let winner = null;
             let currentAngle = 0;
             const sliceAngles = [];
-
+        
             spinnerOptions.forEach(option => {
                 const angle = (option.weight || 1) / totalWeight * 360;
                 sliceAngles.push({ name: option.name, angle, startAngle: currentAngle });
-                if (winner === null && randomWeight <= angle) {
+                if (winner === null && randomValue <= (option.weight || 1)) {
                     winner = option.name;
                 }
-                randomWeight -= angle;
+                randomValue -= (option.weight || 1);
                 currentAngle += angle;
             });
             
             const winningSlice = sliceAngles.find(slice => slice.name === winner);
-            const winningAngle = winningSlice.startAngle + (winningSlice.angle / 2);
             
             const fullSpins = 5;
-            const totalRotation = 360 * fullSpins + (270 - winningAngle);
+            const totalRotation = 360 * fullSpins + (270 - (winningSlice.startAngle + winningSlice.angle / 2));
             
             const spinner = document.getElementById('spinnerCanvas');
-            
-            const initialRotation = parseFloat(spinner.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            spinner.style.transition = `transform 5s ease-out`;
-            spinner.style.transform = `rotate(${initialRotation + totalRotation}deg)`;
-
+        
+            spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
+            spinner.style.transform = `rotate(${totalRotation}deg)`;
+        
             setTimeout(() => {
                 spinner.style.transition = 'none';
                 spinnerElements.spinBtn.disabled = false;
@@ -1902,11 +1902,11 @@
                 // Draw text
                 ctx.save();
                 ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + sliceAngle / 2);
-                ctx.textAlign = 'right';
+                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2);
+                ctx.textAlign = 'center';
                 ctx.fillStyle = 'white';
                 ctx.font = '14px Inter';
-                ctx.fillText(option.name, radius - 10, 5);
+                ctx.fillText(option.name, 0, -radius + 20);
                 ctx.restore();
 
                 startAngle = endAngle;
@@ -2026,20 +2026,15 @@
             renderSavedList('deck', savedDeckSlots, cardGameElements.savedListOptions, 'card', cardGameElements.deleteBtnOptions, () => showCard(cards.cardGame));
         }
         function renderSavedList(type, slots, container, btnClass, deleteBtn, navCallback) {
-            container.innerHTML = slots.length === 0 ? `<p class="text-sm text-gray-600">No saved ${type}s yet.</p>` : '';
+            container.innerHTML = slots.length === 0 ? `<p class="text-sm text-gray-600">No saved coins yet.</p>` : '';
             deleteBtn.disabled = slots.length === 0;
             slots.forEach((slot, index) => {
                 const wrapper = document.createElement('div');
                 wrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
                 const button = document.createElement('button');
-                button.classList.add('saved-slot-btn', `saved-${btnClass}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'flex-grow');
-                let label;
-                if (type === 'coin') label = `${slot.name} (${slot.options.length} coins): ${slot.options.map(o => `${o.heads}/${o.tails}`).join(', ')}`;
-                else if (type === 'die') label = `${slot.name} (d${slot.options.length}): ${slot.options.faces.join(', ')}`;
-                else if (type === 'spinner') label = `${slot.name} (${slot.options.length} parts): ${slot.options.map(o => o.name).join(', ')}`;
-                else if (type === 'deck') label = `${slot.name} (${slot.cards.length} cards): ${slot.cards.join(', ')}`;
+                button.classList.add('saved-slot-btn', `saved-${btnClass}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full');
+                const label = type === 'coin' ? slot.name : `${slot.name} (${slot.options.length} ${type}s)`;
                 button.textContent = label;
-                button.dataset.slotIndex = index;
                 button.addEventListener('click', () => {
                     if (type === 'coin') {
                         currentCount = slot.options.length;
@@ -2063,7 +2058,6 @@
                 const deleteButton = document.createElement('button');
                 deleteButton.classList.add('delete-saved-option-btn');
                 deleteButton.textContent = 'x';
-                deleteButton.dataset.slotIndex = index;
                 deleteButton.addEventListener('click', (e) => {
                     e.stopPropagation();
                     showConfirmationModal("Delete Saved", `Are you sure you want to delete "${slot.name}"?`, () => {
