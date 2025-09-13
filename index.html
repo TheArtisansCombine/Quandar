@@ -30,6 +30,8 @@
         .theme-natural .coin-btn-main:hover { background-color: #fbbf24; }
         .theme-natural .die-btn-main { background-color: #6ee7b7; color: #065f46; }
         .theme-natural .die-btn-main:hover { background-color: #34d399; }
+        .theme-natural .spinner-btn-main { background-color: #93c5fd; color: #1e3a8a; }
+        .theme-natural .spinner-btn-main:hover { background-color: #60a5fa; }
         .theme-natural .card-game-btn-main { background-color: #fca5a5; color: #7f1d1d; }
         .theme-natural .card-game-btn-main:hover { background-color: #f87171; }
         .theme-natural .options-btn-main { background-color: #d1d5db; color: #374151; }
@@ -40,6 +42,7 @@
         .theme-natural .about-btn-options:hover { background-color: #6b7280; }
         .theme-natural .coin-card { background-color: #fffbeb; border-color: #fcd34d; color: #78350f; }
         .theme-natural .die-card { background-color: #ecfdf5; border-color: #6ee7b7; color: #065f46; }
+        .theme-natural .spinner-card { background-color: #eff6ff; border-color: #93c5fd; color: #1e3a8a; }
         .theme-natural .card-game-card { background-color: #fee2e2; border-color: #fca5a5; color: #7f1d1d; }
         .theme-natural .primary-action-btn { background-color: #84cc16; color: white; }
         .theme-natural .primary-action-btn:hover { background-color: #65a30d; }
@@ -63,6 +66,10 @@
         .theme-natural .text-emerald-800 { color: #065f46; }
         .theme-natural .saved-die-slot-btn { background-color: #6ee7b7; color: #065f46; border-color: #6ee7b7; }
         .theme-natural .saved-die-slot-btn:hover { background-color: #34d399; }
+        .theme-natural .bg-blue-100 { background-color: #eff6ff; }
+        .theme-natural .text-blue-800 { color: #1e3a8a; }
+        .theme-natural .saved-spinner-slot-btn { background-color: #93c5fd; color: #1e3a8a; border-color: #93c5fd; }
+        .theme-natural .saved-spinner-slot-btn:hover { background-color: #60a5fa; }
         .theme-natural .bg-red-100 { background-color: #fee2e2; }
         .theme-natural .text-red-800 { color: #7f1d1d; }
         .theme-natural .saved-card-game-slot-btn { background-color: #fca5a5; color: #7f1d1d; border-color: #fca5a5; }
@@ -70,6 +77,11 @@
         .theme-natural .delete-saved-option-btn { background-color: #ef4444; }
         .theme-natural .delete-saved-option-btn:hover { background-color: #dc2626; }
         .theme-natural .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; cursor: pointer; }
+        .theme-natural .spinner-slice-color-0 { fill: #81c784; } .theme-natural .spinner-slice-color-1 { fill: #a5d6a7; }
+        .theme-natural .spinner-slice-color-2 { fill: #fcd34d; } .theme-natural .spinner-slice-color-3 { fill: #ffe082; }
+        .theme-natural .spinner-slice-color-4 { fill: #a2d2ff; } .theme-natural .spinner-slice-color-5 { fill: #bde0fe; }
+        .theme-natural .spinner-slice-color-6 { fill: #c1e1c1; } .theme-natural .spinner-slice-color-7 { fill: #f0f4c3; }
+        .theme-natural .spinner-result-text { color: #495057; }
         /* --- Theme: Bold & Energetic --- */
         body.theme-bold {
             background-color: #1a202c;
@@ -93,6 +105,13 @@
         }
         .theme-bold .die-btn-main:hover {
             background-color: #3b82f6;
+        }
+        .theme-bold .spinner-btn-main {
+            background-color: #e879f9;
+            color: #86198f;
+        }
+        .theme-bold .spinner-btn-main:hover {
+            background-color: #d946eef;
         }
         .theme-bold .card-game-btn-main {
             background-color: #f87171;
@@ -131,6 +150,11 @@
             background-color: #0c152e;
             border-color: #3b82f6;
             color: #93c5fd;
+        }
+        .theme-bold .spinner-card {
+            background-color: #4a0429;
+            border-color: #ec4899;
+            color: #f0abfc;
         }
         .theme-bold .card-game-card {
             background-color: #7f1d1d;
@@ -384,6 +408,50 @@
             100% {
                 transform: rotate(360deg);
             }
+        }
+        .spinner-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: transparent;
+        }
+        .spinner-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .central-spinner-pointer {
+            position: absolute;
+            left: 50%;
+            top: -20px;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid #ef4444;
+            z-index: 10;
+        }
+        .spinner-result-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 6px 12px;
+            border-radius: 8px;
+            z-index: 11;
+            word-break: break-word;
+            max-width: 80%;
+            text-align: center;
         }
         .card-deck-container {
             display: flex;
@@ -689,6 +757,7 @@
                 <div class="flex flex-col justify-center gap-4">
                     <button id="showCoinCountBtn" class="coin-btn-main font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-xl w-full">Flip a Coin</button>
                     <button id="showDieCountBtn" class="die-btn-main font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-xl w-full">Roll a Die</button>
+                    <button id="showSpinnerCountBtn" class="spinner-btn-main font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-xl w-full">Spin a Spinner</button>
                     <button id="showCardGameBtn" class="card-game-btn-main font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-xl w-full">Draw a Card</button>
                 </div>
                 <div class="flex justify-center mt-6">
@@ -782,7 +851,14 @@
                             <p class="text-sm text-gray-600">No saved dice yet.</p>
                         </div>
                     </div>
-                    
+
+                    <div id="spinnerSavedList" class="bg-blue-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
+                        <h4 class="text-xl font-bold text-blue-800 mb-3 text-center">Saved Spinners</h4>
+                        <div id="savedSpinnersListCount" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved spinners yet.</p>
+                        </div>
+                    </div>
+
                     <div class="flex justify-center">
                         <button id="backToMainBtn" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">
                             Back
@@ -817,6 +893,24 @@
                         <button id="customizeDieBtn" class="secondary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Customize</button>
                         <button id="changeDieCountBtn" class="primary-action-btn bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Change Count</button>
                         <button id="returnToMenuFromDie" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Return to Menu</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
+                <div class="spinner-card p-6 rounded-xl shadow-md border">
+                    <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
+                    <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto mb-8">
+                        <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
+                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%);"></div>
+                    </div>
+                    <div class="flex flex-col justify-center gap-4">
+                        <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
+                    </div>
+                    <div class="flex flex-col justify-center gap-4 mt-4">
+                        <button id="customizeSpinnerBtn" class="secondary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Customize</button>
+                        <button id="changeSpinnerCountBtn" class="primary-action-btn bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Change Parts</button>
+                        <button id="returnToMenuFromSpinner" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Return to Menu</button>
                     </div>
                 </div>
             </section>
@@ -899,6 +993,15 @@
                             </div>
                             <div id="savedDiceListOptions" class="space-y-2">
                                 <p class="text-sm text-gray-600">No saved dice yet.</p>
+                            </div>
+                        </div>
+                        <div class="bg-blue-100 p-4 rounded-lg shadow-inner">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-xl font-bold text-blue-800">Saved Spinners</h4>
+                                <button id="deleteSavedSpinnerOptionsBtnOptions" class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200">Delete Saved</button>
+                            </div>
+                            <div id="savedSpinnersListOptions" class="space-y-2">
+                                <p class="text-sm text-gray-600">No saved spinners yet.</p>
                             </div>
                         </div>
                         <div class="bg-red-100 p-4 rounded-lg shadow-inner">
@@ -988,6 +1091,27 @@
         </div>
     </div>
 
+    <div id="spinnerEditModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="spinnerEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Spinner Options</h3>
+            <div id="modalSpinnerOptionInputs" class="space-y-4 mb-6"></div>
+            <div class="bg-blue-100 p-4 rounded-lg mt-6 shadow-inner">
+                <h4 class="text-xl font-bold text-blue-800 mb-4 text-center">Saved Spinner Options</h4>
+                <button id="saveCurrentSpinnerOptionsBtn" class="bg-blue-400 hover:bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 mb-4 mr-2">Save Current Spinner</button>
+                <button id="deleteSavedSpinnerOptionsBtn" class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 mb-4">Delete Saved</button>
+                <div id="spinnerSaveSlotsContainerInModal" class="space-y-3 mt-3"></div>
+            </div>
+            <div class="flex justify-between items-center gap-4 mt-6 relative">
+                <button id="prevSpinnerModalBtn" class="modal-arrow-button left">&larr;</button>
+                <div class="flex justify-center gap-4 flex-grow">
+                    <button id="saveSpinnerOptionsBtn" class="primary-action-btn bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Save</button>
+                    <button id="cancelSpinnerOptionsBtn" class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Cancel</button>
+                </div>
+                <button id="nextSpinnerModalBtn" class="modal-arrow-button right">&rarr;</button>
+            </div>
+        </div>
+    </div>
+
     <div id="cardGameSaveModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="cardGameSaveModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Save Current Deck</h3>
@@ -1054,30 +1178,37 @@
             count: document.getElementById('countSelectionCard'),
             coin: document.getElementById('coinCard'),
             die: document.getElementById('dieCard'),
+            spinner: document.getElementById('spinnerCard'),
             cardGame: document.getElementById('cardGameCard'),
             options: document.getElementById('optionsCard')
         };
         const elements = {
             showCoinCountBtn: document.getElementById('showCoinCountBtn'),
             showDieCountBtn: document.getElementById('showDieCountBtn'),
+            showSpinnerCountBtn: document.getElementById('showSpinnerCountBtn'),
             showCardGameBtn: document.getElementById('showCardGameBtn'),
             optionsBtn: document.getElementById('optionsBtn'),
             backToMainBtn: document.getElementById('backToMainBtn'),
             backToMainFromOptionsBtn: document.getElementById('backToMainFromOptionsBtn'),
             returnToMenuFromCoin: document.getElementById('returnToMenuFromCoin'),
             returnToMenuFromDie: document.getElementById('returnToMenuFromDie'),
+            returnToMenuFromSpinner: document.getElementById('returnToMenuFromSpinner'),
             returnToMenuFromCardGame: document.getElementById('returnToMenuFromCardGame'),
             changeCoinCountBtn: document.getElementById('changeCoinCountBtn'),
             changeDieCountBtn: document.getElementById('changeDieCountBtn'),
+            changeSpinnerCountBtn: document.getElementById('changeSpinnerCountBtn'),
             countSelectionTitle: document.getElementById('countSelectionTitle'),
             countButtonsContainer: document.getElementById('countButtonsContainer'),
             coinQuickPicks: document.getElementById('coinQuickPicks'),
             dieQuickPicks: document.getElementById('dieQuickPicks'),
+            spinnerQuickPicks: document.getElementById('spinnerQuickPicks'),
             cardGameQuickPicks: document.getElementById('cardGameQuickPicks'),
             coinSavedList: document.getElementById('coinSavedList'),
             dieSavedList: document.getElementById('dieSavedList'),
+            spinnerSavedList: document.getElementById('spinnerSavedList'),
             savedCoinsListCount: document.getElementById('savedCoinsListCount'),
             savedDiceListCount: document.getElementById('savedDiceListCount'),
+            savedSpinnersListCount: document.getElementById('savedSpinnersListCount'),
             themeNaturalBtn: document.getElementById('themeNaturalBtn'),
             themeBoldBtn: document.getElementById('themeBoldBtn'),
             themeModernBtn: document.getElementById('themeModernBtn')
@@ -1088,10 +1219,12 @@
         let currentTheme = localStorage.getItem('decidoTheme') || 'natural';
         let coinOptions = [{ heads: "Heads", tails: "Tails" }];
         let dieOptions = [{ faces: ["1", "2", "3", "4", "5", "6"] }];
+        let spinnerOptions = [];
         let currentDeck = [];
         let splitDecks = [];
         let savedCoinSlots = JSON.parse(localStorage.getItem('decidoCoinSlots') || '[]');
         let savedDieSlots = JSON.parse(localStorage.getItem('decidoDieSlots') || '[]');
+        let savedSpinnerSlots = JSON.parse(localStorage.getItem('decidoSpinnerSlots') || '[]');
         let savedDeckSlots = JSON.parse(localStorage.getItem('decidoDeckSlots') || '[]');
         function showCard(cardToShow, type = '') {
             Object.values(cards).forEach(card => {
@@ -1114,15 +1247,28 @@
                     [1, 2, 3, 4, 5].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
                     elements.coinQuickPicks.style.display = 'block';
                     elements.dieQuickPicks.style.display = 'none';
+                    elements.spinnerQuickPicks.style.display = 'none';
                     elements.coinSavedList.style.display = 'block';
                     elements.dieSavedList.style.display = 'none';
+                    elements.spinnerSavedList.style.display = 'none';
                 } else if (type === 'die') {
                     elements.countSelectionTitle.textContent = `How many dice?`;
                     [1, 2, 3, 4, 5, 6, 7].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
                     elements.coinQuickPicks.style.display = 'none';
                     elements.dieQuickPicks.style.display = 'block';
+                    elements.spinnerQuickPicks.style.display = 'none';
                     elements.coinSavedList.style.display = 'none';
                     elements.dieSavedList.style.display = 'block';
+                    elements.spinnerSavedList.style.display = 'none';
+                } else if (type === 'spinner') {
+                    elements.countSelectionTitle.textContent = `How many parts of the pie chart?`;
+                    [2, 3, 4, 5, 6, 8].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
+                    elements.coinQuickPicks.style.display = 'none';
+                    elements.dieQuickPicks.style.display = 'none';
+                    elements.spinnerQuickPicks.style.display = 'block';
+                    elements.coinSavedList.style.display = 'none';
+                    elements.dieSavedList.style.display = 'none';
+                    elements.spinnerSavedList.style.display = 'block';
                 }
                 elements.countButtonsContainer.innerHTML = countOptionsHtml;
                 elements.countButtonsContainer.querySelectorAll('.count-btn').forEach(button => button.addEventListener('click', handleCountButtonClick));
@@ -1134,6 +1280,11 @@
                 const newDieOptions = Array.from({ length: currentCount }, (_, i) => dieOptions[i] ? { ...dieOptions[i] } : { faces: Array.from({ length: currentDieFacesCount }, (_, f) => (f + 1).toString()) });
                 dieOptions = newDieOptions;
                 updateDieDisplay();
+            } else if (cardToShow === cards.spinner) {
+                if (spinnerOptions.length !== currentCount) {
+                    spinnerOptions = Array.from({ length: currentCount }, (_, i) => ({ name: `Option ${i + 1}`, weight: 1 }));
+                }
+                updateSpinnerDisplay();
             } else if (cardToShow === cards.cardGame) {
                 updateCardGameDisplay();
                 renderSavedDeckListCardGame();
@@ -1189,14 +1340,30 @@
                             <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>Roll 3d6 (Character Stats)</button>
                         </div>
                     </div>`,
+                spinner: `
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Four-Part Spinners</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>Weekend Activities</button>
+                        </div>
+                    </div>`
             };
             const savedLists = {
                 coin: savedCoinSlots,
                 die: savedDieSlots,
+                spinner: savedSpinnerSlots
             };
             const savedListClass = {
                 coin: 'bg-amber-100 text-amber-800',
                 die: 'bg-emerald-100 text-emerald-800',
+                spinner: 'bg-blue-100 text-blue-800'
             };
             elements.quickPicksContainer.innerHTML = quickPicks[type];
             elements.savedListContainer.classList = ['p-4 rounded-lg shadow-inner mb-6', savedListClass[type]];
@@ -1219,6 +1386,10 @@
                             currentCount = slot.options.length;
                             dieOptions = [...slot.options];
                             showCard(cards.die);
+                        } else if (type === 'spinner') {
+                            currentCount = slot.options.length;
+                            spinnerOptions = [...slot.options];
+                            showCard(cards.spinner);
                         } else if (type === 'deck') {
                             currentDeck = [...slot.cards];
                             showCard(cards.cardGame);
@@ -1247,6 +1418,7 @@
                 const options = JSON.parse(e.target.dataset.options);
                 if (type === 'coin') loadCoinOptionsAndShowFlip(options);
                 else if (type === 'die') loadDieOptionsAndShowRoll(options);
+                else if (type === 'spinner') loadSpinnerOptionsAndShowSpin(options);
             }));
         }
 
@@ -1258,22 +1430,28 @@
             } else if (currentDecisionType === 'die') {
                 const defaultOptions = Array.from({ length: currentCount }, () => ({ faces: Array.from({ length: 6 }, (_, f) => (f + 1).toString()) }));
                 loadDieOptionsAndShowRoll(defaultOptions);
+            } else if (currentDecisionType === 'spinner') {
+                const defaultOptions = Array.from({ length: currentCount }, (_, i) => ({ name: `Option ${i + 1}`, weight: 1 }));
+                loadSpinnerOptionsAndShowSpin(defaultOptions);
             }
         }
         function loadCoinOptionsAndShowFlip(options) { currentCount = options.length; coinOptions = options; showCard(cards.coin); }
         function loadDieOptionsAndShowRoll(options) { currentCount = options.length; dieOptions = options; showCard(cards.die); }
+        function loadSpinnerOptionsAndShowSpin(options) { currentCount = options.length; spinnerOptions = options; showCard(cards.spinner); }
         function loadCardOptionsAndShowGame(options) { currentDeck = options; showCard(cards.cardGame); }
         elements.showCoinCountBtn.addEventListener('click', () => showCard(cards.count, 'coin'));
         elements.showDieCountBtn.addEventListener('click', () => showCard(cards.count, 'die'));
+        elements.showSpinnerCountBtn.addEventListener('click', () => showCard(cards.count, 'spinner'));
         elements.showCardGameBtn.addEventListener('click', () => showCard(cards.cardGame, 'cardGame'));
         elements.optionsBtn.addEventListener('click', () => showCard(cards.options));
         elements.backToMainBtn.addEventListener('click', () => showCard(cards.main));
         elements.backToMainFromOptionsBtn.addEventListener('click', () => showCard(cards.main));
         elements.returnToMenuFromCoin.addEventListener('click', () => showCard(cards.main));
         elements.returnToMenuFromDie.addEventListener('click', () => showCard(cards.main));
-        elements.returnToMenuFromCardGame.addEventListener('click', () => showCard(cards.main));
+        elements.returnToMenuFromSpinner.addEventListener('click', () => showCard(cards.main));
         elements.changeCoinCountBtn.addEventListener('click', () => showCard(cards.count, 'coin'));
         elements.changeDieCountBtn.addEventListener('click', () => showCard(cards.count, 'die'));
+        elements.changeSpinnerCountBtn.addEventListener('click', () => showCard(cards.count, 'spinner'));
         document.querySelectorAll('.quick-pick-btn-card').forEach(button => button.addEventListener('click', (e) => loadCardOptionsAndShowGame(JSON.parse(e.target.dataset.options))));
         document.getElementById('mainLogoLink').addEventListener('click', (e) => { e.preventDefault(); showCard(cards.main); });
         function applyTheme(themeName) {
@@ -1281,6 +1459,7 @@
             document.body.classList.add(`theme-${themeName}`);
             currentTheme = themeName;
             localStorage.setItem('decidoTheme', themeName);
+            if (cards.spinner.classList.contains('card-visible')) updateSpinnerDisplay();
             if (cards.options.classList.contains('card-visible')) renderSavedOptionsLists();
         }
         elements.themeNaturalBtn.addEventListener('click', () => applyTheme('natural'));
@@ -1523,6 +1702,153 @@
                 showMessage("Please save or cancel current edits.", "error");
             }
         });
+        const spinnerElements = {
+            spinBtn: document.getElementById('spinSpinnerBtn'),
+            customizeBtn: document.getElementById('customizeSpinnerBtn'),
+            display: document.getElementById('spinnerResultDisplay'),
+            modal: document.getElementById('spinnerEditModal'),
+            modalTitle: document.getElementById('spinnerEditModalTitle'),
+            inputsContainer: document.getElementById('modalSpinnerOptionInputs'),
+            saveBtn: document.getElementById('saveSpinnerOptionsBtn'),
+            cancelBtn: document.getElementById('cancelSpinnerOptionsBtn'),
+            prevBtn: document.getElementById('prevSpinnerModalBtn'),
+            nextBtn: document.getElementById('nextSpinnerModalBtn'),
+            saveCurrentBtn: document.getElementById('saveCurrentSpinnerOptionsBtn'),
+            deleteSavedBtn: document.getElementById('deleteSavedSpinnerOptionsBtn'),
+            savedSlotsContainer: document.getElementById('spinnerSaveSlotsContainerInModal'),
+            listOptions: document.getElementById('savedSpinnersListOptions'),
+            deleteBtnOptions: document.getElementById('deleteSavedSpinnerOptionsBtnOptions')
+        };
+        let editingSpinnerPartIndex = -1;
+        let isDeletingSavedSpinner = false;
+        
+        spinnerElements.spinBtn.addEventListener('click', () => {
+            if (spinnerOptions.length === 0) {
+                showMessage("Please add options to the spinner first.", "error");
+                return;
+            }
+            
+            spinnerElements.spinBtn.disabled = true;
+            spinnerElements.customizeBtn.disabled = true;
+            elements.changeSpinnerCountBtn.disabled = true;
+            elements.returnToMenuFromSpinner.disabled = true;
+        
+            const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
+            
+            // Calculate a random final angle
+            const randomRotation = Math.random() * 360;
+            const finalRotation = 360 * 5 + (270 - randomRotation);
+
+            const spinner = document.getElementById('spinnerCanvas');
+            spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
+            spinner.style.transform = `rotate(${finalRotation}deg)`;
+        
+            // Determine the winner based on the final angle
+            setTimeout(() => {
+                spinner.style.transition = 'none';
+                
+                const normalizedAngle = (finalRotation % 360 + 360) % 360;
+                let winner = "No winner found";
+                let currentAngle = 0;
+                const pointerAngle = 270; // Top of the wheel
+                
+                spinnerOptions.forEach(option => {
+                    const sliceAngle = (option.weight || 1) / totalWeight * 360;
+                    const sliceEndAngle = currentAngle + sliceAngle;
+                    
+                    if (normalizedAngle >= currentAngle && normalizedAngle < sliceEndAngle) {
+                        winner = option.name;
+                    }
+                    currentAngle = sliceEndAngle;
+                });
+                
+                spinnerElements.spinBtn.disabled = false;
+                spinnerElements.customizeBtn.disabled = false;
+                elements.changeSpinnerCountBtn.disabled = false;
+                elements.returnToMenuFromSpinner.disabled = false;
+                showResultSplashScreen(winner);
+            }, 5000);
+        });
+
+        spinnerElements.customizeBtn.addEventListener('click', () => { if (currentCount > 0) openSpinnerEditModal(0); else showMessage("Please select a count first.", "info"); });
+        spinnerElements.modal.addEventListener('click', (e) => { if (e.target === spinnerElements.modal) closeSpinnerEditModal(); });
+        
+        function updateSpinnerDisplay() {
+            const canvas = document.getElementById('spinnerCanvas');
+            const ctx = canvas.getContext('2d');
+            const size = 250;
+            canvas.width = size;
+            canvas.height = size;
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size / 2;
+
+            ctx.clearRect(0, 0, size, size);
+
+            let startAngle = 0;
+            const colors = ["#ef4444", "#fcd34d", "#10b981", "#3b82f6", "#6b21a8", "#d946ef", "#dc2626", "#fbbf24"];
+
+            let totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
+
+            spinnerOptions.forEach((option, index) => {
+                const sliceAngle = (option.weight || 1) / totalWeight * 2 * Math.PI;
+                const endAngle = startAngle + sliceAngle;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = colors[index % colors.length];
+                ctx.fill();
+
+                // Draw text
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2);
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'white';
+                ctx.font = '14px Inter';
+                ctx.fillText(option.name, 0, -radius + 20);
+                ctx.restore();
+
+                startAngle = endAngle;
+            });
+            document.getElementById('spinnerCardTitle').textContent = `Spin a Spinner (${currentCount} parts)`;
+        }
+
+        function openSpinnerEditModal(index) {
+            editingSpinnerPartIndex = parseInt(index, 10);
+            spinnerElements.inputsContainer.innerHTML = '';
+            spinnerOptions.forEach((option, i) => {
+                const inputDiv = document.createElement('div');
+                inputDiv.classList.add('flex', 'items-center', 'gap-2');
+                inputDiv.innerHTML = `<label class="block font-semibold">Part ${i + 1}:</label><input type="text" id="modalSpinnerOptionName${i + 1}" value="${option.name}" class="w-full p-2 border rounded-lg"><label class="block font-semibold">Weight:</label><input type="number" id="modalSpinnerOptionWeight${i + 1}" value="${option.weight}" min="0" class="w-20 p-2 border rounded-lg">`;
+                spinnerElements.inputsContainer.appendChild(inputDiv);
+            });
+            spinnerElements.modalTitle.textContent = `Edit Spinner Options`;
+            spinnerElements.prevBtn.style.display = (editingSpinnerPartIndex === 0) ? 'none' : 'block';
+            spinnerElements.nextBtn.style.display = (editingSpinnerPartIndex === currentCount - 1) ? 'none' : 'block';
+            // Placeholder: renderSavedSlotsInModal('spinner');
+            spinnerElements.modal.classList.add('show');
+        }
+        function closeSpinnerEditModal() { spinnerElements.modal.classList.remove('show'); editingSpinnerPartIndex = -1; isDeletingSavedSpinner = false; }
+        spinnerElements.saveBtn.addEventListener('click', () => {
+            const newOptions = [];
+            let allValid = true;
+            for (let i = 0; i < currentCount; i++) {
+                const name = document.getElementById(`modalSpinnerOptionName${i + 1}`).value.trim();
+                const weight = parseInt(document.getElementById(`modalSpinnerOptionWeight${i + 1}`).value, 10);
+                if (!name || isNaN(weight) || weight < 0) { allValid = false; break; }
+                newOptions.push({ name, weight });
+            }
+            if (allValid) {
+                spinnerOptions = newOptions;
+                showMessage(`Spinner options saved!`, "info");
+                closeSpinnerEditModal();
+                updateSpinnerDisplay();
+            } else { showMessage("Please provide a valid name and a non-negative weight for all parts.", "error"); }
+        });
+        spinnerElements.cancelBtn.addEventListener('click', closeSpinnerEditModal);
         const cardGameElements = {
             input: document.getElementById('cardInput'),
             addBtn: document.getElementById('addCardBtn'),
@@ -1598,6 +1924,7 @@
         function renderSavedOptionsLists() {
             renderSavedList('coin', savedCoinSlots, coinElements.listOptions, 'coin', coinElements.deleteBtnOptions, () => showCard(cards.coin));
             renderSavedList('die', savedDieSlots, dieElements.listOptions, 'die', dieElements.deleteBtnOptions, () => showCard(cards.die));
+            renderSavedList('spinner', savedSpinnerSlots, spinnerElements.listOptions, 'spinner', spinnerElements.deleteBtnOptions, () => showCard(cards.spinner));
             renderSavedList('deck', savedDeckSlots, cardGameElements.savedListOptions, 'card', cardGameElements.deleteBtnOptions, () => showCard(cards.cardGame));
         }
         function renderSavedList(type, slots, container, btnClass, deleteBtn, navCallback) {
@@ -1619,6 +1946,10 @@
                         currentCount = slot.options.length;
                         dieOptions = [...slot.options];
                         showCard(cards.die);
+                    } else if (type === 'spinner') {
+                        currentCount = slot.options.length;
+                        spinnerOptions = [...slot.options];
+                        showCard(cards.spinner);
                     } else if (type === 'deck') {
                         currentDeck = [...slot.cards];
                         showCard(cards.cardGame);
@@ -1654,6 +1985,12 @@
                 button.addEventListener('click', (event) => {
                     const options = JSON.parse(event.target.dataset.options);
                     loadDieOptionsAndShowRoll(options);
+                });
+            });
+             document.querySelectorAll('.quick-pick-btn-spinner').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const options = JSON.parse(event.target.dataset.options);
+                    loadSpinnerOptionsAndShowSpin(options);
                 });
             });
         });
