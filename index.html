@@ -3,50 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spinner Fixed Speed</title>
-  <style>
-    .spinner-container {
-      position: relative;
-      width: 300px;
-      height: 300px;
-      margin: 50px auto;
-      border-radius: 50%;
-      overflow: hidden;
-    }
-    canvas {
-      width: 100%;
-      height: 100%;
-    }
-    .spinner-pointer {
-      position: absolute;
-      bottom: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      border-top: 30px solid red;
-      z-index: 10;
-    }
-  </style>
+  <title>Quandar - Let Fate Decide!</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <!-- keep your existing styles -->
 </head>
-<body>
-  <div class="spinner-container">
-    <canvas id="spinnerCanvas" width="300" height="300"></canvas>
-    <div class="spinner-pointer"></div>
-  </div>
-  <button id="spinBtn">Spin</button>
-  <h2 id="result"></h2>
+<body class="theme-natural min-h-screen flex items-center justify-center p-4">
+  <!-- keep your existing layout/menu sections -->
+
+  <!-- spinner section -->
+  <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
+    <div class="spinner-card p-6 rounded-xl shadow-md border">
+      <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
+      <div id="spinnerContainer" class="relative w-[300px] h-[300px] mx-auto mb-8">
+        <canvas id="spinnerCanvas" class="rounded-full shadow-lg" width="300" height="300"></canvas>
+        <div class="spinner-pointer absolute left-1/2 w-0 h-0 border-l-[20px] border-r-[20px] border-t-[30px] border-l-transparent border-r-transparent border-t-red-600" style="bottom:-25px; transform:translateX(-50%);"></div>
+      </div>
+      <div class="flex flex-col justify-center gap-4">
+        <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
+      </div>
+      <h2 id="spinnerResult" class="text-center text-xl font-bold mt-4"></h2>
+      <div class="flex flex-col justify-center gap-4 mt-4">
+        <button id="customizeSpinnerBtn" class="secondary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Customize</button>
+        <button id="changeSpinnerCountBtn" class="primary-action-btn bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Change Parts</button>
+        <button id="returnToMenuFromSpinner" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Return to Menu</button>
+      </div>
+    </div>
+  </section>
 
   <script>
+    // --- Spinner Logic ---
     const canvas = document.getElementById("spinnerCanvas");
     const ctx = canvas.getContext("2d");
-    const spinBtn = document.getElementById("spinBtn");
-    const resultEl = document.getElementById("result");
+    const spinBtn = document.getElementById("spinSpinnerBtn");
+    const resultEl = document.getElementById("spinnerResult");
 
-    const slices = ["Option 1", "Option 2", "Option 3", "Option 4"];
-    const sliceAngle = (2 * Math.PI) / slices.length;
+    let slices = ["Option 1", "Option 2", "Option 3", "Option 4"];
+    let sliceAngle = (2 * Math.PI) / slices.length;
     let currentAngle = 0;
 
     function drawWheel() {
@@ -61,7 +54,7 @@
         ctx.rotate(i * sliceAngle + sliceAngle / 2);
         ctx.textAlign = "right";
         ctx.fillStyle = "#000";
-        ctx.font = "16px Arial";
+        ctx.font = "16px Inter, sans-serif";
         ctx.fillText(slices[i], 140, 10);
         ctx.restore();
       }
@@ -70,8 +63,8 @@
     drawWheel();
 
     function spinWheel() {
-      const spinDuration = 4000; // 4 seconds fixed
-      const rotations = 6; // fixed rotations
+      const spinDuration = 4000; // fixed 4s spin
+      const rotations = 6; // fixed number of rotations
       const finalAngle = currentAngle + rotations * 2 * Math.PI + Math.random() * 2 * Math.PI;
       const start = performance.now();
 
@@ -98,7 +91,9 @@
           drawWheel();
           ctx.restore();
 
-          const winningIndex = slices.length - 1 - Math.floor(((currentAngle % (2 * Math.PI)) / sliceAngle)) % slices.length;
+          // Determine winning slice (bottom pointer)
+          const normalizedAngle = currentAngle % (2 * Math.PI);
+          const winningIndex = (slices.length - 1 - Math.floor(normalizedAngle / sliceAngle)) % slices.length;
           resultEl.textContent = `Winner: ${slices[winningIndex]}`;
         }
       }
