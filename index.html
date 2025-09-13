@@ -1439,14 +1439,14 @@
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
                         </div>
                     </div>
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Four-Part Spinners</h3>
                         <div class="grid grid-cols-1 gap-4">
-                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>Weekend Activities</button>
+                            <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>Weekend Activities</button>
                         </div>
                     </div>`
             };
@@ -1462,7 +1462,7 @@
             };
             elements.quickPicksContainer.innerHTML = quickPicks[type];
             elements.savedListContainer.classList = ['p-4 rounded-lg shadow-inner mb-6', savedListClass[type]];
-            elements.savedListContainer.innerHTML = `<h4 class="text-xl font-bold mb-3 text-center">Saved Coins</h4><div id="savedItemsList" class="space-y-2"></div>`;
+            elements.savedListContainer.innerHTML = `<h4 class="text-xl font-bold mb-3 text-center">Saved Coins</h4><div id="savedCoinsListCount" class="space-y-2"></div>`;
             const savedItemsList = document.getElementById('savedItemsList');
             if (savedLists[type].length === 0) {
                 savedItemsList.innerHTML = `<p class="text-sm text-gray-600">No saved coins yet.</p>`;
@@ -1829,46 +1829,29 @@
             elements.returnToMenuFromSpinner.disabled = true;
         
             const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
-            
-            // Choose a winner based on weight
             let randomValue = Math.random() * totalWeight;
-            let winningSliceIndex = -1;
-            let cumulativeWeight = 0;
-            for(let i = 0; i < spinnerOptions.length; i++) {
-                cumulativeWeight += (spinnerOptions[i].weight || 1);
-                if (randomValue < cumulativeWeight) {
-                    winningSliceIndex = i;
-                    break;
+        
+            let winner = null;
+            let currentAngle = 0;
+            const sliceAngles = [];
+            spinnerOptions.forEach(option => {
+                const angle = (option.weight || 1) / totalWeight * 360;
+                sliceAngles.push({ name: option.name, angle, startAngle: currentAngle });
+                if (winner === null && randomValue <= (option.weight || 1)) {
+                    winner = option.name;
                 }
-            }
-            const winningSlice = spinnerOptions[winningSliceIndex];
-
-            // Calculate the total angle for each slice
-            let sliceAngles = [];
-            let cumulativeAngle = 0;
-            for(let i = 0; i < spinnerOptions.length; i++) {
-                const angle = (spinnerOptions[i].weight || 1) / totalWeight * 360;
-                sliceAngles.push({ name: spinnerOptions[i].name, angle: angle, startAngle: cumulativeAngle });
-                cumulativeAngle += angle;
-            }
-
-            const winningSliceAngleInfo = sliceAngles[winningSliceIndex];
+                randomValue -= (option.weight || 1);
+                currentAngle += angle;
+            });
             
-            // The canvas is drawn with 0 degrees at the 3 o'clock position.
-            // The pointer is at the 12 o'clock position (270 degrees).
-            // We need to rotate the wheel so the center of the winning slice aligns with 270 degrees.
-            const degreesToCenter = winningSliceAngleInfo.startAngle + winningSliceAngleInfo.angle / 2;
+            const winningSlice = sliceAngles.find(slice => slice.name === winner);
             
-            // Calculate the rotation needed to move the center of the winning slice to the pointer's position.
-            const rotationOffset = 270 - degreesToCenter;
-
-            // Add extra spins for a dramatic effect
-            const extraSpins = 5;
-            const finalRotation = (360 * extraSpins) + rotationOffset;
-
+            const currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            const totalRotation = currentRotation + 360 * 5 + (90 - (winningSlice.startAngle + winningSlice.angle / 2));
+            
             const spinner = document.getElementById('spinnerCanvas');
             spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
-            spinner.style.transform = `rotate(${finalRotation}deg)`;
+            spinner.style.transform = `rotate(${totalRotation}deg)`;
         
             setTimeout(() => {
                 spinner.style.transition = 'none';
@@ -1876,7 +1859,7 @@
                 spinnerElements.customizeBtn.disabled = false;
                 elements.changeSpinnerCountBtn.disabled = false;
                 elements.returnToMenuFromSpinner.disabled = false;
-                showResultSplashScreen(winningSlice.name);
+                showResultSplashScreen(winner);
             }, 5000);
         });
 
@@ -1914,7 +1897,7 @@
                 // Draw text
                 ctx.save();
                 ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2);
                 ctx.textAlign = 'center';
                 ctx.fillStyle = 'white';
                 ctx.font = '14px Inter';
