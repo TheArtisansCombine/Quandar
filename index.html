@@ -1829,32 +1829,34 @@
             elements.returnToMenuFromSpinner.disabled = true;
         
             const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
-            let randomValue = Math.random() * totalWeight;
-        
-            let winner = null;
-            let currentAngle = 0;
-            const sliceAngles = [];
-            spinnerOptions.forEach(option => {
-                const angle = (option.weight || 1) / totalWeight * 360;
-                sliceAngles.push({ name: option.name, angle, startAngle: currentAngle });
-                if (winner === null && randomValue <= (option.weight || 1)) {
-                    winner = option.name;
-                }
-                randomValue -= (option.weight || 1);
-                currentAngle += angle;
-            });
             
-            const winningSlice = sliceAngles.find(slice => slice.name === winner);
-            
-            const currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const totalRotation = currentRotation + 360 * 5 + (90 - (winningSlice.startAngle + winningSlice.angle / 2));
-            
+            // Calculate a random final angle
+            const randomRotation = Math.random() * 360;
+            const finalRotation = 360 * 5 + (270 - randomRotation);
+
             const spinner = document.getElementById('spinnerCanvas');
             spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
-            spinner.style.transform = `rotate(${totalRotation}deg)`;
+            spinner.style.transform = `rotate(${finalRotation}deg)`;
         
+            // Determine the winner based on the final angle
             setTimeout(() => {
                 spinner.style.transition = 'none';
+                
+                const normalizedAngle = (finalRotation % 360 + 360) % 360;
+                let winner = "No winner found";
+                let currentAngle = 0;
+                const pointerAngle = 270; // Top of the wheel
+                
+                spinnerOptions.forEach(option => {
+                    const sliceAngle = (option.weight || 1) / totalWeight * 360;
+                    const sliceEndAngle = currentAngle + sliceAngle;
+                    
+                    if (normalizedAngle >= currentAngle && normalizedAngle < sliceEndAngle) {
+                        winner = option.name;
+                    }
+                    currentAngle = sliceEndAngle;
+                });
+                
                 spinnerElements.spinBtn.disabled = false;
                 spinnerElements.customizeBtn.disabled = false;
                 elements.changeSpinnerCountBtn.disabled = false;
