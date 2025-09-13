@@ -503,13 +503,14 @@
         .central-spinner-pointer {
             position: absolute;
             left: 50%;
-            top: 50%;
-            transform: translateX(-50%);
+            top: -5px; /* Adjust top position to make it closer to the wheel */
+            transform: translateX(-50%) rotate(180deg); /* Rotate 180 degrees to point down */
             width: 0;
             height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 30px solid #ef4444;
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid #ef4444;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
             z-index: 10;
         }
         .spinner-result-text {
@@ -917,9 +918,7 @@
                         <div class="space-y-2">
                             <h3 class="text-xl font-bold text-gray-800 mb-2">Three-Part Spinners</h3>
                             <div class="grid grid-cols-2 gap-4">
-                                <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>
-                                    Where to Eat
-                                </button>
+                                <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Tacos", "weight":1}, {"name":"Pizza", "weight":1}, {"name":"Burgers", "weight":1}]'>Where to Eat</button>
                                 <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"name":"Watch a Movie", "weight":1}, {"name":"Read a Book", "weight":1}, {"name":"Play a Game", "weight":1}]'>Evening Plans</button>
                             </div>
                         </div>
@@ -997,7 +996,8 @@
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
                     <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto mb-8">
                         <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
-<div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[30px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-bottom-color: #ef4444; transform: translateX(-50%);"></div>                    </div>
+                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-top-[25px] border-left-[15px] border-right-[15px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-top-color: #ef4444; transform: translateX(-50%);"></div>
+                    </div>
                     <div class="flex flex-col justify-center gap-4">
                         <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
                     </div>
@@ -1826,34 +1826,34 @@
             spinnerElements.customizeBtn.disabled = true;
             elements.changeSpinnerCountBtn.disabled = true;
             elements.returnToMenuFromSpinner.disabled = true;
-        
-            const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
-            let randomValue = Math.random() * totalWeight;
-        
-            let winner = null;
-            let currentAngle = 0;
-            const sliceAngles = [];
-            spinnerOptions.forEach(option => {
-                const angle = (option.weight || 1) / totalWeight * 360;
-                sliceAngles.push({ name: option.name, angle, startAngle: currentAngle });
-                if (winner === null && randomValue <= (option.weight || 1)) {
-                    winner = option.name;
-                }
-                randomValue -= (option.weight || 1);
-                currentAngle += angle;
-            });
             
-            const winningSlice = sliceAngles.find(slice => slice.name === winner);
-            
-            const currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const totalRotation = currentRotation + 360 * 5 + (270 - (winningSlice.startAngle + winningSlice.angle / 2));
+            let currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            const extraRotations = 5;
+            const totalRotation = currentRotation + 360 * extraRotations + (Math.random() * 360);
             
             const spinner = document.getElementById('spinnerCanvas');
             spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
             spinner.style.transform = `rotate(${totalRotation}deg)`;
-        
+            
             setTimeout(() => {
                 spinner.style.transition = 'none';
+                
+                const finalAngle = (totalRotation % 360 + 360) % 360;
+                const pointerAngle = 270;
+                const adjustedAngle = (finalAngle - pointerAngle + 360) % 360;
+                
+                let currentAngle = 0;
+                let winner = "No winner found";
+                spinnerOptions.forEach((option, index) => {
+                    const sliceAngle = (option.weight || 1) / spinnerOptions.reduce((sum, o) => sum + (o.weight || 1), 0) * 360;
+                    const endAngle = currentAngle + sliceAngle;
+                    
+                    if (adjustedAngle >= currentAngle && adjustedAngle < endAngle) {
+                        winner = option.name;
+                    }
+                    currentAngle = endAngle;
+                });
+                
                 spinnerElements.spinBtn.disabled = false;
                 spinnerElements.customizeBtn.disabled = false;
                 elements.changeSpinnerCountBtn.disabled = false;
@@ -1878,10 +1878,16 @@
             ctx.clearRect(0, 0, size, size);
 
             let startAngle = 0;
-            const colors = ["#ef4444", "#fcd34d", "#10b981", "#3b82f6", "#6b21a8", "#d946ef", "#dc2626", "#fbbf24"];
+            // Define colors based on the active theme
+            const themeColors = {
+                natural: ["#81c784", "#a5d6a7", "#fcd34d", "#ffe082", "#a2d2ff", "#bde0fe", "#c1e1c1", "#f0f4c3"],
+                bold: ["#FF3366", "#33CCFF", "#CCFF33", "#FFCC33", "#6633FF", "#33FFCC", "#FF6633", "#CC33FF"],
+                modern: ["#A2D2FF", "#BDE0FE", "#FFC8DD", "#FFADAD", "#CDB4DB", "#A0C4FF", "#98F5E1", "#FFD166"]
+            };
+            const colors = themeColors[currentTheme] || themeColors.natural;
 
             let totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
-
+            
             spinnerOptions.forEach((option, index) => {
                 const sliceAngle = (option.weight || 1) / totalWeight * 2 * Math.PI;
                 const endAngle = startAngle + sliceAngle;
@@ -1900,7 +1906,10 @@
                 ctx.textAlign = 'center';
                 ctx.fillStyle = 'white';
                 ctx.font = '14px Inter';
-                ctx.fillText(option.name, 0, -radius + 20);
+                // Adjust text position to be readable and centered
+                const textX = Math.cos(sliceAngle / 2) * (radius - 40);
+                const textY = Math.sin(sliceAngle / 2) * (radius - 40);
+                ctx.fillText(option.name, textX, textY);
                 ctx.restore();
 
                 startAngle = endAngle;
@@ -1941,6 +1950,38 @@
             } else { showMessage("Please provide a valid name and a non-negative weight for all parts.", "error"); }
         });
         spinnerElements.cancelBtn.addEventListener('click', closeSpinnerEditModal);
+        spinnerElements.prevBtn.addEventListener('click', () => {
+            const newOptions = [];
+            let allValid = true;
+            for (let i = 0; i < currentCount; i++) {
+                const name = document.getElementById(`modalSpinnerOptionName${i + 1}`).value.trim();
+                const weight = parseInt(document.getElementById(`modalSpinnerOptionWeight${i + 1}`).value, 10);
+                if (!name || isNaN(weight) || weight < 0) { allValid = false; break; }
+                newOptions.push({ name, weight });
+            }
+            if (allValid) {
+                spinnerOptions = newOptions;
+                openSpinnerEditModal(editingSpinnerPartIndex - 1);
+            } else {
+                showMessage("Please save or cancel current edits.", "error");
+            }
+        });
+        spinnerElements.nextBtn.addEventListener('click', () => {
+            const newOptions = [];
+            let allValid = true;
+            for (let i = 0; i < currentCount; i++) {
+                const name = document.getElementById(`modalSpinnerOptionName${i + 1}`).value.trim();
+                const weight = parseInt(document.getElementById(`modalSpinnerOptionWeight${i + 1}`).value, 10);
+                if (!name || isNaN(weight) || weight < 0) { allValid = false; break; }
+                newOptions.push({ name, weight });
+            }
+            if (allValid) {
+                spinnerOptions = newOptions;
+                openSpinnerEditModal(editingSpinnerPartIndex + 1);
+            } else {
+                showMessage("Please save or cancel current edits.", "error");
+            }
+        });
         const cardGameElements = {
             input: document.getElementById('cardInput'),
             addBtn: document.getElementById('addCardBtn'),
@@ -2083,5 +2124,3 @@
     </script>
 </body>
 </html>
-
-
