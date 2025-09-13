@@ -927,7 +927,8 @@
                             <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Four-Part Spinners</h3>
                             <div class="grid grid-cols-1 gap-4">
                                 <button class="quick-pick-btn-spinner neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="4" data-options='[{"name":"Go Hiking", "weight":1}, {"name":"Go to a Museum", "weight":1}, {"name":"Stay Home", "weight":1}, {"name":"Visit a Friend", "weight":1}]'>
-                                    Weekend Activities</button>
+                                    Weekend Activities
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1840,6 +1841,7 @@
                     break;
                 }
             }
+            const winningSlice = spinnerOptions[winningSliceIndex];
 
             // Calculate the total angle for each slice
             let sliceAngles = [];
@@ -1850,16 +1852,19 @@
                 cumulativeAngle += angle;
             }
 
-            const winningSlice = sliceAngles[winningSliceIndex];
+            const winningSliceAngleInfo = sliceAngles[winningSliceIndex];
             
-            // Calculate the rotation needed to land on the winner's center at the bottom (180 degrees)
-            // The canvas is drawn starting from the right (0 degrees). We need to align the center of the winning slice with the bottom (180 degrees).
-            const degreesToCenter = winningSlice.startAngle + winningSlice.angle / 2;
-            const currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            // The canvas is drawn with 0 degrees at the 3 o'clock position.
+            // The pointer is at the 12 o'clock position (270 degrees).
+            // We need to rotate the wheel so the center of the winning slice aligns with 270 degrees.
+            const degreesToCenter = winningSliceAngleInfo.startAngle + winningSliceAngleInfo.angle / 2;
             
-            // Add extra spins for dramatic effect and to land on a new point
+            // Calculate the rotation needed to move the center of the winning slice to the pointer's position.
+            const rotationOffset = 270 - degreesToCenter;
+
+            // Add extra spins for a dramatic effect
             const extraSpins = 5;
-            const finalRotation = (360 * extraSpins) - (degreesToCenter - 180);
+            const finalRotation = (360 * extraSpins) + rotationOffset;
 
             const spinner = document.getElementById('spinnerCanvas');
             spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
@@ -1909,7 +1914,7 @@
                 // Draw text
                 ctx.save();
                 ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2);
+                ctx.rotate(startAngle + sliceAngle / 2);
                 ctx.textAlign = 'center';
                 ctx.fillStyle = 'white';
                 ctx.font = '14px Inter';
