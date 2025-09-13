@@ -1,106 +1,1662 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quandar - Let Fate Decide!</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  <!-- keep your existing styles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quandar - Let Fate Decide!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+            overflow-y: auto;
+        }
+        /* --- Theme: Natural & Calm (Default) --- */
+        body.theme-natural {
+            background-color: #f8fbf8;
+            color: #343a40;
+            --card-back-color-theme: #fca5a5;
+        }
+        .theme-natural .decision-selection-card { background: linear-gradient(to bottom right, #ecfccb, #a7f3d0); color: #1e402e; }
+        .theme-natural .coin-btn-main { background-color: #fcd34d; color: #78350f; }
+        .theme-natural .coin-btn-main:hover { background-color: #fbbf24; }
+        .theme-natural .die-btn-main { background-color: #6ee7b7; color: #065f46; }
+        .theme-natural .die-btn-main:hover { background-color: #34d399; }
+        .theme-natural .card-game-btn-main { background-color: #fca5a5; color: #7f1d1d; }
+        .theme-natural .card-game-btn-main:hover { background-color: #f87171; }
+        .theme-natural .options-btn-main { background-color: #d1d5db; color: #374151; }
+        .theme-natural .options-btn-main:hover { background-color: #9ca3af; }
+        .theme-natural .about-btn-main { background-color: #9ca3af; color: #374151; }
+        .theme-natural .about-btn-main:hover { background-color: #6b7280; }
+        .theme-natural .about-btn-options { background-color: #9ca3af; color: #374151; }
+        .theme-natural .about-btn-options:hover { background-color: #6b7280; }
+        .theme-natural .coin-card { background-color: #fffbeb; border-color: #fcd34d; color: #78350f; }
+        .theme-natural .die-card { background-color: #ecfdf5; border-color: #6ee7b7; color: #065f46; }
+        .theme-natural .card-game-card { background-color: #fee2e2; border-color: #fca5a5; color: #7f1d1d; }
+        .theme-natural .primary-action-btn { background-color: #84cc16; color: white; }
+        .theme-natural .primary-action-btn:hover { background-color: #65a30d; }
+        .theme-natural .secondary-action-btn { background-color: #a7f3d0; color: #065f46; }
+        .theme-natural .secondary-action-btn:hover { background-color: #6ee7b7; }
+        .theme-natural .neutral-action-btn { background-color: #d1d5db; color: #374151; }
+        .theme-natural .neutral-action-btn:hover { background-color: #9ca3af; }
+        .theme-natural .danger-action-btn { background-color: #ef4444; color: white; }
+        .theme-natural .danger-action-btn:hover { background-color: #dc2626; }
+        .theme-natural .modal-content { background-color: #ffffff; color: #343a40; }
+        .theme-natural .modal-content label { color: #495057; }
+        .theme-natural .modal-content input, .theme-natural .modal-content select { background-color: #f0fdf4; border-color: #d1fae5; color: #1e402e; }
+        .theme-natural .modal-content input:focus, .theme-natural .modal-content select:focus { border-color: #84cc16; box-shadow: 0 0 0 2px rgba(132, 204, 22, 0.5); }
+        .theme-natural .modal-arrow-button { background-color: #dcfce7; color: #1e402e; }
+        .theme-natural .modal-arrow-button:hover:not(:disabled) { background-color: #a7f3d0; }
+        .theme-natural .bg-amber-100 { background-color: #fffbeb; }
+        .theme-natural .text-amber-800 { color: #78350f; }
+        .theme-natural .saved-coin-slot-btn { background-color: #fcd34d; color: #78350f; border-color: #fcd34d; }
+        .theme-natural .saved-coin-slot-btn:hover { background-color: #fbbf24; }
+        .theme-natural .bg-emerald-100 { background-color: #ecfdf5; }
+        .theme-natural .text-emerald-800 { color: #065f46; }
+        .theme-natural .saved-die-slot-btn { background-color: #6ee7b7; color: #065f46; border-color: #6ee7b7; }
+        .theme-natural .saved-die-slot-btn:hover { background-color: #34d399; }
+        .theme-natural .bg-red-100 { background-color: #fee2e2; }
+        .theme-natural .text-red-800 { color: #7f1d1d; }
+        .theme-natural .saved-card-game-slot-btn { background-color: #fca5a5; color: #7f1d1d; border-color: #fca5a5; }
+        .theme-natural .saved-card-game-slot-btn:hover { background-color: #f87171; }
+        .theme-natural .delete-saved-option-btn { background-color: #ef4444; }
+        .theme-natural .delete-saved-option-btn:hover { background-color: #dc2626; }
+        .theme-natural .saved-slot-btn.delete-mode { border-color: #ef4444; box-shadow: 0 0 0 2px #ef4444; cursor: pointer; }
+        /* --- Theme: Bold & Energetic --- */
+        body.theme-bold {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            --card-back-color-theme: #ef4444;
+        }
+        .theme-bold .decision-selection-card {
+            background: linear-gradient(to bottom right, #6b21a8, #4338ca);
+            color: white;
+        }
+        .theme-bold .coin-btn-main {
+            background-color: #fbbf24;
+            color: #5b21b6;
+        }
+        .theme-bold .coin-btn-main:hover {
+            background-color: #facc15;
+        }
+        .theme-bold .die-btn-main {
+            background-color: #60a5fa;
+            color: #3730a3;
+        }
+        .theme-bold .die-btn-main:hover {
+            background-color: #3b82f6;
+        }
+        .theme-bold .card-game-btn-main {
+            background-color: #f87171;
+            color: #7f1d1d;
+        }
+        .theme-bold .card-game-btn-main:hover {
+            background-color: #ef4444;
+        }
+        .theme-bold .options-btn-main {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .options-btn-main:hover {
+            background-color: #2d3748;
+        }
+        .theme-bold .about-btn-main {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .about-btn-main:hover {
+            background-color: #2d3748;
+        }
+        .theme-bold .about-btn-options {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .about-btn-options:hover {
+            background-color: #2d3748;
+        }
+        .theme-bold .coin-card {
+            background-color: #451a03;
+            border-color: #d69e2e;
+            color: #fcd34d;
+        }
+        .theme-bold .die-card {
+            background-color: #0c152e;
+            border-color: #3b82f6;
+            color: #93c5fd;
+        }
+        .theme-bold .card-game-card {
+            background-color: #7f1d1d;
+            border-color: #ef4444;
+            color: #fca5a5;
+        }
+        .theme-bold .primary-action-btn {
+            background-color: #6366f1;
+            color: white;
+        }
+        .theme-bold .primary-action-btn:hover {
+            background-color: #4f46e5;
+        }
+        .theme-bold .secondary-action-btn {
+            background-color: #a78bfa;
+            color: white;
+        }
+        .theme-bold .secondary-action-btn:hover {
+            background-color: #8b5cf6;
+        }
+        .theme-bold .neutral-action-btn {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .neutral-action-btn:hover {
+            background-color: #2d3748;
+        }
+        .theme-bold .danger-action-btn {
+            background-color: #ef4444;
+            color: white;
+        }
+        .theme-bold .danger-action-btn:hover {
+            background-color: #dc2626;
+        }
+        .theme-bold .modal-content {
+            background-color: #2d3748;
+            color: #e2e8f0;
+        }
+        .theme-bold .modal-content label {
+            color: #cbd5e0;
+        }
+        .theme-bold .modal-content input,
+        .theme-bold .modal-content select {
+            background-color: #4a5568;
+            border-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .modal-content input:focus,
+        .theme-bold .modal-content select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5);
+        }
+        .theme-bold .modal-arrow-button {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .theme-bold .modal-arrow-button:hover:not(:disabled) {
+            transform: translateY(-50%) scale(1.05);
+        }
+        .theme-bold .modal-arrow-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .theme-bold .bg-amber-100 {
+            background-color: #451a03;
+        }
+        .theme-bold .text-amber-800 {
+            color: #fcd34d;
+        }
+        .theme-bold .saved-coin-slot-btn {
+            background-color: #d69e2e;
+            color: white;
+            border-color: #d69e2e;
+        }
+        .theme-bold .saved-coin-slot-btn:hover {
+            background-color: #e6a73c;
+        }
+        .theme-bold .bg-emerald-100 {
+            background-color: #065f46;
+        }
+        .theme-bold .text-emerald-800 {
+            color: #6ee7b7;
+        }
+        .theme-bold .saved-die-slot-btn {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .theme-bold .saved-die-slot-btn:hover {
+            background-color: #60a5fa;
+        }
+        .theme-bold .bg-red-100 {
+            background-color: #7f1d1d;
+        }
+        .theme-bold .text-red-800 {
+            color: #fca5a5;
+        }
+        .theme-bold .saved-card-game-slot-btn {
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+        .theme-bold .saved-card-game-slot-btn:hover {
+            background-color: #dc2626;
+        }
+        .theme-bold .delete-saved-option-btn {
+            background-color: #ef4444;
+        }
+        .theme-bold .delete-saved-option-btn:hover {
+            background-color: #dc2626;
+        }
+        .theme-bold .saved-slot-btn.delete-mode {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 2px #ef4444;
+            cursor: pointer;
+        }
+        /* --- Theme: Modern & Calm --- */
+        body.theme-modern {
+            background-color: #f0f4f8;
+            color: #2d3748;
+            --card-back-color-theme: #fed7d7;
+        }
+        .theme-modern .decision-selection-card {
+            background: linear-gradient(to bottom right, #4299e1, #667eea);
+            color: white;
+        }
+        .theme-modern .coin-btn-main {
+            background-color: white;
+            color: #2b6cb0;
+        }
+        .theme-modern .coin-btn-main:hover {
+            background-color: #ebf8ff;
+        }
+        .theme-modern .die-btn-main {
+            background-color: white;
+            color: #4c51bf;
+        }
+        .theme-modern .die-btn-main:hover {
+            background-color: #e0e7ff;
+        }
+        .theme-modern .card-game-btn-main {
+            background-color: white;
+            color: #e53e3e;
+        }
+        .theme-modern .card-game-btn-main:hover {
+            background-color: #fff5f5;
+        }
+        .theme-modern .options-btn-main {
+            background-color: #e2e8f0;
+            color: #2d3748;
+        }
+        .theme-modern .options-btn-main:hover {
+            background-color: #cbd5e0;
+        }
+        .theme-modern .about-btn-main {
+            background-color: #cbd5e0;
+            color: #2d3748;
+        }
+        .theme-modern .about-btn-main:hover {
+            background-color: #a0aec0;
+        }
+        .theme-modern .about-btn-options {
+            background-color: #cbd5e0;
+            color: #2d3748;
+        }
+        .theme-modern .about-btn-options:hover {
+            background-color: #a0aec0;
+        }
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-weight: 600;
+        }
+        .message-box.show {
+            opacity: 1;
+        }
+        .message-box[data-type="success"] {
+            background-color: #10b981;
+            color: white;
+        }
+        .message-box[data-type="error"] {
+            background-color: #ef4444;
+            color: white;
+        }
+        .message-box[data-type="info"] {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .decision-display {
+            min-height: 12rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .coin, .die {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            position: relative;
+            transform-style: preserve-3d;
+            animation: none;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease-in-out;
+        }
+        .coin {
+            border-radius: 50%;
+            font-size: 1.5rem;
+        }
+        .die {
+            border-radius: 12px;
+            font-size: 2rem;
+        }
+        .coin.flipping {
+            animation: flip 1s ease-out forwards;
+        }
+        @keyframes flip {
+            0% {
+                transform: rotateX(0deg);
+            }
+            50% {
+                transform: rotateX(1800deg);
+            }
+            100% {
+                transform: rotateX(3600deg);
+            }
+        }
+        .die.rolling {
+            animation: roll 0.5s infinite linear;
+        }
+        @keyframes roll {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .card-deck-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            min-height: 10rem;
+            align-items: flex-start;
+        }
+        .card-base-style {
+            width: 100px;
+            height: 140px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: var(--card-back-color-theme);
+        }
+        .card-base-style:hover {
+            transform: translateY(-5px);
+        }
+        .card-base-style.empty {
+            background-color: #e2e8f0;
+            color: #a0aec0;
+            cursor: not-allowed;
+        }
+        .card-pile-label {
+            position: absolute;
+            top: -1.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        #cardDeckDisplay {
+            position: relative;
+            min-height: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        #cardDeckDisplay .card-in-deck {
+            position: absolute;
+            transform-origin: center center;
+        }
+        #cardDeckDisplay .card-in-deck:hover {
+            transform: translateY(-8px) scale(1.05);
+            z-index: 10;
+        }
+        #cardDeckDisplay .card-in-deck .card-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            word-break: break-word;
+            color: white;
+            background-color: var(--card-back-color-theme);
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #cardDeckDisplay .card-in-deck:last-child .card-text {
+            opacity: 1;
+        }
+        #cardDeckDisplay .card-in-deck:hover .card-text {
+            opacity: 1;
+        }
+        #cardDeckDisplay.empty-deck {
+            background-color: #e2e8f0;
+            border-radius: 8px;
+            border: 1px dashed #a0aec0;
+            color: #a0aec0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #cardDeckDisplay.empty-deck::before {
+            content: "Deck is Empty";
+        }
+        .card-pile-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 120px;
+        }
+        .card-pile-container {
+            position: relative;
+            width: 100px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card-pile-container .card-in-pile {
+            position: absolute;
+            transform-origin: center center;
+        }
+        .card-pile-container .card-in-pile:hover {
+            transform: translateY(-5px) scale(1.05);
+            z-index: 10;
+        }
+        .card-pile-container .card-in-pile .card-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            word-break: break-word;
+            color: white;
+            background-color: var(--card-back-color-theme);
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #cardDeckDisplay .card-in-deck:last-child .card-text {
+            opacity: 1;
+        }
+        #cardDeckDisplay .card-in-deck:hover .card-text {
+            opacity: 1;
+        }
+        .card-pile-container .card-in-pile.empty {
+            position: relative;
+        }
+        .card-transition {
+            transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
+            overflow: hidden;
+        }
+        .card-hidden {
+            opacity: 0;
+            max-height: 0;
+            padding: 0;
+            margin: 0;
+            visibility: hidden;
+        }
+        .card-visible {
+            opacity: 1;
+            max-height: 1000px;
+            visibility: visible;
+        }
+        .splash-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            height: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+            z-index: 2000;
+            padding: 20px;
+            box-sizing: border-box;
+            word-break: break-word;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .splash-screen.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-arrow-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            padding: 0.5rem 0.8rem;
+            border-radius: 9999px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            cursor: pointer;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        .modal-arrow-button:hover:not(:disabled) {
+            transform: translateY(-50%) scale(1.05);
+        }
+        .modal-arrow-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .modal-arrow-button.left {
+            left: 1rem;
+        }
+        .modal-arrow-button.right {
+            right: 1rem;
+        }
+        .saved-slot-btn {
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            border: none;
+            position: relative;
+        }
+        .saved-slot-btn:hover {
+            transform: translateY(-1px);
+        }
+        .delete-saved-option-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+        .delete-saved-option-btn:hover {
+            background-color: #dc2626;
+        }
+        .saved-slot-btn.delete-mode {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 2px #ef4444;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body class="theme-natural min-h-screen flex items-center justify-center p-4">
-  <!-- keep your existing layout/menu sections -->
+    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl p-6 space-y-8">
+        <header class="text-center mb-8">
+            <a href="#" id="mainLogoLink">
+                <img src="images/quandar_logo.png" alt="Quandar Logo" class="h-24 w-auto mx-auto mb-4">
+            </a>
+            <h1 class="text-4xl font-extrabold text-gray-800 tracking-tight">Quandar</h1>
+            <p class="text-lg text-gray-600">When you can’t decide, let Quandar decide for you.</p>
+        </header>
+        <div id="mainCardContainer">
+            <section id="decisionSelectionCard" class="card-transition card-visible decision-selection-card p-6 rounded-xl shadow-lg text-center space-y-6">
+                <h2 class="text-3xl font-bold mb-4">What's your dilemma?</h2>
+                <div class="flex flex-col justify-center gap-4">
+                    <button id="showCoinCountBtn" class="coin-btn-main font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-xl w-full">Flip a Coin</button>
+                    <button id="showDieCountBtn" class="die-btn-main font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-xl w-full">Roll a Die</button>
+                    <button id="showCardGameBtn" class="card-game-btn-main font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-xl w-full">Draw a Card</button>
+                </div>
+                <div class="flex justify-center mt-6">
+                    <button id="optionsBtn" class="options-btn-main font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Options</button>
+                </div>
+            </section>
+            <section id="countSelectionCard" class="card-transition card-hidden" style="display: none;">
+                <div class="bg-gray-100 p-6 rounded-xl shadow-md border border-gray-200">
+                    <h2 id="countSelectionTitle" class="text-3xl font-bold text-gray-800 mb-6 text-center">How many?</h2>
+                    <div id="countButtonsContainer" class="flex justify-center gap-4 mb-6 flex-wrap"></div>
+                    
+                    <div id="coinQuickPicks" class="space-y-4 mb-6" style="display: none;">
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">One Coin</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Coffee","tails":"Tea"}]'>
+                                    Morning Coffee / Tea
+                                </button>
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Stay Inside","tails":"Go Outside"}]'>
+                                    Stay Inside / Go Outside
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Coins</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Watch a Movie","tails":"Read a Book"},{"heads":"Burger","tails":"Tacos"}]'>
+                                    Movie/Book & Burger/Tacos
+                                </button>
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Sandwich","tails":"Salad"},{"heads":"Water","tails":"Soda"}]'>
+                                    Sandwich/Salad & Water/Soda
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Three Coins</h3>
+                            <div class="grid grid-cols-1 gap-4">
+                                <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"heads":"Order In","tails":"Cook at Home"},{"heads":"Go to the Gym","tails":"Go for a Run"},{"heads":"Wear Sweatpants","tails":"Wear Shorts"}]'>
+                                    3-in-1: Food, Exercise, Clothes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="dieQuickPicks" class="space-y-4 mb-6" style="display: none;">
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">One Die</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6"]}]'>
+                                    Standard d6
+                                </button>
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4"]}]'>
+                                    4-Sided Die (d4)
+                                </button>
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]}]'>
+                                    20-Sided Die (d20)
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Dice</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>
+                                    Roll 2d6
+                                </button>
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["North","South","East","West"]},{"faces":["Go Left","Go Right","Go Forward","Go Back"]}]'>
+                                    Direction & Movement
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Three Dice</h3>
+                            <div class="grid grid-cols-1 gap-4">
+                                <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>
+                                    Roll 3d6 (Character Stats)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="coinSavedList" class="bg-amber-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
+                        <h4 class="text-xl font-bold text-amber-800 mb-3 text-center">Saved Coins</h4>
+                        <div id="savedCoinsListCount" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved coins yet.</p>
+                        </div>
+                    </div>
 
-  <!-- spinner section -->
-  <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
-    <div class="spinner-card p-6 rounded-xl shadow-md border">
-      <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
-      <div id="spinnerContainer" class="relative w-[300px] h-[300px] mx-auto mb-8">
-        <canvas id="spinnerCanvas" class="rounded-full shadow-lg" width="300" height="300"></canvas>
-        <div class="spinner-pointer absolute left-1/2 w-0 h-0 border-l-[20px] border-r-[20px] border-t-[30px] border-l-transparent border-r-transparent border-t-red-600" style="bottom:-25px; transform:translateX(-50%);"></div>
-      </div>
-      <div class="flex flex-col justify-center gap-4">
-        <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
-      </div>
-      <h2 id="spinnerResult" class="text-center text-xl font-bold mt-4"></h2>
-      <div class="flex flex-col justify-center gap-4 mt-4">
-        <button id="customizeSpinnerBtn" class="secondary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Customize</button>
-        <button id="changeSpinnerCountBtn" class="primary-action-btn bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Change Parts</button>
-        <button id="returnToMenuFromSpinner" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Return to Menu</button>
-      </div>
+                    <div id="dieSavedList" class="bg-emerald-100 p-4 rounded-lg shadow-inner mb-6" style="display: none;">
+                        <h4 class="text-xl font-bold text-emerald-800 mb-3 text-center">Saved Dice</h4>
+                        <div id="savedDiceListCount" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved dice yet.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <button id="backToMainBtn" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="coinCard" class="card-transition card-hidden" style="display: none;">
+                <div class="coin-card p-6 rounded-xl shadow-md border">
+                    <h2 id="coinCardTitle" class="text-3xl font-bold mb-6 text-center">Flip a Coin</h2>
+                    <div id="coinResultDisplay" class="decision-display mb-8"></div>
+                    <div class="flex flex-col justify-center gap-4">
+                        <button id="flipCoinBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Flip</button>
+                    </div>
+                    <div class="flex flex-col justify-center gap-4 mt-4">
+                        <button id="customizeCoinBtn" class="secondary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Customize</button>
+                        <button id="changeCoinCountBtn" class="primary-action-btn bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Change Count</button>
+                        <button id="returnToMenuFromCoin" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Return to Menu</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="dieCard" class="card-transition card-hidden" style="display: none;">
+                <div class="die-card p-6 rounded-xl shadow-md border">
+                    <h2 id="dieCardTitle" class="text-3xl font-bold mb-6 text-center">Roll a Die</h2>
+                    <div id="dieResultDisplay" class="decision-display mb-8"></div>
+                    <div class="flex flex-col justify-center gap-4">
+                        <button id="rollDieBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Roll</button>
+                    </div>
+                    <div class="flex flex-col justify-center gap-4 mt-4">
+                        <button id="customizeDieBtn" class="secondary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Customize</button>
+                        <button id="changeDieCountBtn" class="primary-action-btn bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Change Count</button>
+                        <button id="returnToMenuFromDie" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Return to Menu</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cardGameCard" class="card-transition card-hidden" style="display: none;">
+                <div class="card-game-card p-6 rounded-xl shadow-md border">
+                    <h2 id="cardGameCardTitle" class="text-3xl font-bold mb-6 text-center">Random Card Game</h2>
+                    <div id="cardGameQuickPicks" class="space-y-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Deck Quick Picks</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <button class="quick-pick-btn-card neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-options='["Yes", "No", "Maybe"]'>Yes / No / Maybe</button>
+                            <button class="quick-pick-btn-card neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-options='["Order Chinese", "Order Pizza", "Cook Pasta", "Go Out for Burgers"]'>Dinner Tonight</button>
+                            <button class="quick-pick-btn-card neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-sm" data-count="5" data-options='["Action", "Comedy", "Horror", "Sci-Fi", "Animated"]'>Movie Night Genres</button>
+                        </div>
+                    </div>
+                    <div id="cardGameSavedList" class="bg-red-100 p-4 rounded-lg shadow-inner mt-8">
+                        <h4 class="text-xl font-bold text-red-800 mb-3 text-center">Your Saved Decks</h4>
+                        <div id="savedDecksListCardGame" class="space-y-2">
+                            <p class="text-sm text-gray-600">No saved decks yet.</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mb-6 mt-6">
+                        <div>
+                            <label for="cardInput" class="block text-gray-700 text-sm font-semibold mb-2">Add a new card:</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="cardInput" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-gray-100 text-gray-800" placeholder="e.g., Ace of Spades, Go to Park">
+                                <button id="addCardBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Add</button>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">Current Deck (<span id="currentDeckCount">0</span> cards):</h4>
+                            <div id="cardDeckDisplay" class="stacked card-deck-container">
+                                <p class="text-sm text-gray-500">No cards added yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center gap-4">
+                        <button id="drawCardBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Draw a Card</button>
+                        <button id="splitDeckBtn" class="secondary-action-btn font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Split Deck</button>
+                    </div>
+                    <div id="splitDeckContainer" class="mt-8 hidden">
+                        <h4 class="text-xl font-bold text-gray-800 mb-3 text-center">Split Decks:</h4>
+                        <div id="splitDecksDisplay" class="card-deck-container"></div>
+                        <button id="drawFromSplitDecksBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg mt-4">Draw One Card from Each Deck</button>
+                    </div>
+                    <div class="flex flex-col justify-center gap-4 mt-4">
+                        <button id="clearDeckBtn" class="danger-action-btn text-sm font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full">Clear Deck</button>
+                        <button id="saveCurrentDeckBtn" class="secondary-action-btn font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Save Deck</button>
+                        <button id="returnToMenuFromCardGame" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Return to Menu</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="optionsCard" class="card-transition card-hidden" style="display: none;">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Options</h2>
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Choose Theme</h3>
+                        <div class="flex flex-col justify-center gap-4">
+                            <button id="themeNaturalBtn" class="theme-btn bg-lime-200 text-lime-800 hover:bg-lime-300 font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Natural & Calm</button>
+                            <button id="themeBoldBtn" class="theme-btn bg-purple-200 text-purple-800 hover:bg-purple-300 font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Bold & Energetic</button>
+                            <button id="themeModernBtn" class="theme-btn bg-blue-200 text-blue-800 hover:bg-blue-300 font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Modern & Calm</button>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Your Saved Options</h3>
+                        <div class="bg-amber-100 p-4 rounded-lg shadow-inner">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-xl font-bold text-amber-800">Saved Coins</h4>
+                                <button id="deleteSavedCoinOptionsBtnOptions" class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200">Delete Saved</button>
+                            </div>
+                            <div id="savedCoinsListOptions" class="space-y-2">
+                                <p class="text-sm text-gray-600">No saved coins yet.</p>
+                            </div>
+                        </div>
+                        <div class="bg-emerald-100 p-4 rounded-lg shadow-inner">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-xl font-bold text-emerald-800">Saved Dice</h4>
+                                <button id="deleteSavedDieOptionsBtnOptions" class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200">Delete Saved</button>
+                            </div>
+                            <div id="savedDiceListOptions" class="space-y-2">
+                                <p class="text-sm text-gray-600">No saved dice yet.</p>
+                            </div>
+                        </div>
+                        <div class="bg-red-100 p-4 rounded-lg shadow-inner">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-xl font-bold text-red-800">Saved Decks</h4>
+                                <button id="deleteSavedDeckOptionsBtnOptions" class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200">Delete Saved</button>
+                            </div>
+                            <div id="savedDeckListOptions" class="space-y-2">
+                                <p class="text-sm text-gray-600">No saved decks yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center gap-4 mt-6">
+                        <button id="backToMainFromOptionsBtn" class="neutral-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Back to Menu</button>
+                        <a href="about.html" class="about-btn-options font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg flex items-center justify-center">About Quandar</a>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
-  </section>
+    
+    <div id="messageBox" class="message-box"></div>
+    
+    <div id="resultSplashScreen" class="splash-screen"></div>
 
-  <script>
-    // --- Spinner Logic ---
-    const canvas = document.getElementById("spinnerCanvas");
-    const ctx = canvas.getContext("2d");
-    const spinBtn = document.getElementById("spinSpinnerBtn");
-    const resultEl = document.getElementById("spinnerResult");
+    <div id="coinEditModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="coinEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Coin Options</h3>
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label for="modalCoinOption1" class="block text-gray-700 text-sm font-semibold mb-2">Option 1 (Heads):</label>
+                    <input type="text" id="modalCoinOption1" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-gray-100 text-gray-800">
+                </div>
+                <div>
+                    <label for="modalCoinOption2" class="block text-gray-700 text-sm font-semibold mb-2">Option 2 (Tails):</label>
+                    <input type="text" id="modalCoinOption2" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-gray-100 text-gray-800">
+                </div>
+            </div>
+            <div class="bg-amber-100 p-4 rounded-lg mt-6 shadow-inner">
+                <h4 class="text-xl font-bold text-amber-800 mb-4 text-center">Saved Coin Options</h4>
+                <button id="saveCurrentCoinOptionsBtn" class="bg-amber-400 hover:bg-amber-500 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 mb-4 mr-2">Save Current Coin</button>
+                <button id="deleteSavedCoinOptionsBtn" class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 mb-4">Delete Saved</button>
+                <div id="coinSaveSlotsContainerInModal" class="space-y-3 mt-3"></div>
+            </div>
+            <div class="flex justify-between items-center gap-4 mt-6 relative">
+                <button id="prevCoinModalBtn" class="modal-arrow-button left">&larr;</button>
+                <div class="flex justify-center gap-4 flex-grow">
+                    <button id="saveCoinOptionsBtn" class="primary-action-btn bg-amber-500 hover:bg-amber-400 text-white font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Save</button>
+                    <button id="cancelCoinOptionsBtn" class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Cancel</button>
+                </div>
+                <button id="nextCoinModalBtn" class="modal-arrow-button right">&rarr;</button>
+            </div>
+        </div>
+    </div>
 
-    let slices = ["Option 1", "Option 2", "Option 3", "Option 4"];
-    let sliceAngle = (2 * Math.PI) / slices.length;
-    let currentAngle = 0;
+    <div id="dieEditModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="dieEditModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Edit Die Options</h3>
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label for="dieFacesSelect" class="block text-gray-700 text-sm font-semibold mb-2">Number of Faces:</label>
+                    <select id="dieFacesSelect" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-100 text-gray-800">
+                        <option value="4">4-sided (d4)</option>
+                        <option value="6">6-sided (d6)</option>
+                        <option value="8">8-sided (d8)</option>
+                        <option value="10">10-sided (d10)</option>
+                        <option value="12">12-sided (d12)</option>
+                        <option value="20">20-sided (d20)</option>
+                    </select>
+                </div>
+                <div id="modalDieOptionInputs" class="grid grid-cols-2 gap-4"></div>
+            </div>
+            <div class="bg-emerald-100 p-4 rounded-lg mt-6 shadow-inner">
+                <h4 class="text-xl font-bold text-emerald-800 mb-4 text-center">Saved Die Options</h4>
+                <button id="saveCurrentDieOptionsBtn" class="bg-emerald-400 hover:bg-emerald-500 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 mb-4 mr-2">Save Current Die</button>
+                <button id="deleteSavedDieOptionsBtn" class="danger-action-btn text-sm font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 mb-4">Delete Saved</button>
+                <div id="dieSaveSlotsContainerInModal" class="space-y-3 mt-3"></div>
+            </div>
+            <div class="flex justify-between items-center gap-4 mt-6 relative">
+                <button id="prevDieModalBtn" class="modal-arrow-button left">&larr;</button>
+                <div class="flex justify-center gap-4 flex-grow">
+                    <button id="saveDieOptionsBtn" class="primary-action-btn bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Save</button>
+                    <button id="cancelDieOptionsBtn" class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Cancel</button>
+                </div>
+                <button id="nextDieModalBtn" class="modal-arrow-button right">&rarr;</button>
+            </div>
+        </div>
+    </div>
 
-    function drawWheel() {
-      for (let i = 0; i < slices.length; i++) {
-        ctx.beginPath();
-        ctx.moveTo(150, 150);
-        ctx.arc(150, 150, 150, i * sliceAngle, (i + 1) * sliceAngle);
-        ctx.fillStyle = i % 2 === 0 ? "#ffcc00" : "#66ccff";
-        ctx.fill();
-        ctx.save();
-        ctx.translate(150, 150);
-        ctx.rotate(i * sliceAngle + sliceAngle / 2);
-        ctx.textAlign = "right";
-        ctx.fillStyle = "#000";
-        ctx.font = "16px Inter, sans-serif";
-        ctx.fillText(slices[i], 140, 10);
-        ctx.restore();
-      }
-    }
+    <div id="cardGameSaveModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="cardGameSaveModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Save Current Deck</h3>
+            <p class="text-gray-700 text-sm font-semibold mb-2">Current Deck:</p>
+            <ul id="modalCurrentDeckDisplay" class="bg-gray-50 p-3 rounded-lg border border-gray-200 min-h-[5rem] space-y-2 text-left text-gray-700 mb-4 overflow-y-auto max-h-[150px]"></ul>
+            <label for="saveDeckNameInput" class="block text-gray-700 text-sm font-semibold mb-2">Name this deck:</label>
+            <input type="text" id="saveDeckNameInput" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-gray-100 text-gray-800 mb-6">
+            <div class="flex justify-center gap-4">
+                <button id="saveDeckOptionsBtn" class="primary-action-btn font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Save</button>
+                <button id="cancelDeckOptionsBtn" class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="confirmationModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="confirmationModalTitle" class="text-2xl font-bold text-gray-800 mb-4">Confirm Action</h3>
+            <p id="confirmationModalMessage" class="text-gray-600 mb-6">Are you sure you want to proceed with this action?</p>
+            <div class="flex justify-center gap-4">
+                <button id="confirmActionBtn" class="danger-action-btn font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Confirm</button>
+                <button id="cancelActionBtn" class="neutral-action-btn font-bold py-2 px-5 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95">Cancel</button>
+            </div>
+        </div>
+    </div>
 
-    drawWheel();
-
-    function spinWheel() {
-      const spinDuration = 4000; // fixed 4s spin
-      const rotations = 6; // fixed number of rotations
-      const finalAngle = currentAngle + rotations * 2 * Math.PI + Math.random() * 2 * Math.PI;
-      const start = performance.now();
-
-      function animate(time) {
-        const elapsed = time - start;
-        if (elapsed < spinDuration) {
-          const progress = elapsed / spinDuration;
-          currentAngle = finalAngle * progress;
-          ctx.clearRect(0, 0, 300, 300);
-          ctx.save();
-          ctx.translate(150, 150);
-          ctx.rotate(currentAngle);
-          ctx.translate(-150, -150);
-          drawWheel();
-          ctx.restore();
-          requestAnimationFrame(animate);
-        } else {
-          currentAngle = finalAngle;
-          ctx.clearRect(0, 0, 300, 300);
-          ctx.save();
-          ctx.translate(150, 150);
-          ctx.rotate(currentAngle);
-          ctx.translate(-150, -150);
-          drawWheel();
-          ctx.restore();
-
-          // Determine winning slice (bottom pointer)
-          const normalizedAngle = currentAngle % (2 * Math.PI);
-          const winningIndex = (slices.length - 1 - Math.floor(normalizedAngle / sliceAngle)) % slices.length;
-          resultEl.textContent = `Winner: ${slices[winningIndex]}`;
+    <script>
+        function showMessage(message, type = 'success', duration = 3000) {
+            const msgBox = document.getElementById('messageBox');
+            msgBox.textContent = message;
+            msgBox.setAttribute('data-type', type);
+            msgBox.classList.add('show');
+            setTimeout(() => msgBox.classList.remove('show'), duration);
         }
-      }
-      requestAnimationFrame(animate);
-    }
+        const resultSplashScreen = document.getElementById('resultSplashScreen');
+        function showResultSplashScreen(result, callback) {
+            resultSplashScreen.textContent = result;
+            resultSplashScreen.classList.add('show');
+            setTimeout(() => {
+                resultSplashScreen.classList.remove('show');
+                setTimeout(() => { if (callback) callback(); }, 500);
+            }, 1500);
+        }
+        const confirmationModal = document.getElementById('confirmationModal');
+        const confirmationModalTitle = document.getElementById('confirmationModalTitle');
+        const confirmationModalMessage = document.getElementById('confirmationModalMessage');
+        const confirmActionBtn = document.getElementById('confirmActionBtn');
+        const cancelActionBtn = document.getElementById('cancelActionBtn');
+        let onConfirmCallbackGlobal = null;
+        function showConfirmationModal(title, message, onConfirm) {
+            confirmationModalTitle.textContent = title;
+            confirmationModalMessage.textContent = message;
+            onConfirmCallbackGlobal = onConfirm;
+            confirmationModal.classList.add('show');
+        }
+        function hideConfirmationModal() {
+            confirmationModal.classList.remove('show');
+            onConfirmCallbackGlobal = null;
+        }
+        confirmActionBtn.addEventListener('click', () => { if (onConfirmCallbackGlobal) onConfirmCallbackGlobal(); hideConfirmationModal(); });
+        cancelActionBtn.addEventListener('click', hideConfirmationModal);
+        confirmationModal.addEventListener('click', (event) => { if (event.target === confirmationModal) hideConfirmationModal(); });
+        const cards = {
+            main: document.getElementById('decisionSelectionCard'),
+            count: document.getElementById('countSelectionCard'),
+            coin: document.getElementById('coinCard'),
+            die: document.getElementById('dieCard'),
+            cardGame: document.getElementById('cardGameCard'),
+            options: document.getElementById('optionsCard')
+        };
+        const elements = {
+            showCoinCountBtn: document.getElementById('showCoinCountBtn'),
+            showDieCountBtn: document.getElementById('showDieCountBtn'),
+            showCardGameBtn: document.getElementById('showCardGameBtn'),
+            optionsBtn: document.getElementById('optionsBtn'),
+            backToMainBtn: document.getElementById('backToMainBtn'),
+            backToMainFromOptionsBtn: document.getElementById('backToMainFromOptionsBtn'),
+            returnToMenuFromCoin: document.getElementById('returnToMenuFromCoin'),
+            returnToMenuFromDie: document.getElementById('returnToMenuFromDie'),
+            returnToMenuFromCardGame: document.getElementById('returnToMenuFromCardGame'),
+            changeCoinCountBtn: document.getElementById('changeCoinCountBtn'),
+            changeDieCountBtn: document.getElementById('changeDieCountBtn'),
+            countSelectionTitle: document.getElementById('countSelectionTitle'),
+            countButtonsContainer: document.getElementById('countButtonsContainer'),
+            coinQuickPicks: document.getElementById('coinQuickPicks'),
+            dieQuickPicks: document.getElementById('dieQuickPicks'),
+            cardGameQuickPicks: document.getElementById('cardGameQuickPicks'),
+            coinSavedList: document.getElementById('coinSavedList'),
+            dieSavedList: document.getElementById('dieSavedList'),
+            savedCoinsListCount: document.getElementById('savedCoinsListCount'),
+            savedDiceListCount: document.getElementById('savedDiceListCount'),
+            themeNaturalBtn: document.getElementById('themeNaturalBtn'),
+            themeBoldBtn: document.getElementById('themeBoldBtn'),
+            themeModernBtn: document.getElementById('themeModernBtn')
+        };
+        let currentDecisionType = '';
+        let currentCount = 1;
+        let currentDieFacesCount = 6;
+        let currentTheme = localStorage.getItem('decidoTheme') || 'natural';
+        let coinOptions = [{ heads: "Heads", tails: "Tails" }];
+        let dieOptions = [{ faces: ["1", "2", "3", "4", "5", "6"] }];
+        let currentDeck = [];
+        let splitDecks = [];
+        let savedCoinSlots = JSON.parse(localStorage.getItem('decidoCoinSlots') || '[]');
+        let savedDieSlots = JSON.parse(localStorage.getItem('decidoDieSlots') || '[]');
+        let savedDeckSlots = JSON.parse(localStorage.getItem('decidoDeckSlots') || '[]');
+        function showCard(cardToShow, type = '') {
+            Object.values(cards).forEach(card => {
+                if (card !== cardToShow) {
+                    card.classList.remove('card-visible');
+                    card.classList.add('card-hidden');
+                    setTimeout(() => { if (card.classList.contains('card-hidden')) card.style.display = 'none'; }, 500);
+                }
+            });
+            cardToShow.style.display = 'block';
+            setTimeout(() => {
+                cardToShow.classList.remove('card-hidden');
+                cardToShow.classList.add('card-visible');
+            }, 10);
+            if (cardToShow === cards.count) {
+                currentDecisionType = type;
+                let countOptionsHtml = '';
+                if (type === 'coin') {
+                    elements.countSelectionTitle.textContent = `How many coins?`;
+                    [1, 2, 3, 4, 5].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
+                    elements.coinQuickPicks.style.display = 'block';
+                    elements.dieQuickPicks.style.display = 'none';
+                    elements.coinSavedList.style.display = 'block';
+                    elements.dieSavedList.style.display = 'none';
+                } else if (type === 'die') {
+                    elements.countSelectionTitle.textContent = `How many dice?`;
+                    [1, 2, 3, 4, 5, 6, 7].forEach(c => countOptionsHtml += `<button class="count-btn primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 text-lg" data-count="${c}">${c}</button>`);
+                    elements.coinQuickPicks.style.display = 'none';
+                    elements.dieQuickPicks.style.display = 'block';
+                    elements.coinSavedList.style.display = 'none';
+                    elements.dieSavedList.style.display = 'block';
+                }
+                elements.countButtonsContainer.innerHTML = countOptionsHtml;
+                elements.countButtonsContainer.querySelectorAll('.count-btn').forEach(button => button.addEventListener('click', handleCountButtonClick));
+            } else if (cardToShow === cards.coin) {
+                const newCoinOptions = Array.from({ length: currentCount }, (_, i) => coinOptions[i] ? { ...coinOptions[i] } : { heads: "Heads", tails: "Tails" });
+                coinOptions = newCoinOptions;
+                updateCoinDisplay();
+            } else if (cardToShow === cards.die) {
+                const newDieOptions = Array.from({ length: currentCount }, (_, i) => dieOptions[i] ? { ...dieOptions[i] } : { faces: Array.from({ length: currentDieFacesCount }, (_, f) => (f + 1).toString()) });
+                dieOptions = newDieOptions;
+                updateDieDisplay();
+            } else if (cardToShow === cards.cardGame) {
+                updateCardGameDisplay();
+                renderSavedDeckListCardGame();
+            } else if (cardToShow === cards.options) {
+                renderSavedOptionsLists();
+                document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.toggle('border-2', btn.id === `theme${currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1)}Btn`));
+            }
+        }
+        function renderQuickPicksAndSavedList(type) {
+            elements.quickPicksContainer.innerHTML = '';
+            elements.savedListContainer.innerHTML = '';
+            const quickPicks = {
+                coin: `
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">One Coin</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Coffee","tails":"Tea"}]'>Morning Coffee / Tea</button>
+                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"heads":"Stay Inside","tails":"Go Outside"}]'>Stay Inside / Go Outside</button>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Coins</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Watch a Movie","tails":"Read a Book"},{"heads":"Burger","tails":"Tacos"}]'>Movie/Book & Burger/Tacos</button>
+                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"heads":"Sandwich","tails":"Salad"},{"heads":"Water","tails":"Soda"}]'>Sandwich/Salad & Water/Soda</button>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Three Coins</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <button class="quick-pick-btn neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"heads":"Order In","tails":"Cook at Home"},{"heads":"Go to the Gym","tails":"Go for a Run"},{"heads":"Wear Sweatpants","tails":"Wear Shorts"}]'>3-in-1: Food, Exercise, Clothes</button>
+                        </div>
+                    </div>`,
+                die: `
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">One Die</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6"]}]'>Standard d6</button>
+                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4"]}]'>4-Sided Die (d4)</button>
+                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="1" data-options='[{"faces":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]}]'>20-Sided Die (d20)</button>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Two Dice</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>Roll 2d6</button>
+                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="2" data-options='[{"faces":["North","South","East","West"]},{"faces":["Go Left","Go Right","Go Forward","Go Back"]}]'>Direction & Movement</button>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">Three Dice</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            <button class="quick-pick-btn-die neutral-action-btn font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:-translate-y-1 active:scale-95 text-sm" data-count="3" data-options='[{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]},{"faces":["1","2","3","4","5","6"]}]'>Roll 3d6 (Character Stats)</button>
+                        </div>
+                    </div>`,
+            };
+            const savedLists = {
+                coin: savedCoinSlots,
+                die: savedDieSlots,
+            };
+            const savedListClass = {
+                coin: 'bg-amber-100 text-amber-800',
+                die: 'bg-emerald-100 text-emerald-800',
+            };
+            elements.quickPicksContainer.innerHTML = quickPicks[type];
+            elements.savedListContainer.classList = ['p-4 rounded-lg shadow-inner mb-6', savedListClass[type]];
+            elements.savedListContainer.innerHTML = `<h4 class="text-xl font-bold mb-3 text-center">Saved Coins</h4><div id="savedCoinsListCount" class="space-y-2"></div>`;
+            const savedItemsList = document.getElementById('savedItemsList');
+            if (savedLists[type].length === 0) {
+                savedItemsList.innerHTML = `<p class="text-sm text-gray-600">No saved coins yet.</p>`;
+            } else {
+                savedLists[type].forEach((slot, index) => {
+                    const button = document.createElement('button');
+                    button.classList.add('saved-slot-btn', `saved-${type}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full');
+                    const label = type === 'coin' ? slot.name : `${slot.name} (${slot.options.length} ${type}s)`;
+                    button.textContent = label;
+                    button.addEventListener('click', () => {
+                        if (type === 'coin') {
+                            currentCount = slot.options.length;
+                            coinOptions = [...slot.options];
+                            showCard(cards.coin);
+                        } else if (type === 'die') {
+                            currentCount = slot.options.length;
+                            dieOptions = [...slot.options];
+                            showCard(cards.die);
+                        } else if (type === 'deck') {
+                            currentDeck = [...slot.cards];
+                            showCard(cards.cardGame);
+                        }
+                        showMessage(`Options from "${slot.name}" loaded!`, "info");
+                    });
+                    const deleteButton = document.createElement('button');
+                    deleteButton.classList.add('delete-saved-option-btn');
+                    deleteButton.textContent = 'x';
+                    deleteButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        showConfirmationModal("Delete Saved", `Are you sure you want to delete "${slot.name}"?`, () => {
+                            slots.splice(index, 1);
+                            localStorage.setItem(`decido${type.charAt(0).toUpperCase() + type.slice(1)}Slots`, JSON.stringify(slots));
+                            renderSavedOptionsLists();
+                        });
+                    });
+                    const wrapper = document.createElement('div');
+                    wrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
+                    wrapper.appendChild(button);
+                    wrapper.appendChild(deleteButton);
+                    savedItemsList.appendChild(wrapper);
+                });
+            }
+            document.querySelectorAll(`.quick-pick-btn-${type}`).forEach(button => button.addEventListener('click', (e) => {
+                const options = JSON.parse(e.target.dataset.options);
+                if (type === 'coin') loadCoinOptionsAndShowFlip(options);
+                else if (type === 'die') loadDieOptionsAndShowRoll(options);
+            }));
+        }
 
-    spinBtn.addEventListener("click", spinWheel);
-  </script>
+        function handleCountButtonClick(event) {
+            currentCount = parseInt(event.target.dataset.count, 10);
+            if (currentDecisionType === 'coin') {
+                const defaultOptions = Array.from({ length: currentCount }, () => ({ heads: "Heads", tails: "Tails" }));
+                loadCoinOptionsAndShowFlip(defaultOptions);
+            } else if (currentDecisionType === 'die') {
+                const defaultOptions = Array.from({ length: currentCount }, () => ({ faces: Array.from({ length: 6 }, (_, f) => (f + 1).toString()) }));
+                loadDieOptionsAndShowRoll(defaultOptions);
+            }
+        }
+        function loadCoinOptionsAndShowFlip(options) { currentCount = options.length; coinOptions = options; showCard(cards.coin); }
+        function loadDieOptionsAndShowRoll(options) { currentCount = options.length; dieOptions = options; showCard(cards.die); }
+        function loadCardOptionsAndShowGame(options) { currentDeck = options; showCard(cards.cardGame); }
+        elements.showCoinCountBtn.addEventListener('click', () => showCard(cards.count, 'coin'));
+        elements.showDieCountBtn.addEventListener('click', () => showCard(cards.count, 'die'));
+        elements.showCardGameBtn.addEventListener('click', () => showCard(cards.cardGame, 'cardGame'));
+        elements.optionsBtn.addEventListener('click', () => showCard(cards.options));
+        elements.backToMainBtn.addEventListener('click', () => showCard(cards.main));
+        elements.backToMainFromOptionsBtn.addEventListener('click', () => showCard(cards.main));
+        elements.returnToMenuFromCoin.addEventListener('click', () => showCard(cards.main));
+        elements.returnToMenuFromDie.addEventListener('click', () => showCard(cards.main));
+        elements.returnToMenuFromCardGame.addEventListener('click', () => showCard(cards.main));
+        elements.changeCoinCountBtn.addEventListener('click', () => showCard(cards.count, 'coin'));
+        elements.changeDieCountBtn.addEventListener('click', () => showCard(cards.count, 'die'));
+        document.querySelectorAll('.quick-pick-btn-card').forEach(button => button.addEventListener('click', (e) => loadCardOptionsAndShowGame(JSON.parse(e.target.dataset.options))));
+        document.getElementById('mainLogoLink').addEventListener('click', (e) => { e.preventDefault(); showCard(cards.main); });
+        function applyTheme(themeName) {
+            document.body.classList.remove('theme-natural', 'theme-bold', 'theme-modern');
+            document.body.classList.add(`theme-${themeName}`);
+            currentTheme = themeName;
+            localStorage.setItem('decidoTheme', themeName);
+            if (cards.options.classList.contains('card-visible')) renderSavedOptionsLists();
+        }
+        elements.themeNaturalBtn.addEventListener('click', () => applyTheme('natural'));
+        elements.themeBoldBtn.addEventListener('click', () => applyTheme('bold'));
+        elements.themeModernBtn.addEventListener('click', () => applyTheme('modern'));
+        const coinElements = {
+            flipBtn: document.getElementById('flipCoinBtn'),
+            customizeBtn: document.getElementById('customizeCoinBtn'),
+            display: document.getElementById('coinResultDisplay'),
+            modal: document.getElementById('coinEditModal'),
+            modalTitle: document.getElementById('coinEditModalTitle'),
+            option1: document.getElementById('modalCoinOption1'),
+            option2: document.getElementById('modalCoinOption2'),
+            saveBtn: document.getElementById('saveCoinOptionsBtn'),
+            cancelBtn: document.getElementById('cancelCoinOptionsBtn'),
+            prevBtn: document.getElementById('prevCoinModalBtn'),
+            nextBtn: document.getElementById('nextCoinModalBtn'),
+            saveCurrentBtn: document.getElementById('saveCurrentCoinOptionsBtn'),
+            deleteSavedBtn: document.getElementById('deleteSavedCoinOptionsBtn'),
+            savedSlotsContainer: document.getElementById('coinSaveSlotsContainerInModal'),
+            listOptions: document.getElementById('savedCoinsListOptions'),
+            deleteBtnOptions: document.getElementById('deleteSavedCoinOptionsBtnOptions')
+        };
+        let editingCoinIndex = -1;
+        let isDeletingSavedCoin = false;
+        coinElements.display.addEventListener('click', (e) => { if (e.target.classList.contains('coin')) openCoinEditModal(e.target.dataset.index); });
+        
+        coinElements.customizeBtn.addEventListener('click', () => { 
+            if (currentCount > 0) {
+                openCoinEditModal(0);
+            } else {
+                showMessage("Please select a count first.", "info");
+            }
+        });
+
+        coinElements.modal.addEventListener('click', (e) => { if (e.target === coinElements.modal) closeCoinEditModal(); });
+        
+        coinElements.flipBtn.addEventListener('click', () => {
+            const coinElementsOnScreen = coinElements.display.querySelectorAll('.coin');
+            coinElements.flipBtn.disabled = true;
+            coinElements.customizeBtn.disabled = true;
+            elements.changeCoinCountBtn.disabled = true;
+            elements.returnToMenuFromCoin.disabled = true;
+            const results = [];
+            coinElementsOnScreen.forEach((coinEl, index) => {
+                const currentCoinOptions = coinOptions[index];
+                const chosenOption = Math.random() < 0.5 ? currentCoinOptions.heads : currentCoinOptions.tails;
+                results.push(chosenOption);
+                coinEl.textContent = '?';
+                coinEl.classList.add('flipping');
+                coinEl.style.animationDelay = `${index * 100}ms`;
+                setTimeout(() => {
+                    coinEl.classList.remove('flipping');
+                    coinEl.textContent = chosenOption;
+                    if (index === coinElementsOnScreen.length - 1) {
+                        coinElements.flipBtn.disabled = false;
+                        coinElements.customizeBtn.disabled = false;
+                        elements.changeCoinCountBtn.disabled = false;
+                        elements.returnToMenuFromCoin.disabled = false;
+                        showResultSplashScreen(results.join(', '));
+                    }
+                }, 1000 + (index * 100));
+            });
+        });
+        
+        function updateCoinDisplay(results = []) {
+            coinElements.display.innerHTML = '';
+            for (let i = 0; i < currentCount; i++) {
+                const coinDiv = document.createElement('div');
+                coinDiv.classList.add('coin');
+                coinDiv.textContent = results[i] || '?';
+                coinDiv.dataset.index = i;
+                coinDiv.addEventListener('click', () => openCoinEditModal(i));
+                coinElements.display.appendChild(coinDiv);
+            }
+            document.getElementById('coinCardTitle').textContent = currentCount > 1 ? 'Flip Coins' : 'Flip a Coin';
+        }
+
+        function openCoinEditModal(index) {
+            editingCoinIndex = parseInt(index, 10);
+            const opts = coinOptions[editingCoinIndex];
+            coinElements.option1.value = opts.heads;
+            coinElements.option2.value = opts.tails;
+            coinElements.modalTitle.textContent = `Edit Coin ${editingCoinIndex + 1}`;
+            coinElements.prevBtn.style.display = (editingCoinIndex === 0) ? 'none' : 'block';
+            coinElements.nextBtn.style.display = (editingCoinIndex === currentCount - 1) ? 'none' : 'block';
+            // Placeholder: renderSavedSlotsInModal('coin');
+            coinElements.modal.classList.add('show');
+        }
+        function closeCoinEditModal() { coinElements.modal.classList.remove('show'); editingCoinIndex = -1; isDeletingSavedCoin = false; }
+        coinElements.saveBtn.addEventListener('click', () => {
+            const opt1 = coinElements.option1.value.trim();
+            const opt2 = coinElements.option2.value.trim();
+            if (opt1 && opt2) {
+                coinOptions[editingCoinIndex] = { heads: opt1, tails: opt2 };
+                showMessage(`Coin ${editingCoinIndex + 1} options saved!`, "info");
+                closeCoinEditModal();
+                updateCoinDisplay();
+            } else { showMessage("Please provide both options.", "error"); }
+        });
+        coinElements.cancelBtn.addEventListener('click', closeCoinEditModal);
+        coinElements.prevBtn.addEventListener('click', () => {
+            const newOptions = { heads: coinElements.option1.value.trim(), tails: coinElements.option2.value.trim() };
+            if (newOptions.heads && newOptions.tails) {
+                coinOptions[editingCoinIndex] = newOptions;
+                openCoinEditModal(editingCoinIndex - 1);
+            } else {
+                showMessage("Please save or cancel current edits.", "error");
+            }
+        });
+        coinElements.nextBtn.addEventListener('click', () => {
+            const newOptions = { heads: coinElements.option1.value.trim(), tails: coinElements.option2.value.trim() };
+            if (newOptions.heads && newOptions.tails) {
+                coinOptions[editingCoinIndex] = newOptions;
+                openCoinEditModal(editingCoinIndex + 1);
+            } else {
+                showMessage("Please save or cancel current edits.", "error");
+            }
+        });
+        const dieElements = {
+            rollBtn: document.getElementById('rollDieBtn'),
+            customizeBtn: document.getElementById('customizeDieBtn'),
+            display: document.getElementById('dieResultDisplay'),
+            modal: document.getElementById('dieEditModal'),
+            modalTitle: document.getElementById('dieEditModalTitle'),
+            select: document.getElementById('dieFacesSelect'),
+            inputsContainer: document.getElementById('modalDieOptionInputs'),
+            saveBtn: document.getElementById('saveDieOptionsBtn'),
+            cancelBtn: document.getElementById('cancelDieOptionsBtn'),
+            prevBtn: document.getElementById('prevDieModalBtn'),
+            nextBtn: document.getElementById('nextDieModalBtn'),
+            saveCurrentBtn: document.getElementById('saveCurrentDieOptionsBtn'),
+            deleteSavedBtn: document.getElementById('deleteSavedDieOptionsBtn'),
+            savedSlotsContainer: document.getElementById('dieSaveSlotsContainerInModal'),
+            listOptions: document.getElementById('savedDiceListOptions'),
+            deleteBtnOptions: document.getElementById('deleteSavedDieOptionsBtnOptions')
+        };
+        let editingDieIndex = -1;
+        let isDeletingSavedDie = false;
+        dieElements.display.addEventListener('click', (e) => { if (e.target.classList.contains('die')) openDieEditModal(e.target.dataset.index); });
+        dieElements.customizeBtn.addEventListener('click', () => { if (currentCount > 0) openDieEditModal(0); else showMessage("Please select a count first.", "info"); });
+        dieElements.modal.addEventListener('click', (e) => { if (e.target === dieElements.modal) closeDieEditModal(); });
+        
+        dieElements.rollBtn.addEventListener('click', () => {
+            const dieElementsOnScreen = dieElements.display.querySelectorAll('.die');
+            dieElements.rollBtn.disabled = true;
+            dieElements.customizeBtn.disabled = true;
+            elements.changeDieCountBtn.disabled = true;
+            elements.returnToMenuFromDie.disabled = true;
+            const results = [];
+            dieElementsOnScreen.forEach((dieEl, index) => {
+                const currentDieFaces = dieOptions[index].faces;
+                const chosenOption = currentDieFaces[Math.floor(Math.random() * currentDieFaces.length)];
+                results.push(chosenOption);
+                dieEl.textContent = '?';
+                dieEl.classList.add('rolling');
+                dieEl.style.animationDelay = `${index * 100}ms`;
+                setTimeout(() => {
+                    dieEl.classList.remove('rolling');
+                    dieEl.textContent = chosenOption;
+                    if (index === dieElementsOnScreen.length - 1) {
+                        dieElements.rollBtn.disabled = false;
+                        dieElements.customizeBtn.disabled = false;
+                        elements.changeDieCountBtn.disabled = false;
+                        elements.returnToMenuFromDie.disabled = false;
+                        showResultSplashScreen(results.join(', '));
+                    }
+                }, 1000 + (index * 100));
+            });
+        });
+        
+        function updateDieDisplay(results = []) {
+            dieElements.display.innerHTML = '';
+            for (let i = 0; i < currentCount; i++) {
+                const dieDiv = document.createElement('div');
+                dieDiv.classList.add('die');
+                dieDiv.textContent = results[i] || '?';
+                dieDiv.dataset.index = i;
+                dieDiv.addEventListener('click', () => openDieEditModal(i));
+                dieElements.display.appendChild(dieDiv);
+            }
+            document.getElementById('dieCardTitle').textContent = currentCount > 1 ? 'Roll Dice' : 'Roll a Die';
+        }
+        function openDieEditModal(index) {
+            editingDieIndex = parseInt(index, 10);
+            currentDieFacesCount = dieOptions[editingDieIndex].faces.length;
+            dieElements.select.value = currentDieFacesCount.toString();
+            generateDieFaceInputs(currentDieFacesCount, dieOptions[editingDieIndex].faces);
+            dieElements.modalTitle.textContent = `Edit Die ${editingDieIndex + 1}`;
+            dieElements.prevBtn.style.display = (editingDieIndex === 0) ? 'none' : 'block';
+            dieElements.nextBtn.style.display = (editingDieIndex === currentCount - 1) ? 'none' : 'block';
+            dieElements.modal.classList.add('show');
+        }
+        dieElements.select.addEventListener('change', (event) => {
+            const newNumFaces = parseInt(event.target.value, 10);
+            const currentFaces = dieOptions[editingDieIndex].faces;
+            const updatedFaces = Array.from({length: newNumFaces}, (_, i) => currentFaces[i] || (i + 1).toString());
+            dieOptions[editingDieIndex].faces = updatedFaces;
+            generateDieFaceInputs(newNumFaces, updatedFaces);
+        });
+
+        function generateDieFaceInputs(numFaces, currentFaces) {
+            dieElements.inputsContainer.innerHTML = '';
+            for (let i = 0; i < numFaces; i++) {
+                const inputDiv = document.createElement('div');
+                inputDiv.innerHTML = `
+                    <label for="modalDieOption${i + 1}" class="block text-gray-700 text-sm font-semibold mb-1">Face ${i + 1}:</label>
+                    <input type="text" id="modalDieOption${i + 1}" value="${currentFaces[i] || (i + 1).toString()}"
+                           class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-100 text-gray-800">
+                `;
+                dieElements.inputsContainer.appendChild(inputDiv);
+            }
+        }
+        function closeDieEditModal() { dieElements.modal.classList.remove('show'); editingDieIndex = -1; isDeletingSavedDie = false; }
+        dieElements.saveBtn.addEventListener('click', () => {
+            const newFaces = Array.from(dieElements.inputsContainer.querySelectorAll('input')).map(input => input.value.trim());
+            if (newFaces.every(face => face !== '')) {
+                dieOptions[editingDieIndex].faces = newFaces;
+                showMessage(`Die ${editingDieIndex + 1} options saved!`, "info");
+                closeDieEditModal();
+                updateDieDisplay();
+            } else { showMessage("Please provide a value for all faces.", "error"); }
+        });
+        dieElements.cancelBtn.addEventListener('click', closeDieEditModal);
+        dieElements.prevBtn.addEventListener('click', () => {
+            const newFaces = Array.from(dieElements.inputsContainer.querySelectorAll('input')).map(input => input.value.trim());
+            if (newFaces.every(face => face !== '')) {
+                dieOptions[editingDieIndex].faces = newFaces;
+                openDieEditModal(editingDieIndex - 1);
+            } else {
+                showMessage("Please save or cancel current edits.", "error");
+            }
+        });
+        dieElements.nextBtn.addEventListener('click', () => {
+            const newFaces = Array.from(dieElements.inputsContainer.querySelectorAll('input')).map(input => input.value.trim());
+            if (newFaces.every(face => face !== '')) {
+                dieOptions[editingDieIndex].faces = newFaces;
+                openDieEditModal(editingDieIndex + 1);
+            } else {
+                showMessage("Please save or cancel current edits.", "error");
+            }
+        });
+        const cardGameElements = {
+            input: document.getElementById('cardInput'),
+            addBtn: document.getElementById('addCardBtn'),
+            countSpan: document.getElementById('currentDeckCount'),
+            display: document.getElementById('cardDeckDisplay'),
+            drawBtn: document.getElementById('drawCardBtn'),
+            splitBtn: document.getElementById('splitDeckBtn'),
+            splitContainer: document.getElementById('splitDeckContainer'),
+            splitDisplay: document.getElementById('splitDecksDisplay'),
+            drawFromSplitBtn: document.getElementById('drawFromSplitDecksBtn'),
+            clearBtn: document.getElementById('clearDeckBtn'),
+            saveBtn: document.getElementById('saveCurrentDeckBtn'),
+            saveModal: document.getElementById('cardGameSaveModal'),
+            saveModalDisplay: document.getElementById('modalCurrentDeckDisplay'),
+            saveModalName: document.getElementById('saveDeckNameInput'),
+            saveModalSaveBtn: document.getElementById('saveDeckOptionsBtn'),
+            saveModalCancelBtn: document.getElementById('cancelDeckOptionsBtn'),
+            savedListCardGame: document.getElementById('savedDecksListCardGame'),
+            savedListOptions: document.getElementById('savedDeckListOptions'),
+            deleteBtnOptions: document.getElementById('deleteSavedDeckOptionsBtnOptions')
+        };
+        let isDeletingSavedDeckOptions = false;
+        function updateCardGameDisplay() {
+            cardGameElements.display.innerHTML = '';
+            cardGameElements.splitDisplay.innerHTML = '';
+            cardGameElements.splitContainer.classList.add('hidden');
+            cardGameElements.countSpan.textContent = currentDeck.length;
+            if (currentDeck.length === 0) {
+                cardGameElements.display.classList.add('empty-deck');
+                cardGameElements.drawBtn.disabled = cardGameElements.splitBtn.disabled = cardGameElements.clearBtn.disabled = cardGameElements.saveBtn.disabled = true;
+            } else {
+                cardGameElements.display.classList.remove('empty-deck');
+                const stackOffset = 3;
+                currentDeck.forEach((card, i) => {
+                    const cardEl = document.createElement('div');
+                    cardEl.classList.add('card-in-deck', 'card-base-style');
+                    cardEl.style.zIndex = i;
+                    cardEl.style.transform = `translate(${i * stackOffset}px, ${i * stackOffset}px)`;
+                    cardEl.style.left = `calc(50% + -50px + ${i * stackOffset}px)`;
+                    cardEl.style.top = `calc(50% + -70px + ${i * stackOffset}px)`;
+                    cardEl.innerHTML = `<span class="card-text">${card}</span>`;
+                    cardGameElements.display.appendChild(cardEl);
+                });
+                cardGameElements.drawBtn.disabled = false;
+                cardGameElements.splitBtn.disabled = currentDeck.length < 2;
+                cardGameElements.clearBtn.disabled = cardGameElements.saveBtn.disabled = false;
+            }
+        }
+        cardGameElements.addBtn.addEventListener('click', () => {
+            const card = cardGameElements.input.value.trim();
+            if (card) { currentDeck.push(card); cardGameElements.input.value = ''; updateCardGameDisplay(); showMessage(`"${card}" added!`, "success"); }
+            else { showMessage("Enter a card to add.", "error"); }
+        });
+        cardGameElements.drawBtn.addEventListener('click', () => {
+            if (currentDeck.length > 0) {
+                const chosen = currentDeck.splice(Math.floor(Math.random() * currentDeck.length), 1)[0];
+                showResultSplashScreen(chosen);
+                updateCardGameDisplay();
+            } else { showMessage("Add cards first!", "error"); }
+        });
+        cardGameElements.clearBtn.addEventListener('click', () => showConfirmationModal("Clear Deck", "Are you sure you want to clear all cards?", () => { currentDeck = []; splitDecks = []; updateCardGameDisplay(); showMessage("Deck cleared!", "info"); }));
+        cardGameElements.splitBtn.addEventListener('click', () => {
+            if (currentDeck.length < 2) { showMessage("Need at least 2 cards to split.", "error"); return; }
+            const shuffled = [...currentDeck].sort(() => Math.random() - 0.5);
+            const half = Math.ceil(shuffled.length / 2);
+            currentDeck = shuffled.slice(0, half);
+            splitDecks = [shuffled.slice(half)];
+            renderSplitDecks();
+            cardGameElements.splitContainer.classList.remove('hidden');
+            updateCardGameDisplay();
+            showMessage(`Deck split into 2 piles!`, "success");
+        });
+        function renderSavedOptionsLists() {
+            renderSavedList('coin', savedCoinSlots, coinElements.listOptions, 'coin', coinElements.deleteBtnOptions, () => showCard(cards.coin));
+            renderSavedList('die', savedDieSlots, dieElements.listOptions, 'die', dieElements.deleteBtnOptions, () => showCard(cards.die));
+            renderSavedList('deck', savedDeckSlots, cardGameElements.savedListOptions, 'card', cardGameElements.deleteBtnOptions, () => showCard(cards.cardGame));
+        }
+        function renderSavedList(type, slots, container, btnClass, deleteBtn, navCallback) {
+            container.innerHTML = slots.length === 0 ? `<p class="text-sm text-gray-600">No saved coins yet.</p>` : '';
+            deleteBtn.disabled = slots.length === 0;
+            slots.forEach((slot, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'mb-2');
+                const button = document.createElement('button');
+                button.classList.add('saved-slot-btn', `saved-${btnClass}-slot-btn`, 'text-sm', 'font-medium', 'py-2', 'px-3', 'rounded-lg', 'border', 'w-full');
+                const label = type === 'coin' ? slot.name : `${slot.name} (${slot.options.length} ${type}s)`;
+                button.textContent = label;
+                button.addEventListener('click', () => {
+                    if (type === 'coin') {
+                        currentCount = slot.options.length;
+                        coinOptions = [...slot.options];
+                        showCard(cards.coin);
+                    } else if (type === 'die') {
+                        currentCount = slot.options.length;
+                        dieOptions = [...slot.options];
+                        showCard(cards.die);
+                    } else if (type === 'deck') {
+                        currentDeck = [...slot.cards];
+                        showCard(cards.cardGame);
+                    }
+                    showMessage(`Options from "${slot.name}" loaded!`, "info");
+                });
+                wrapper.appendChild(button);
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-saved-option-btn');
+                deleteButton.textContent = 'x';
+                deleteButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showConfirmationModal("Delete Saved", `Are you sure you want to delete "${slot.name}"?`, () => {
+                        slots.splice(index, 1);
+                        localStorage.setItem(`decido${type.charAt(0).toUpperCase() + type.slice(1)}Slots`, JSON.stringify(slots));
+                        renderSavedOptionsLists();
+                    });
+                });
+                wrapper.appendChild(deleteButton);
+                container.appendChild(wrapper);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme(currentTheme);
+            showCard(cards.main);
+            document.querySelectorAll('.quick-pick-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const options = JSON.parse(event.target.dataset.options);
+                    loadCoinOptionsAndShowFlip(options);
+                });
+            });
+            document.querySelectorAll('.quick-pick-btn-die').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const options = JSON.parse(event.target.dataset.options);
+                    loadDieOptionsAndShowRoll(options);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
