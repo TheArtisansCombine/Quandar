@@ -1872,7 +1872,7 @@
 
             // Step 2: Calculate the exact final rotation angle
             let currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const pointerAngle = 90; // Pointer is at the top (90 degrees)
+            const pointerAngle = 180; // Pointer is at the top (90 degrees)
             // Determine a target angle within the winning slice
             const targetAngle = 360 - (winningSlice.startAngle + winningSlice.angle / 2);
             const extraRotations = 5; // Spin at least 5 times
@@ -2158,3 +2158,4 @@
     </script>
 </body>
 </html>
+
