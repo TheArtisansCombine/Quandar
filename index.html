@@ -496,22 +496,24 @@
             background-color: transparent;
         }
         .spinner-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+            width: 250px;
+            height: 250px;
+            transition: transform 5s cubic-bezier(0.2, 0.8, 0.7, 1);
         }
-        .central-spinner-pointer {
-            position: absolute;
-            left: 50%;
-            top: -5px; /* Adjust top position to make it closer to the wheel */
-            transform: translateX(-50%) rotate(0deg); /* Rotate 180 degrees to point down */
+        /* This is the fix for the arrow position */
+        .spinner-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .left-pointing-arrow {
             width: 0;
             height: 0;
-            border-top: 25px solid transparent;
-            border-bottom: 25px solid #ef4444;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            z-index: 10;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 25px solid #ef4444; /* Default color, overwritten by theme */
+            margin-right: 10px; /* Space between the arrow and the wheel */
         }
         .spinner-result-text {
             position: absolute;
@@ -1016,8 +1018,8 @@
             <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
                 <div class="spinner-card p-6 rounded-xl shadow-md border">
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
-                    <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto">
-                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-t-[25px] border-l-[15px] border-r-[15px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform: translateX(-50%); border-top-color: #ef4444;"></div>
+                    <div id="spinnerWrapper" class="flex items-center justify-center">
+                        <div id="spinnerPointer" class="left-pointing-arrow"></div>
                         <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
                     </div>
                     <div id="lastWinnerDisplay" class="text-xl font-bold mt-4 p-4 rounded-lg">Last winner: N/A</div>
@@ -1785,7 +1787,7 @@
                 inputDiv.innerHTML = `
                     <label for="modalDieOption${i + 1}" class="block text-gray-700 text-sm font-semibold mb-1">Face ${i + 1}:</label>
                     <input type="text" id="modalDieOption${i + 1}" value="${currentFaces[i] || (i + 1).toString()}"
-                           class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-100 text-gray-800">
+                            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-100 text-gray-800">
                 `;
                 dieElements.inputsContainer.appendChild(inputDiv);
             }
@@ -1871,15 +1873,13 @@
             });
 
             // Step 2: Calculate the exact final rotation angle
-            let currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const pointerAngle = 180; // Pointer is at the top (90 degrees)
-            // Determine a target angle within the winning slice
-            const targetAngle = 360 - (winningSlice.startAngle + winningSlice.angle / 2);
-            const extraRotations = 5; // Spin at least 5 times
-            const totalRotation = currentRotation + 360 * extraRotations + (targetAngle - (currentRotation % 360));
-
             const spinner = document.getElementById('spinnerCanvas');
-            spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
+            let currentRotation = parseFloat(spinner.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            const targetAngle = 180 - (winningSlice.startAngle + winningSlice.angle / 2); // 180 degrees is the left-pointing axis
+            const extraRotations = 5; // Spin at least 5 full times
+            const totalRotation = currentRotation + 360 * extraRotations + (targetAngle - (currentRotation % 360));
+            
+            spinner.style.transition = 'transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)';
             spinner.style.transform = `rotate(${totalRotation}deg)`;
             
             setTimeout(() => {
@@ -1911,7 +1911,6 @@
             ctx.clearRect(0, 0, size, size);
 
             let startAngle = 0;
-            // Define colors based on the active theme
             const themeColors = {
                 natural: ["#81c784", "#a5d6a7", "#fcd34d", "#ffe082", "#a2d2ff", "#bde0fe", "#c1e1c1", "#f0f4c3"],
                 bold: ["#FF3366", "#33CCFF", "#CCFF33", "#FFCC33", "#6633FF", "#33FFCC", "#FF6633", "#CC33FF"],
@@ -1935,12 +1934,11 @@
                 // Draw number
                 ctx.save();
                 ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2); // Rotate to align with slice
+                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2);
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillStyle = 'white';
                 ctx.font = 'bold 36px Inter';
-                // Adjust text position to be readable and centered
                 const textX = 0;
                 const textY = -(radius * 0.5);
                 ctx.fillText(index + 1, textX, textY);
@@ -2158,4 +2156,3 @@
     </script>
 </body>
 </html>
-
