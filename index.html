@@ -504,7 +504,7 @@
             position: absolute;
             left: 50%;
             top: -5px; /* Adjust top position to make it closer to the wheel */
-            transform: translateX(-50%) rotate(90deg); /* Rotate 180 degrees to point down */
+            transform: translateX(-50%) rotate(0deg); /* Rotate 180 degrees to point down */
             width: 0;
             height: 0;
             border-top: 25px solid transparent;
@@ -816,6 +816,28 @@
             box-shadow: 0 0 0 2px #ef4444;
             cursor: pointer;
         }
+        #lastWinnerDisplay {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: #475569;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        body.theme-natural #lastWinnerDisplay {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+        }
+        body.theme-bold #lastWinnerDisplay {
+            background-color: #334155;
+            color: #f8fafc;
+        }
+        body.theme-modern #lastWinnerDisplay {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
     </style>
 </head>
 <body class="theme-natural min-h-screen flex items-center justify-center p-4">
@@ -994,11 +1016,12 @@
             <section id="spinnerCard" class="card-transition card-hidden" style="display: none;">
                 <div class="spinner-card p-6 rounded-xl shadow-md border">
                     <h2 id="spinnerCardTitle" class="text-3xl font-bold mb-6 text-center">Spin a Spinner</h2>
-                    <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto mb-8">
+                    <div id="spinnerContainer" class="relative w-[250px] h-[250px] mx-auto">
+                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-t-[25px] border-l-[15px] border-r-[15px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform: translateX(-50%); border-top-color: #ef4444;"></div>
                         <canvas id="spinnerCanvas" class="rounded-full shadow-lg"></canvas>
-                        <div id="spinnerPointer" class="absolute left-1/2 w-0 h-0 border-top-[25px] border-left-[15px] border-right-[15px] border-l-transparent border-r-transparent transition-transform duration-300 ease-out z-10" style="transform-origin: 50% 100%; border-top-color: #ef4444; transform: translateX(-50%);"></div>
                     </div>
-                    <div class="flex flex-col justify-center gap-4">
+                    <div id="lastWinnerDisplay" class="text-xl font-bold mt-4 p-4 rounded-lg">Last winner: N/A</div>
+                    <div class="flex flex-col justify-center gap-4 mt-8">
                         <button id="spinSpinnerBtn" class="primary-action-btn font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 active:scale-95 w-full text-lg">Spin</button>
                     </div>
                     <div class="flex flex-col justify-center gap-4 mt-4">
@@ -1811,7 +1834,8 @@
             deleteSavedBtn: document.getElementById('deleteSavedSpinnerOptionsBtn'),
             savedSlotsContainer: document.getElementById('spinnerSaveSlotsContainerInModal'),
             listOptions: document.getElementById('savedSpinnersListOptions'),
-            deleteBtnOptions: document.getElementById('deleteSavedSpinnerOptionsBtnOptions')
+            deleteBtnOptions: document.getElementById('deleteSavedSpinnerOptionsBtnOptions'),
+            lastWinnerDisplay: document.getElementById('lastWinnerDisplay')
         };
         let editingSpinnerPartIndex = -1;
         let isDeletingSavedSpinner = false;
@@ -1827,10 +1851,33 @@
             elements.changeSpinnerCountBtn.disabled = true;
             elements.returnToMenuFromSpinner.disabled = true;
             
+            // Step 1: Mathematically determine the winner
+            const totalWeight = spinnerOptions.reduce((sum, option) => sum + (option.weight || 1), 0);
+            let randomValue = Math.random() * totalWeight;
+
+            let winner = null;
+            let winningSlice = null;
+            let currentAngle = 0;
+            const sliceData = [];
+            spinnerOptions.forEach((option, index) => {
+                const sliceAngle = (option.weight || 1) / totalWeight * 360;
+                sliceData.push({ name: option.name, angle: sliceAngle, startAngle: currentAngle });
+                if (winner === null && randomValue <= (option.weight || 1)) {
+                    winner = option.name;
+                    winningSlice = { name: option.name, angle: sliceAngle, startAngle: currentAngle };
+                }
+                randomValue -= (option.weight || 1);
+                currentAngle += sliceAngle;
+            });
+
+            // Step 2: Calculate the exact final rotation angle
             let currentRotation = parseFloat(document.getElementById('spinnerCanvas').style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const extraRotations = 5;
-            const totalRotation = currentRotation + 360 * extraRotations + (Math.random() * 360);
-            
+            const pointerAngle = 90; // Pointer is at the top (90 degrees)
+            // Determine a target angle within the winning slice
+            const targetAngle = 360 - (winningSlice.startAngle + winningSlice.angle / 2);
+            const extraRotations = 5; // Spin at least 5 times
+            const totalRotation = currentRotation + 360 * extraRotations + (targetAngle - (currentRotation % 360));
+
             const spinner = document.getElementById('spinnerCanvas');
             spinner.style.transition = `transform 5s cubic-bezier(0.2, 0.8, 0.7, 1)`;
             spinner.style.transform = `rotate(${totalRotation}deg)`;
@@ -1838,27 +1885,13 @@
             setTimeout(() => {
                 spinner.style.transition = 'none';
                 
-                const finalAngle = (totalRotation % 360 + 360) % 360;
-                const pointerAngle = 270;
-                const adjustedAngle = (finalAngle - pointerAngle + 360) % 360;
-                
-                let currentAngle = 0;
-                let winner = "No winner found";
-                spinnerOptions.forEach((option, index) => {
-                    const sliceAngle = (option.weight || 1) / spinnerOptions.reduce((sum, o) => sum + (o.weight || 1), 0) * 360;
-                    const endAngle = currentAngle + sliceAngle;
-                    
-                    if (adjustedAngle >= currentAngle && adjustedAngle < endAngle) {
-                        winner = option.name;
-                    }
-                    currentAngle = endAngle;
-                });
-                
                 spinnerElements.spinBtn.disabled = false;
                 spinnerElements.customizeBtn.disabled = false;
                 elements.changeSpinnerCountBtn.disabled = false;
                 elements.returnToMenuFromSpinner.disabled = false;
-                showResultSplashScreen(winner);
+                showResultSplashScreen(winner, () => {
+                    spinnerElements.lastWinnerDisplay.textContent = `Last winner: ${winner}`;
+                });
             }, 5000);
         });
 
@@ -1899,17 +1932,18 @@
                 ctx.fillStyle = colors[index % colors.length];
                 ctx.fill();
 
-                // Draw text
+                // Draw number
                 ctx.save();
                 ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2);
+                ctx.rotate(startAngle + sliceAngle / 2 + Math.PI / 2); // Rotate to align with slice
                 ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
                 ctx.fillStyle = 'white';
-                ctx.font = '14px Inter';
+                ctx.font = 'bold 36px Inter';
                 // Adjust text position to be readable and centered
-                const textX = Math.cos(sliceAngle / 2) * (radius - 40);
-                const textY = Math.sin(sliceAngle / 2) * (radius - 40);
-                ctx.fillText(option.name, textX, textY);
+                const textX = 0;
+                const textY = -(radius * 0.5);
+                ctx.fillText(index + 1, textX, textY);
                 ctx.restore();
 
                 startAngle = endAngle;
@@ -2124,4 +2158,3 @@
     </script>
 </body>
 </html>
-
